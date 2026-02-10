@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SupplierSaaS | Launch Your Supplier Store</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style type="text/tailwindcss">
+        :root {
+            --primary: #3b82f6;
+            --accent: #a855f7;
+            --background: #0f172a;
+            --surface: #1e293b;
+            --border: #334155;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+        }
+        @layer utilities {
+            .bg-gradient-primary {
+                background: linear-gradient(135deg, #3b82f6 0%, #a855f7 100%);
+            }
+            .text-gradient {
+                background: linear-gradient(135deg, #60a5fa 0%, #c084fc 100%);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+            }
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          theme: {
+            extend: {
+              colors: {
+                "primary": "#3b82f6",
+                "accent": "#a855f7",
+                "background-dark": "#0f172a",
+                "surface-dark": "#1e293b",
+              },
+              fontFamily: {
+                "display": ["Manrope"]
+              },
+              borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+            },
+          },
+        }
+    </script>
+</head>
+<body class="font-display bg-background-dark text-[#f8fafc] selection:bg-primary/30">
+<nav class="sticky top-0 z-50 bg-[#0f172a]/80 backdrop-blur-md border-b border-slate-800">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex justify-between items-center h-20">
+<div class="flex items-center gap-2">
+<div class="w-10 h-10 bg-gradient-primary rounded-lg flex items-center justify-center">
+<span class="material-icons text-white">rocket_launch</span>
+</div>
+<span class="text-xl font-extrabold tracking-tight text-white">Supplier<span class="text-primary">SaaS</span></span>
+</div>
+<div class="hidden md:flex items-center space-x-8">
+<a class="text-sm font-semibold text-slate-400 hover:text-white transition-colors" href="#features">Features</a>
+<a class="text-sm font-semibold text-slate-400 hover:text-white transition-colors" href="#how-it-works">How it Works</a>
+<a class="text-sm font-semibold text-slate-400 hover:text-white transition-colors" href="#pricing">Pricing</a>
+<a class="text-sm font-semibold text-white border border-slate-700 px-5 py-2.5 rounded-lg hover:bg-slate-800 transition-all" href="#">Login</a>
+<a class="text-sm font-semibold bg-gradient-primary text-white px-6 py-2.5 rounded-lg hover:shadow-lg hover:shadow-primary/20 transition-all" href="#">Start Free Trial</a>
+</div>
+<div class="md:hidden">
+<span class="material-icons text-white">menu</span>
+</div>
+</div>
+</div>
+</nav>
+<header class="relative overflow-hidden pt-16 pb-24 lg:pt-32 lg:pb-40">
+<div class="absolute inset-0 -z-10 bg-[radial-gradient(45%_45%_at_50%_50%,rgba(59,130,246,0.15)_0%,transparent_100%)]"></div>
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/30 text-primary text-sm font-bold mb-8">
+<span class="flex h-2 w-2 rounded-full bg-primary animate-pulse"></span>
+            Join 500+ successful store owners
+        </div>
+<h1 class="text-5xl lg:text-7xl font-extrabold text-white tracking-tight leading-[1.1] mb-6">
+            Launch Your Own <br/> <span class="text-gradient">Supplier Store</span> in Minutes
+        </h1>
+<p class="max-w-2xl mx-auto text-xl text-slate-400 mb-10 leading-relaxed">
+            The ultimate 100% profit model. Sell verified Vinted supplier lists through your own branded storefront without writing a single line of code.
+        </p>
+<div class="flex flex-col sm:flex-row justify-center items-center gap-4">
+<button class="w-full sm:w-auto px-10 py-5 bg-gradient-primary text-white text-lg font-bold rounded-xl shadow-xl shadow-primary/20 hover:scale-105 transition-all">
+                Start Your Store Now
+            </button>
+<button class="w-full sm:w-auto px-10 py-5 bg-slate-800/50 backdrop-blur-sm text-white text-lg font-bold rounded-xl border border-slate-700 hover:bg-slate-800 transition-all flex items-center justify-center gap-2">
+<span class="material-icons">play_circle</span> Watch Demo
+            </button>
+</div>
+<div class="mt-20 relative">
+<div class="absolute -inset-4 bg-gradient-to-r from-primary/20 to-accent/20 blur-3xl rounded-[3rem] -z-10"></div>
+<div class="rounded-2xl border border-slate-700 shadow-2xl bg-slate-900/50 p-2 backdrop-blur-sm">
+<img class="rounded-xl w-full h-auto object-cover max-h-[600px] brightness-90 grayscale-[0.2]" data-alt="Modern SaaS dashboard showing sales analytics and supplier inventory" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBs_E5R8j2Zq322oaa6yfgQKolY7eDXBknsOxGCJgLvpokA0NbPkOTO3AvYqmjk69ngPupBtbdMWO7ITDjKtLYDqFApfICd7pprIgzctYruJ9Rz-RA4r0U-0qwT5Pvb2RNpqvqbFA5PsAPVBu15KikxL9N8ltJ0iz1Pnib4zxCogazJ6MCfBJ-PNPfHVPEzAHvtz-OYl_Q3HWNeGLZ9viKXuiWsu3DQQzZlcU6wDpEjNW4rXPha5AEpL4wMbhcA8z4pcUguOWvy6cY"/>
+</div>
+</div>
+</div>
+</header>
+<section class="py-24 bg-slate-900/50" id="how-it-works">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="text-center mb-16">
+<h2 class="text-3xl lg:text-4xl font-extrabold text-white mb-4">How it Works</h2>
+<p class="text-slate-400 max-w-xl mx-auto">Three simple steps to transition from zero to a fully operational digital product empire.</p>
+</div>
+<div class="grid md:grid-cols-3 gap-12">
+<div class="relative text-center group">
+<div class="w-20 h-20 bg-slate-800 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:bg-gradient-primary group-hover:scale-110 transition-all duration-300 border border-slate-700">
+<span class="material-icons text-3xl text-primary group-hover:text-white">person_add_alt</span>
+</div>
+<div class="absolute top-0 right-1/2 translate-x-12 bg-accent text-white w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm border-4 border-[#0f172a]">1</div>
+<h3 class="text-xl font-bold text-white mb-3">Sign Up</h3>
+<p class="text-slate-400">Create your account and choose your custom store domain in less than 60 seconds.</p>
+</div>
+<div class="relative text-center group">
+<div class="w-20 h-20 bg-slate-800 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:bg-gradient-primary group-hover:scale-110 transition-all duration-300 border border-slate-700">
+<span class="material-icons text-3xl text-primary group-hover:text-white">dashboard_customize</span>
+</div>
+<div class="absolute top-0 right-1/2 translate-x-12 bg-accent text-white w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm border-4 border-[#0f172a]">2</div>
+<h3 class="text-xl font-bold text-white mb-3">Customize Your Store</h3>
+<p class="text-slate-400">Add your logo, set your pricing, and select which verified lists you want to offer.</p>
+</div>
+<div class="relative text-center group">
+<div class="w-20 h-20 bg-slate-800 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:bg-gradient-primary group-hover:scale-110 transition-all duration-300 border border-slate-700">
+<span class="material-icons text-3xl text-primary group-hover:text-white">payments</span>
+</div>
+<div class="absolute top-0 right-1/2 translate-x-12 bg-accent text-white w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm border-4 border-[#0f172a]">3</div>
+<h3 class="text-xl font-bold text-white mb-3">Promote &amp; Earn</h3>
+<p class="text-slate-400">Share your store link on social media. Collect 100% of every sale directly to your stripe.</p>
+</div>
+</div>
+</div>
+</section>
+<section class="py-24" id="features">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="grid lg:grid-cols-2 gap-16 items-center">
+<div>
+<span class="text-primary font-bold text-sm uppercase tracking-widest">Built for Profit</span>
+<h2 class="text-4xl font-extrabold text-white mt-4 mb-6 leading-tight">Features that scale with your ambition</h2>
+<p class="text-slate-400 text-lg mb-8">We handle the technical heavy lifting so you can focus on marketing and growing your brand.</p>
+<div class="space-y-6">
+<div class="flex gap-4 p-4 rounded-xl bg-slate-800/50 border border-slate-700 hover:border-primary/50 transition-colors">
+<div class="flex-shrink-0 w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
+<span class="material-icons text-primary">bolt</span>
+</div>
+<div>
+<h4 class="font-bold text-white text-lg">Instant Store Setup</h4>
+<p class="text-slate-400">Zero coding required. Your store is live the moment you finish onboarding.</p>
+</div>
+</div>
+<div class="flex gap-4 p-4 rounded-xl bg-slate-800/50 border border-slate-700 hover:border-primary/50 transition-colors">
+<div class="flex-shrink-0 w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
+<span class="material-icons text-primary">verified_user</span>
+</div>
+<div>
+<h4 class="font-bold text-white text-lg">Verified Suppliers</h4>
+<p class="text-slate-400">We provide pre-vetted supplier lists that ensure your customers are satisfied.</p>
+</div>
+</div>
+<div class="flex gap-4 p-4 rounded-xl bg-slate-800/50 border border-slate-700 hover:border-primary/50 transition-colors">
+<div class="flex-shrink-0 w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
+<span class="material-icons text-primary">account_balance_wallet</span>
+</div>
+<div>
+<h4 class="font-bold text-white text-lg">100% Profit Retention</h4>
+<p class="text-slate-400">We don't take a cut of your sales. Pay a flat monthly fee, keep every cent you earn.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="relative">
+<div class="aspect-square bg-primary/5 rounded-[4rem] absolute -top-10 -right-10 w-full h-full -z-10 rotate-6 border border-primary/20"></div>
+<div class="rounded-3xl overflow-hidden shadow-2xl border border-slate-700">
+<img class="w-full h-full object-cover brightness-75" data-alt="Digital marketing strategy and business growth chart visualization" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDwLPD1sXNbjV4C7V1RgWxp1IM1AzxXnXU04lDxC41ZQjc5QDoozzEx87oDFwISLcAPvK3Ou2xknrS4xKp0tm3ZGCn-jk_PV_Nrs6T5uEmwQ6bi6_iUXxdDXlzFkUBvYV9PHFYhgYDtnrKJ6Wo34WcLIdePl5Qec7V0Nz1BPGFYIo7lSqkrZpe3OYtkfpQ5ALhCHwesZZORptz35oGbzgyApujNKEUneF0eQrUD-6hJjB0is1hunSMTnfdJR4ZLbomG51F9eHtRLqM"/>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="py-24 bg-slate-900/50" id="pricing">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="text-center mb-16">
+<h2 class="text-3xl lg:text-4xl font-extrabold text-white mb-4">Simple, Transparent Pricing</h2>
+<p class="text-slate-400">Pick the plan that fits your business stage. No hidden fees.</p>
+</div>
+<div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+<div class="p-8 rounded-2xl border border-slate-700 bg-slate-800/40 flex flex-col hover:border-slate-500 transition-all">
+<h3 class="text-lg font-bold text-white mb-2">Starter</h3>
+<div class="flex items-baseline gap-1 mb-6">
+<span class="text-4xl font-extrabold text-white">$29</span>
+<span class="text-slate-400">/mo</span>
+</div>
+<ul class="space-y-4 mb-8 flex-grow">
+<li class="flex items-center gap-3 text-slate-300"><span class="material-icons text-primary text-sm">check_circle</span> 1 Custom Storefront</li>
+<li class="flex items-center gap-3 text-slate-300"><span class="material-icons text-primary text-sm">check_circle</span> 5 Verified Supplier Lists</li>
+<li class="flex items-center gap-3 text-slate-300"><span class="material-icons text-primary text-sm">check_circle</span> Standard Support</li>
+<li class="flex items-center gap-3 text-slate-500"><span class="material-icons text-sm">cancel</span> Custom Domain</li>
+</ul>
+<button class="w-full py-4 rounded-xl border-2 border-slate-600 text-white font-bold hover:bg-slate-700 transition-all">Get Started</button>
+</div>
+<div class="p-8 rounded-2xl border-2 border-primary bg-slate-800 flex flex-col relative scale-105 shadow-2xl shadow-primary/10 z-10">
+<div class="absolute top-0 right-1/2 translate-x-1/2 -translate-y-1/2 bg-gradient-primary text-white px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wider">Most Popular</div>
+<h3 class="text-lg font-bold text-white mb-2">Professional</h3>
+<div class="flex items-baseline gap-1 mb-6">
+<span class="text-4xl font-extrabold text-white">$59</span>
+<span class="text-slate-400">/mo</span>
+</div>
+<ul class="space-y-4 mb-8 flex-grow">
+<li class="flex items-center gap-3 text-slate-300"><span class="material-icons text-primary text-sm">check_circle</span> Unlimited Storefronts</li>
+<li class="flex items-center gap-3 text-slate-300"><span class="material-icons text-primary text-sm">check_circle</span> 25+ Verified Supplier Lists</li>
+<li class="flex items-center gap-3 text-slate-300"><span class="material-icons text-primary text-sm">check_circle</span> Custom Domain Support</li>
+<li class="flex items-center gap-3 text-slate-300"><span class="material-icons text-primary text-sm">check_circle</span> Priority 24/7 Support</li>
+</ul>
+<button class="w-full py-4 rounded-xl bg-gradient-primary text-white font-bold hover:shadow-lg hover:shadow-primary/30 transition-all">Go Pro</button>
+</div>
+<div class="p-8 rounded-2xl border border-slate-700 bg-slate-800/40 flex flex-col hover:border-slate-500 transition-all">
+<h3 class="text-lg font-bold text-white mb-2">Scale</h3>
+<div class="flex items-baseline gap-1 mb-6">
+<span class="text-4xl font-extrabold text-white">$99</span>
+<span class="text-slate-400">/mo</span>
+</div>
+<ul class="space-y-4 mb-8 flex-grow">
+<li class="flex items-center gap-3 text-slate-300"><span class="material-icons text-primary text-sm">check_circle</span> Everything in Pro</li>
+<li class="flex items-center gap-3 text-slate-300"><span class="material-icons text-primary text-sm">check_circle</span> Weekly Supplier Updates</li>
+<li class="flex items-center gap-3 text-slate-300"><span class="material-icons text-primary text-sm">check_circle</span> CRM Integration</li>
+<li class="flex items-center gap-3 text-slate-300"><span class="material-icons text-primary text-sm">check_circle</span> Dedicated Manager</li>
+</ul>
+<button class="w-full py-4 rounded-xl border-2 border-slate-600 text-white font-bold hover:bg-slate-700 transition-all">Contact Sales</button>
+</div>
+</div>
+</div>
+</section>
+<section class="py-24">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="text-center mb-16">
+<h2 class="text-3xl lg:text-4xl font-extrabold text-white mb-4">Real Results from Real Users</h2>
+<div class="flex justify-center gap-1 text-yellow-500">
+<span class="material-icons">star</span>
+<span class="material-icons">star</span>
+<span class="material-icons">star</span>
+<span class="material-icons">star</span>
+<span class="material-icons">star</span>
+</div>
+</div>
+<div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+<div class="p-8 bg-slate-800/40 rounded-2xl border border-slate-700 shadow-sm relative">
+<span class="material-icons absolute top-8 right-8 text-slate-700 text-6xl">format_quote</span>
+<p class="text-slate-300 mb-8 relative z-10">"I made back my initial investment in the first 48 hours. The automation works flawlessly—I literally wake up to sales notifications."</p>
+<div class="flex items-center gap-4">
+<img class="w-12 h-12 rounded-full object-cover ring-2 ring-primary/20" data-alt="Portrait of a young entrepreneur" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCAU0XrJyrBjQghEnTZgPY8SNpYYjMG7JGr53IBnm2EvOmERH5d32tS5l2fk5iLkjFIMRGSDf3owgu3WZXSYon-1Og1HJeEu9finJ6pn8XcuQVS2IH9R1VhuWASR1h8DrZe-qtvTOIW52s7x7g7w59sHrq0KHDyqe1UzV_KlCRPY4RrVz0k_LZZUKxIzv8Mbj3BA4KeWsDVwQrhwtwC4J-PrZYOxyp0hahczmURyheAwS2IAkCiyicquvTLwIUa0Prv4uSxw_3IZGo"/>
+<div>
+<p class="font-bold text-white">Marcus T.</p>
+<p class="text-xs text-primary font-semibold uppercase">Store Owner</p>
+</div>
+</div>
+</div>
+<div class="p-8 bg-slate-800/40 rounded-2xl border border-slate-700 shadow-sm relative">
+<span class="material-icons absolute top-8 right-8 text-slate-700 text-6xl">format_quote</span>
+<p class="text-slate-300 mb-8 relative z-10">"The supplier lists are high quality. My customers are happy and they keep coming back for more. Highly recommended for side hustlers!"</p>
+<div class="flex items-center gap-4">
+<img class="w-12 h-12 rounded-full object-cover ring-2 ring-primary/20" data-alt="Portrait of a female digital marketer" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCHISHmOaBSoKkcygR6C-_ouBlQSOF-UCEaGfpBm5gxz_aXF4sJMfHwuVbrqQhqGkvNqHNALn72iTV3J1bcW0LtqCclzBGpN5GRr-eV2-zEMZai-ggVo06xQp0oK3GlTE9hPH-S_EsRFqiSCDv7rRKEJUguFX2ZeKwStlak_aYNDROChLAL2S4CHzXr4_jTFh4v1q-ri8s1CKc4btnhL0u9RUH6pnfv7kVJfGCj84Izf3n5U1_Q73_xdQj6VTiYCmt2imRm1dxzhgg"/>
+<div>
+<p class="font-bold text-white">Sarah L.</p>
+<p class="text-xs text-primary font-semibold uppercase">Top Earner</p>
+</div>
+</div>
+</div>
+<div class="p-8 bg-slate-800/40 rounded-2xl border border-slate-700 shadow-sm relative">
+<span class="material-icons absolute top-8 right-8 text-slate-700 text-6xl">format_quote</span>
+<p class="text-slate-300 mb-8 relative z-10">"I've tried dropshipping and other models, but this is the simplest way to start making passive income. The setup takes no time at all."</p>
+<div class="flex items-center gap-4">
+<img class="w-12 h-12 rounded-full object-cover ring-2 ring-primary/20" data-alt="Portrait of a professional man" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA0LtRM0NDy7WaDlTMO7upR89QC72oCTkCzFWpmCM2GqPLxcOlut8DOUX7bUxbhwzaykk4KCgPJsz3GobzHwFOAXpIh37OpDX1GmwXbR6y1zUpVINbN8prQdszzksijvtMhstteKVdQn5nOxVyhtILID8IizxsdcrPEYXZLP7sl_LmR0AscObAEAvLVOSM-mPCqyZdz2vk6b8hOlGZCVwC2xJfsqf6B1ADjGou2l8QojTsjRO4wqB8T6knvlHmhY7C5_R59rDT1NUA"/>
+<div>
+<p class="font-bold text-white">David K.</p>
+<p class="text-xs text-primary font-semibold uppercase">Platinum User</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="py-24">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="bg-gradient-primary rounded-[2rem] p-8 lg:p-20 relative overflow-hidden text-center text-white">
+<div class="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -mr-32 -mt-32"></div>
+<div class="absolute bottom-0 left-0 w-64 h-64 bg-black/10 rounded-full -ml-32 -mb-32"></div>
+<h2 class="text-4xl lg:text-6xl font-extrabold mb-8 relative z-10">Ready to build your <br/> supplier empire?</h2>
+<p class="text-xl text-blue-100 mb-10 max-w-2xl mx-auto relative z-10">Join 500+ entrepreneurs who turned their passion into a 100% profit machine. No credit card required to start.</p>
+<div class="flex flex-col sm:flex-row justify-center items-center gap-4 relative z-10">
+<button class="bg-white text-primary px-12 py-5 rounded-xl font-extrabold text-lg shadow-2xl hover:bg-blue-50 transition-all">
+                    Launch Your Store
+                </button>
+<button class="bg-transparent border-2 border-white/30 text-white px-12 py-5 rounded-xl font-extrabold text-lg hover:bg-white/10 transition-all">
+                    View Sample Store
+                </button>
+</div>
+</div>
+</div>
+</section>
+<footer class="bg-[#0f172a] border-t border-slate-800 py-12">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex flex-col md:flex-row justify-between items-center gap-8">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 bg-gradient-primary rounded flex items-center justify-center">
+<span class="material-icons text-white text-sm">rocket_launch</span>
+</div>
+<span class="text-lg font-bold text-white">SupplierSaaS</span>
+</div>
+<div class="flex gap-8 text-sm font-semibold text-slate-500">
+<a class="hover:text-primary transition-colors" href="#">Privacy Policy</a>
+<a class="hover:text-primary transition-colors" href="#">Terms of Service</a>
+<a class="hover:text-primary transition-colors" href="#">Contact</a>
+<a class="hover:text-primary transition-colors" href="#">Affiliates</a>
+</div>
+<div class="flex gap-4">
+<div class="w-10 h-10 rounded-full border border-slate-700 flex items-center justify-center hover:bg-slate-800 cursor-pointer transition-colors">
+<img class="w-5 h-5 invert opacity-60" data-alt="Twitter social icon" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAjcr0OFnBFJ0KUS0DHLvPhKLYbwEBoA3pPxEH99UjX4wB3sQ0Ay-_vCqRFuSFb3YrGkN8eW2ldwvqewKDy__6rZoDwLOIkdQxbgEXd1jvOm0v6ekPJFYAk8naS9YdCk9njOqucvelc4sDyzTjDgepyC57STNIDeIwn1ydpaAhW1OJEpCtRCquiAFppxcnR40bB_UfThb-wTG5kJQhXI37MbQwmngYbVwmHv0ATT-1EwvR62ZzW68nFv8jjnqe-VZatC98Fav5mI3w"/>
+</div>
+<div class="w-10 h-10 rounded-full border border-slate-700 flex items-center justify-center hover:bg-slate-800 cursor-pointer transition-colors">
+<img class="w-5 h-5 invert opacity-60" data-alt="Instagram social icon" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDDihK0Fu9JCHGOXsCNjXoBskeaR_8ZKZG2u0JXRfV7d1RH-Q2Q1ErzGJHlicg5xNpN_BxNXHMlIhrkelB5_iBNpOEOALTS5pW9CKmJ45xQBStR8YlnopThXS1D0BCiR0RC1SR7J5n7DIiWdaJhKriql7rWkgN46VqFY-Ok6vCUu0UeahzJraczZhVV1tvM3syI7bC_H5JUrfDHNrdkTYNKZggg4pj8bjrrf764OIt0Db3eQFNPVtU_d7_tExWS7FHF7JS1U58sKfk"/>
+</div>
+</div>
+</div>
+<div class="mt-8 pt-8 border-t border-slate-800/50 text-center text-slate-600 text-sm">
+            © 2024 SupplierSaaS Platform. All rights reserved. Built for creators.
+        </div>
+</div>
+</footer>
+
+</body></html>

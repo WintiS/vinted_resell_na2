@@ -30,18 +30,29 @@ export default function Dashboard() {
 
     const loadSales = async () => {
         try {
+            // Simplified query - get all sales for user, sort client-side
+            const salesRef = collection(db, 'sales');
             const q = query(
-                collection(db, 'sales'),
-                where('userId', '==', user.uid),
-                orderBy('createdAt', 'desc'),
-                limit(50)
+                salesRef,
+                where('userId', '==', user.uid)
             );
+
             const snapshot = await getDocs(q);
-            const salesData = snapshot.docs.map(doc => ({
+            let salesData = snapshot.docs.map(doc => ({
                 id: doc.id,
                 ...doc.data(),
                 createdAt: doc.data().createdAt?.toDate()
             }));
+
+            // Sort by date on client side to avoid index requirement
+            salesData.sort((a, b) => {
+                if (!a.createdAt) return 1;
+                if (!b.createdAt) return -1;
+                return b.createdAt - a.createdAt;
+            });
+
+            // Limit to 50 most recent
+            salesData = salesData.slice(0, 50);
             setSales(salesData);
 
             const now = new Date();
@@ -55,11 +66,17 @@ export default function Dashboard() {
 
             setStats({
                 totalSales: salesData.length,
-                thisMonth: thisMonthSales.reduce((sum, sale) => sum + sale.amount, 0),
-                lastMonth: lastMonthSales.reduce((sum, sale) => sum + sale.amount, 0)
+                thisMonth: thisMonthSales.reduce((sum, sale) => sum + (sale.amount || 0), 0),
+                lastMonth: lastMonthSales.reduce((sum, sale) => sum + (sale.amount || 0), 0)
             });
         } catch (error) {
             console.error('Error loading sales:', error);
+            // Set empty stats on error
+            setStats({
+                totalSales: 0,
+                thisMonth: 0,
+                lastMonth: 0
+            });
         }
     };
 
@@ -86,7 +103,7 @@ export default function Dashboard() {
     return (
         <>
             <Head>
-                <title>Dashboard | SupplierSaaS</title>
+                <title>Přehled | SupplierSaaS</title>
                 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
             </Head>
 
@@ -104,11 +121,20 @@ export default function Dashboard() {
                         </div>
                         <div className="flex items-center space-x-4">
                             <span className="text-sm text-slate-400">{userData.email}</span>
+                            {process.env.NEXT_PUBLIC_ADMIN_EMAILS?.split(',').includes(user.email) && (
+                                <button
+                                    onClick={() => router.push('/admin')}
+                                    className="text-primary hover:text-primary/80 font-semibold text-sm transition-colors flex items-center gap-1"
+                                >
+                                    <span className="material-icons text-sm">admin_panel_settings</span>
+                                    Admin
+                                </button>
+                            )}
                             <button
                                 onClick={logout}
                                 className="text-red-400 hover:text-red-300 font-semibold text-sm transition-colors"
                             >
-                                Logout
+                                Odhlásit se
                             </button>
                         </div>
                     </div>
@@ -120,15 +146,15 @@ export default function Dashboard() {
                         <div className="bg-yellow-500/10 border border-yellow-500/50 rounded-xl p-6 mb-6 flex items-start gap-4">
                             <span className="material-icons text-yellow-500 text-3xl">warning</span>
                             <div className="flex-1">
-                                <h3 className="text-yellow-500 font-bold text-lg mb-2">Subscription Required</h3>
+                                <h3 className="text-yellow-500 font-bold text-lg mb-2">Vyžadováno předplatné</h3>
                                 <p className="text-slate-300 mb-4">
-                                    Your subscription is inactive. Please subscribe to activate your referral link and start earning commissions.
+                                    Vaše předplatné je neaktivní. Přihlašte se k aktivaci vašeho affiliátního odkazu a začněte vydělávat provize.
                                 </p>
                                 <button
                                     onClick={() => router.push('/pricing')}
                                     className="bg-gradient-primary text-white px-6 py-2 rounded-lg font-semibold hover:shadow-lg hover:shadow-primary/30 transition-all"
                                 >
-                                    Subscribe Now
+                                    Předplatit nyní
                                 </button>
                             </div>
                         </div>
@@ -138,7 +164,7 @@ export default function Dashboard() {
                     <div className="bg-surface-dark rounded-xl shadow-xl p-6 mb-6 border border-slate-700">
                         <h2 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
                             <span className="material-icons text-primary">link</span>
-                            Your Unique Referral Link
+                            Váš unikátní affiliátní odkaz
                         </h2>
                         <div className="flex gap-2">
                             <input
@@ -153,18 +179,18 @@ export default function Dashboard() {
                             >
                                 {copied ? (
                                     <>
-                                        <span className="material-icons text-sm">check</span> Copied!
+                                        <span className="material-icons text-sm">check</span> Zkopírováno!
                                     </>
                                 ) : (
                                     <>
-                                        <span className="material-icons text-sm">content_copy</span> Copy Link
+                                        <span className="material-icons text-sm">content_copy</span> Zkopírovat
                                     </>
                                 )}
                             </button>
                         </div>
                         <p className="text-sm text-slate-400 mt-3 flex items-center gap-1">
                             <span className="material-icons text-xs">info</span>
-                            Share this link to earn 100% commission on every sale
+                            Sdílejte tento odkaz a vydělávejte 100% provizi za každý prodej
                         </p>
                     </div>
 
@@ -172,34 +198,34 @@ export default function Dashboard() {
                     <div className="grid md:grid-cols-4 gap-6 mb-6">
                         <div className="bg-surface-dark rounded-xl shadow-xl p-6 border border-slate-700">
                             <div className="flex items-center justify-between mb-2">
-                                <h3 className="text-slate-400 text-sm font-medium">Total Sales</h3>
+                                <h3 className="text-slate-400 text-sm font-medium">Celkem prodejů</h3>
                                 <span className="material-icons text-primary">shopping_cart</span>
                             </div>
                             <p className="text-3xl font-bold text-white">{stats.totalSales}</p>
                         </div>
                         <div className="bg-surface-dark rounded-xl shadow-xl p-6 border border-slate-700">
                             <div className="flex items-center justify-between mb-2">
-                                <h3 className="text-slate-400 text-sm font-medium">This Month</h3>
+                                <h3 className="text-slate-400 text-sm font-medium">Tento měsíc</h3>
                                 <span className="material-icons text-green-500">trending_up</span>
                             </div>
                             <p className="text-3xl font-bold text-green-500">${stats.thisMonth.toFixed(2)}</p>
                         </div>
                         <div className="bg-surface-dark rounded-xl shadow-xl p-6 border border-slate-700">
                             <div className="flex items-center justify-between mb-2">
-                                <h3 className="text-slate-400 text-sm font-medium">Last Month</h3>
+                                <h3 className="text-slate-400 text-sm font-medium">Minulý měsíc</h3>
                                 <span className="material-icons text-slate-500">calendar_month</span>
                             </div>
                             <p className="text-3xl font-bold text-slate-300">${stats.lastMonth.toFixed(2)}</p>
                         </div>
                         <div className="bg-surface-dark rounded-xl shadow-xl p-6 border border-slate-700">
                             <div className="flex items-center justify-between mb-2">
-                                <h3 className="text-slate-400 text-sm font-medium">Available Balance</h3>
+                                <h3 className="text-slate-400 text-sm font-medium">Dostupný zůstatek</h3>
                                 <span className="material-icons text-blue-500">account_balance_wallet</span>
                             </div>
                             <p className="text-3xl font-bold text-blue-500">${(userData.availableBalance || 0).toFixed(2)}</p>
                             {(userData.availableBalance || 0) >= 50 && (
                                 <button className="mt-3 bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-green-700 w-full transition-colors">
-                                    Request Withdrawal
+                                    Požádat o výběr
                                 </button>
                             )}
                         </div>
@@ -209,24 +235,24 @@ export default function Dashboard() {
                     <div className="bg-surface-dark rounded-xl shadow-xl p-6 border border-slate-700">
                         <h2 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
                             <span className="material-icons text-primary">receipt_long</span>
-                            Recent Sales
+                            Nedávné prodeje
                         </h2>
                         {sales.length === 0 ? (
                             <div className="text-center py-12">
                                 <span className="material-icons text-slate-600 text-6xl mb-4">inbox</span>
-                                <p className="text-slate-400 text-lg mb-2">No sales yet</p>
-                                <p className="text-slate-500 text-sm">Start sharing your referral link to see sales here!</p>
+                                <p className="text-slate-400 text-lg mb-2">Zatím žádné prodeje</p>
+                                <p className="text-slate-500 text-sm">Začněte sdílet váš affiliátní odkaz a uvidíte prodeje zde!</p>
                             </div>
                         ) : (
                             <div className="overflow-x-auto">
                                 <table className="w-full">
                                     <thead>
                                         <tr className="border-b border-slate-700">
-                                            <th className="text-left py-3 px-2 text-slate-400 font-semibold text-sm">Date</th>
-                                            <th className="text-left py-3 px-2 text-slate-400 font-semibold text-sm">Product</th>
-                                            <th className="text-right py-3 px-2 text-slate-400 font-semibold text-sm">Amount</th>
-                                            <th className="text-right py-3 px-2 text-slate-400 font-semibold text-sm">Commission</th>
-                                            <th className="text-center py-3 px-2 text-slate-400 font-semibold text-sm">Status</th>
+                                            <th className="text-left py-3 px-2 text-slate-400 font-semibold text-sm">Datum</th>
+                                            <th className="text-left py-3 px-2 text-slate-400 font-semibold text-sm">Produkt</th>
+                                            <th className="text-right py-3 px-2 text-slate-400 font-semibold text-sm">Cena</th>
+                                            <th className="text-right py-3 px-2 text-slate-400 font-semibold text-sm">Provize</th>
+                                            <th className="text-center py-3 px-2 text-slate-400 font-semibold text-sm">Stav</th>
                                         </tr>
                                     </thead>
                                     <tbody>

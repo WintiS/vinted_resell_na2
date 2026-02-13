@@ -52,7 +52,7 @@ export default function Signup() {
     return (
         <>
             <Head>
-                <title>Sign Up | SupplierSaaS</title>
+                <title>Registrace | SupplierSaaS</title>
                 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
             </Head>
 
@@ -62,9 +62,9 @@ export default function Signup() {
                         <div className="w-16 h-16 bg-gradient-primary rounded-xl flex items-center justify-center mx-auto mb-4">
                             <span className="material-icons text-white text-3xl">rocket_launch</span>
                         </div>
-                        <h2 className="text-3xl font-bold text-white mb-2">Create Account</h2>
+                        <h2 className="text-3xl font-bold text-white mb-2">Vytvořit účet</h2>
                         <p className="text-slate-400">
-                            {plan === 'yearly' ? 'Yearly Plan - $290/year' : 'Monthly Plan - $29/month'}
+                            {plan === 'yearly' ? 'Roční plán - $290/rok' : 'Měsíční plán - $29/měsíc'}
                         </p>
                     </div>
 
@@ -76,31 +76,31 @@ export default function Signup() {
 
                     <form onSubmit={handleEmailSignup} className="space-y-4">
                         <div>
-                            <label className="block text-sm font-medium text-slate-300 mb-2">Full Name</label>
+                            <label className="block text-sm font-medium text-slate-300 mb-2">Celé jméno</label>
                             <input
                                 type="text"
                                 value={displayName}
                                 onChange={(e) => setDisplayName(e.target.value)}
                                 className="w-full bg-slate-800 border border-slate-600 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
                                 required
-                                placeholder="John Doe"
+                                placeholder="Jan Novák"
                             />
                         </div>
 
                         <div>
-                            <label className="block text-sm font-medium text-slate-300 mb-2">Email</label>
+                            <label className="block text-sm font-medium text-slate-300 mb-2">E-mail</label>
                             <input
                                 type="email"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                                 className="w-full bg-slate-800 border border-slate-600 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
                                 required
-                                placeholder="you@example.com"
+                                placeholder="vas-email@priklad.cz"
                             />
                         </div>
 
                         <div>
-                            <label className="block text-sm font-medium text-slate-300 mb-2">Password</label>
+                            <label className="block text-sm font-medium text-slate-300 mb-2">Heslo</label>
                             <input
                                 type="password"
                                 value={password}
@@ -110,7 +110,7 @@ export default function Signup() {
                                 minLength={6}
                                 placeholder="••••••••"
                             />
-                            <p className="text-xs text-slate-500 mt-1">Minimum 6 characters</p>
+                            <p className="text-xs text-slate-500 mt-1">Minimálně 6 znaků</p>
                         </div>
 
                         <button
@@ -118,7 +118,7 @@ export default function Signup() {
                             disabled={loading}
                             className="w-full bg-gradient-primary text-white py-3 rounded-lg font-semibold hover:shadow-lg hover:shadow-primary/30 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                         >
-                            {loading ? 'Creating account...' : 'Continue to Dashboard'}
+                            {loading ? 'Vytvářím účet...' : 'Pokračovat do přehledu'}
                         </button>
                     </form>
 
@@ -128,7 +128,7 @@ export default function Signup() {
                                 <div className="w-full border-t border-slate-700"></div>
                             </div>
                             <div className="relative flex justify-center text-sm">
-                                <span className="px-2 bg-surface-dark text-slate-400">or</span>
+                                <span className="px-2 bg-surface-dark text-slate-400">nebo</span>
                             </div>
                         </div>
                     </div>
@@ -144,16 +144,16 @@ export default function Signup() {
                             <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" />
                             <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
                         </svg>
-                        <span>Sign up with Google</span>
+                        <span>Registrovat s Google</span>
                     </button>
 
                     <p className="text-center mt-8 text-sm text-slate-400">
-                        Already have an account?{' '}
+                        Již máte účet?{' '}
                         <button
                             onClick={() => router.push('/login')}
                             className="text-primary hover:underline font-semibold"
                         >
-                            Login
+                            Přihlásit se
                         </button>
                     </p>
                 </div>

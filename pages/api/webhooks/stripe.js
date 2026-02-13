@@ -1,19 +1,10 @@
 import { buffer } from 'micro';
 import Stripe from 'stripe';
-import { initializeApp, getApps, cert } from 'firebase-admin/app';
-import { getFirestore } from 'firebase-admin/firestore';
+import admin from '../../../lib/firebase-admin';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
-
-// Initialize Firebase Admin
-if (!getApps().length) {
-    initializeApp({
-        projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
-    });
-}
-
-const db = getFirestore();
+const db = admin.firestore();
 
 export const config = { api: { bodyParser: false } };
 
@@ -35,6 +26,44 @@ export default async function handler(req, res) {
 
     try {
         switch (event.type) {
+            case 'customer.subscription.created':
+            case 'customer.subscription.updated':
+                const subscription = event.data.object;
+                const customerId = subscription.customer;
+
+                const userSnapshot = await db.collection('users')
+                    .where('stripeCustomerId', '==', customerId)
+                    .limit(1)
+                    .get();
+
+                if (!userSnapshot.empty) {
+                    const userDoc = userSnapshot.docs[0];
+                    await userDoc.ref.update({
+                        subscriptionStatus: subscription.status,
+                        subscriptionId: subscription.id,
+                        subscriptionTier: subscription.items.data[0].price.recurring.interval,
+                        subscriptionStartDate: new Date(subscription.current_period_start * 1000),
+                        subscriptionEndDate: new Date(subscription.current_period_end * 1000),
+                    });
+                }
+                break;
+
+            case 'customer.subscription.deleted':
+                const deletedSub = event.data.object;
+                const deletedCustomerId = deletedSub.customer;
+
+                const deletedUserSnapshot = await db.collection('users')
+                    .where('stripeCustomerId', '==', deletedCustomerId)
+                    .limit(1)
+                    .get();
+
+                if (!deletedUserSnapshot.empty) {
+                    await deletedUserSnapshot.docs[0].ref.update({
+                        subscriptionStatus: 'cancelled',
+                    });
+                }
+                break;
+
             case 'checkout.session.completed':
                 const session = event.data.object;
 

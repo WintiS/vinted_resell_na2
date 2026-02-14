@@ -18,7 +18,7 @@ export default function Pricing() {
             name: 'Měsíční',
             price: 29,
             interval: 'měsíc',
-            priceId: 'price_1T0SmWKGkcJogUXoQe8fxHV3',
+            priceId: 'price_1T0ekuK0Js68kvLkMYhxx8CM',
             features: [
                 'Unikátní affiliátní odkaz',
                 '100% provize z prodejů',
@@ -32,7 +32,7 @@ export default function Pricing() {
             name: 'Roční',
             price: 290,
             interval: 'rok',
-            priceId: 'price_1T0SnHKGkcJogUXoqgxL79bC',
+            priceId: 'price_1T0elcK0Js68kvLk6VSn2qZi',
             savings: '17%',
             badge: 'NEJLEPŠÍ HODNOTA',
             features: [

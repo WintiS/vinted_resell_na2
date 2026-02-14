@@ -31,20 +31,45 @@ export default async function handler(req, res) {
                 const subscription = event.data.object;
                 const customerId = subscription.customer;
 
-                const userSnapshot = await db.collection('users')
+                // Try to find user by customer ID first
+                let userSnapshot = await db.collection('users')
                     .where('stripeCustomerId', '==', customerId)
                     .limit(1)
                     .get();
 
+                // If not found and we have firebaseUID in metadata, try that
+                if (userSnapshot.empty && subscription.metadata?.firebaseUID) {
+                    const userId = subscription.metadata.firebaseUID;
+                    const userDoc = await db.collection('users').doc(userId).get();
+                    if (userDoc.exists) {
+                        userSnapshot = { empty: false, docs: [userDoc] };
+                    }
+                }
+
                 if (!userSnapshot.empty) {
                     const userDoc = userSnapshot.docs[0];
-                    await userDoc.ref.update({
+
+                    // Get the period dates from the subscription items
+                    const subscriptionItem = subscription.items?.data?.[0];
+                    const currentPeriodStart = subscriptionItem?.current_period_start || subscription.billing_cycle_anchor;
+                    const currentPeriodEnd = subscriptionItem?.current_period_end;
+
+                    const updateData = {
                         subscriptionStatus: subscription.status,
                         subscriptionId: subscription.id,
                         subscriptionTier: subscription.items.data[0].price.recurring.interval,
-                        subscriptionStartDate: new Date(subscription.current_period_start * 1000),
-                        subscriptionEndDate: new Date(subscription.current_period_end * 1000),
-                    });
+                    };
+
+                    if (currentPeriodStart) {
+                        updateData.subscriptionStartDate = new Date(currentPeriodStart * 1000);
+                    }
+
+                    if (currentPeriodEnd) {
+                        updateData.subscriptionEndDate = new Date(currentPeriodEnd * 1000);
+                    }
+
+                    await userDoc.ref.update(updateData);
+                    console.log('Subscription updated for user:', userDoc.id);
                 }
                 break;
 

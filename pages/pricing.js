@@ -55,7 +55,7 @@ export default function Pricing() {
         setSelectedPlan(plan.id);
 
         try {
-            const response = await fetch('/api/create-subscription', {
+            const response = await fetch('/api/create-checkout-session', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -64,18 +64,26 @@ export default function Pricing() {
                 })
             });
 
-            const { subscriptionId, clientSecret } = await response.json();
+            const data = await response.json();
 
-            // Redirect to Stripe Checkout or use Stripe Elements
-            // For now, we'll redirect to dashboard with success
-            router.push('/dashboard?subscribed=true');
+            if (!response.ok) {
+                throw new Error(data.error || 'Failed to create checkout session');
+            }
+
+            // Redirect to Stripe Checkout using the URL directly
+            // This is the modern approach (redirectToCheckout is deprecated)
+            if (data.url) {
+                window.location.href = data.url;
+            } else {
+                throw new Error('No checkout URL received');
+            }
         } catch (error) {
             console.error('Subscription error:', error);
             alert('Nepodařilo se vytvořit předplatné. Zkuste to prosím znovu.');
-        } finally {
             setLoading(false);
             setSelectedPlan(null);
         }
+        // Note: Don't reset loading state on success - user will be redirected
     };
 
     return (

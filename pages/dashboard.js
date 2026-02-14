@@ -160,6 +160,59 @@ export default function Dashboard() {
                         </div>
                     )}
 
+                    {/* Subscription Status Card */}
+                    {isActive && (
+                        <div className="bg-gradient-to-br from-green-500/10 to-blue-500/10 border border-green-500/50 rounded-xl p-6 mb-6">
+                            <div className="flex items-start justify-between flex-wrap gap-4">
+                                <div className="flex items-start gap-4">
+                                    <div className="w-12 h-12 bg-green-500/20 rounded-xl flex items-center justify-center border border-green-500/30">
+                                        <span className="material-icons text-green-500 text-2xl">check_circle</span>
+                                    </div>
+                                    <div>
+                                        <h3 className="text-green-400 font-bold text-lg mb-1 flex items-center gap-2">
+                                            Aktivní předplatné
+                                            <span className="px-2 py-0.5 bg-green-500/20 text-green-400 text-xs rounded-full border border-green-500/30 capitalize">
+                                                {userData.subscriptionTier || 'monthly'}
+                                            </span>
+                                        </h3>
+                                        {userData.subscriptionEndDate && (
+                                            <p className="text-slate-300 text-sm flex items-center gap-1">
+                                                <span className="material-icons text-xs">event</span>
+                                                Obnovení: {new Date(userData.subscriptionEndDate.seconds * 1000).toLocaleDateString('cs-CZ', {
+                                                    year: 'numeric',
+                                                    month: 'long',
+                                                    day: 'numeric'
+                                                })}
+                                            </p>
+                                        )}
+                                    </div>
+                                </div>
+                                <button
+                                    onClick={async () => {
+                                        try {
+                                            const response = await fetch('/api/create-portal-session', {
+                                                method: 'POST',
+                                                headers: { 'Content-Type': 'application/json' },
+                                                body: JSON.stringify({ userId: user.uid })
+                                            });
+                                            const data = await response.json();
+                                            if (data.url) {
+                                                window.location.href = data.url;
+                                            }
+                                        } catch (error) {
+                                            console.error('Portal error:', error);
+                                            alert('Nepodařilo se otevřít správu předplatného');
+                                        }
+                                    }}
+                                    className="bg-white text-slate-900 px-6 py-2.5 rounded-lg font-semibold hover:bg-slate-200 transition-all flex items-center gap-2 whitespace-nowrap"
+                                >
+                                    <span className="material-icons text-sm">settings</span>
+                                    Spravovat předplatné
+                                </button>
+                            </div>
+                        </div>
+                    )}
+
                     {/* Referral Link */}
                     <div className="bg-surface-dark rounded-xl shadow-xl p-6 mb-6 border border-slate-700">
                         <h2 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">

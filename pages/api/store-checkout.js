@@ -45,7 +45,8 @@ export default async function handler(req, res) {
             cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/store/cancel`,
             metadata: {
                 referralCode: referralCode || '',
-                productIds: items.map(item => item.id).join(',')
+                productIds: items.map(item => item.id).join(','),
+                productNames: items.map(item => item.title).join(' | ')
             },
             allow_promotion_codes: true
         });

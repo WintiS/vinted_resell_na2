@@ -52,7 +52,20 @@ export default async function handler(req, res) {
 
         res.status(200).json({ url: session.url });
     } catch (error) {
-        console.error('Checkout error:', error);
-        res.status(500).json({ error: error.message });
+        // Detailed error logging for debugging
+        console.error('Checkout error details:', {
+            message: error.message,
+            type: error.type,
+            stack: error.stack,
+            hasStripeKey: !!process.env.STRIPE_SECRET_KEY,
+            stripeKeyPrefix: process.env.STRIPE_SECRET_KEY?.substring(0, 10),
+            baseUrl: process.env.NEXT_PUBLIC_BASE_URL,
+            itemCount: req.body?.items?.length,
+        });
+
+        res.status(500).json({
+            error: error.message,
+            details: process.env.NODE_ENV === 'development' ? error.stack : undefined
+        });
     }
 }

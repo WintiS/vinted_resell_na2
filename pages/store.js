@@ -1,38 +1,38 @@
 import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
-import { loadStripe } from '@stripe/stripe-js';
 import Head from 'next/head';
+import { CartProvider, useCart } from '../contexts/CartContext';
 
-const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
-
-export default function Store() {
+function Store() {
     const router = useRouter();
     const { ref } = router.query;
-    const [loading, setLoading] = useState(false);
+    const { addToCart, isInCart, getCartCount, setReferralCode } = useCart();
+    const [showPopup, setShowPopup] = useState(false);
+    const [addedProduct, setAddedProduct] = useState(null);
 
-    const handlePurchase = async () => {
-        setLoading(true);
-
-        try {
-            const stripe = await stripePromise;
-
-            const response = await fetch('/api/create-checkout', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    productId: 'vinted-suppliers-list',
-                    referralCode: ref || ''
-                })
-            });
-
-            const { sessionId } = await response.json();
-            await stripe.redirectToCheckout({ sessionId });
-        } catch (error) {
-            console.error('Purchase error:', error);
-            alert('Purchase failed. Please try again.');
-        } finally {
-            setLoading(false);
+    // Save referral code when URL has ref parameter
+    useEffect(() => {
+        if (ref) {
+            setReferralCode(ref);
         }
+    }, [ref, setReferralCode]);
+
+    const handleAddToCart = (product) => {
+        if (!isInCart(product.id)) {
+            addToCart(product);
+            setAddedProduct(product);
+            setShowPopup(true);
+        }
+    };
+
+    const handleViewCart = () => {
+        setShowPopup(false);
+        router.push('/store/cart');
+    };
+
+    const handleCheckoutNow = () => {
+        setShowPopup(false);
+        router.push('/store/cart');
     };
 
     return (
@@ -69,6 +69,61 @@ export default function Store() {
                     </div>
                 </div>
 
+                {/* Cart Icon */}
+                <div className="container mx-auto px-6 py-4 max-w-5xl">
+                    <div className="flex justify-end">
+                        <button
+                            onClick={() => router.push('/store/cart')}
+                            className="relative bg-zinc-900 border border-zinc-800 hover:border-zinc-700 rounded-xl px-4 py-2 flex items-center gap-2 transition-all group"
+                        >
+                            <span className="material-icons text-[#9d34da] group-hover:scale-110 transition-transform">shopping_cart</span>
+                            <span className="text-white font-semibold">{getCartCount()}</span>
+                            {getCartCount() > 0 && (
+                                <div className="absolute -top-1 -right-1 bg-[#9d34da] text-white text-xs w-5 h-5 rounded-full flex items-center justify-center font-bold">
+                                    {getCartCount()}
+                                </div>
+                            )}
+                        </button>
+                    </div>
+                </div>
+
+                {/* Added to Cart Popup */}
+                {showPopup && addedProduct && (
+                    <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-6" onClick={() => setShowPopup(false)}>
+                        <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-8 max-w-md w-full" onClick={(e) => e.stopPropagation()}>
+                            <div className="text-center mb-6">
+                                <div className="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                                    <span className="material-icons text-green-500 text-4xl">check_circle</span>
+                                </div>
+                                <h3 className="text-2xl font-bold text-white mb-2">Added to Cart!</h3>
+                                <p className="text-gray-400">{addedProduct.title}</p>
+                                <p className="text-[#9d34da] font-bold text-xl mt-2">{addedProduct.price}</p>
+                            </div>
+
+                            <div className="space-y-3">
+                                <button
+                                    onClick={handleCheckoutNow}
+                                    className="w-full py-4 bg-[#9d34da] hover:bg-[#8a2cc2] text-white font-bold rounded-xl transition-all transform hover:scale-[1.02]"
+                                >
+                                    Checkout Now
+                                </button>
+                                <button
+                                    onClick={handleViewCart}
+                                    className="w-full py-4 bg-zinc-800 hover:bg-zinc-700 text-white font-bold rounded-xl transition-all"
+                                >
+                                    View Cart
+                                </button>
+                                <button
+                                    onClick={() => setShowPopup(false)}
+                                    className="w-full py-4 bg-transparent border border-zinc-700 hover:border-zinc-600 text-gray-400 hover:text-white font-bold rounded-xl transition-all"
+                                >
+                                    Continue Shopping
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                )}
+
                 <div className="container mx-auto px-6 py-16 max-w-5xl">
                     {/* Hero Section */}
                     <div className="text-center mb-16">
@@ -100,6 +155,7 @@ export default function Store() {
                                     rating: 5,
                                     reviews: 13,
                                     price: '1.281,00 Kč',
+                                    priceId: 'price_1QrnB8GfZEaA9RkQ5cWfKKyf', // Real price ID
                                     soldOut: false
                                 },
                                 {
@@ -109,6 +165,7 @@ export default function Store() {
                                     rating: 5,
                                     reviews: 11,
                                     price: '854,00 Kč',
+                                    priceId: 'price_1QrnB8GfZEaA9RkQGdvLFSIE', // Real price ID
                                     soldOut: false
                                 },
                                 {
@@ -118,6 +175,7 @@ export default function Store() {
                                     rating: 5,
                                     reviews: 1,
                                     price: '570,00 Kč',
+                                    priceId: 'price_PLACEHOLDER_3',
                                     soldOut: true
                                 },
                                 {
@@ -127,6 +185,7 @@ export default function Store() {
                                     rating: 5,
                                     reviews: 4,
                                     price: '427,00 Kč',
+                                    priceId: 'price_PLACEHOLDER_4',
                                     soldOut: false
                                 },
                                 {
@@ -136,6 +195,7 @@ export default function Store() {
                                     rating: 5,
                                     reviews: 7,
                                     price: '427,00 Kč',
+                                    priceId: 'price_PLACEHOLDER_5',
                                     soldOut: false
                                 },
                                 {
@@ -145,6 +205,7 @@ export default function Store() {
                                     rating: 5,
                                     reviews: 2,
                                     price: '570,00 Kč',
+                                    priceId: 'price_PLACEHOLDER_6',
                                     soldOut: true
                                 },
                                 {
@@ -154,6 +215,7 @@ export default function Store() {
                                     rating: 5,
                                     reviews: 5,
                                     price: '427,00 Kč',
+                                    priceId: 'price_PLACEHOLDER_7',
                                     soldOut: false
                                 },
                                 {
@@ -163,6 +225,7 @@ export default function Store() {
                                     rating: 5,
                                     reviews: 3,
                                     price: '284,00 Kč',
+                                    priceId: 'price_PLACEHOLDER_8',
                                     soldOut: false
                                 }
                             ].map((product) => (
@@ -203,14 +266,16 @@ export default function Store() {
 
                                         {/* Add to Cart Button */}
                                         <button
-                                            onClick={() => handlePurchase()}
-                                            disabled={product.soldOut || loading}
+                                            onClick={() => handleAddToCart(product)}
+                                            disabled={product.soldOut || isInCart(product.id)}
                                             className={`w-full py-3 rounded-xl font-bold text-sm transition-all ${product.soldOut
                                                 ? 'bg-zinc-800 text-gray-500 cursor-not-allowed'
-                                                : 'bg-[#9d34da] hover:bg-[#8a2cc2] text-white transform hover:scale-[1.02]'
+                                                : isInCart(product.id)
+                                                    ? 'bg-zinc-700 text-gray-400 cursor-not-allowed'
+                                                    : 'bg-[#9d34da] hover:bg-[#8a2cc2] text-white transform hover:scale-[1.02]'
                                                 }`}
                                         >
-                                            {product.soldOut ? 'SOLD OUT' : 'ADD TO CART'}
+                                            {product.soldOut ? 'SOLD OUT' : isInCart(product.id) ? 'IN CART' : 'ADD TO CART'}
                                         </button>
                                     </div>
                                 </div>
@@ -300,5 +365,13 @@ export default function Store() {
                 </div>
             </div>
         </>
+    );
+}
+
+export default function StoreWithCart() {
+    return (
+        <CartProvider>
+            <Store />
+        </CartProvider>
     );
 }

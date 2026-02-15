@@ -92,39 +92,100 @@ export default async function handler(req, res) {
             case 'checkout.session.completed':
                 const session = event.data.object;
 
-                if (session.payment_status === 'paid' && session.metadata?.referralCode) {
-                    const referralCode = session.metadata.referralCode;
-                    const amount = session.amount_total / 100;
+                if (session.payment_status === 'paid') {
+                    const referralCode = session.metadata?.referralCode;
+                    const productIds = session.metadata?.productIds; // Store purchases
+                    const productId = session.metadata?.productId; // Legacy subscription purchases
+                    const productName = session.metadata?.productName;
+                    const customerEmail = session.customer_details?.email;
+                    const amount = session.amount_total / 100; // Convert from cents/haléřů
+                    const currency = session.currency;
 
-                    // Find the affiliate by referral code
-                    const usersSnapshot = await db.collection('users')
-                        .where('referralCode', '==', referralCode)
-                        .limit(1)
-                        .get();
+                    // Handle referral commission if referral code exists
+                    if (referralCode) {
+                        const usersSnapshot = await db.collection('users')
+                            .where('referralCode', '==', referralCode)
+                            .limit(1)
+                            .get();
 
-                    if (!usersSnapshot.empty) {
-                        const affiliateDoc = usersSnapshot.docs[0];
+                        if (!usersSnapshot.empty) {
+                            const affiliateDoc = usersSnapshot.docs[0];
 
-                        // Create sale record
-                        await db.collection('sales').add({
-                            userId: affiliateDoc.id,
-                            referralCode,
-                            amount,
-                            commission: amount,
-                            productId: session.metadata.productId,
-                            productName: session.metadata.productName,
-                            status: 'completed',
-                            stripePaymentId: session.payment_intent,
-                            createdAt: new Date(),
-                        });
+                            // Calculate commission (10% for store purchases, 100% for subscriptions)
+                            const commissionRate = productIds ? 0.10 : 1.0; // 10% for store, 100% for subs
+                            const commission = amount * commissionRate;
 
-                        // Update affiliate earnings
-                        await affiliateDoc.ref.update({
-                            totalEarnings: (affiliateDoc.data().totalEarnings || 0) + amount,
-                            availableBalance: (affiliateDoc.data().availableBalance || 0) + amount,
-                            lifetimeEarnings: (affiliateDoc.data().lifetimeEarnings || 0) + amount,
-                        });
+                            // Create sale record
+                            await db.collection('sales').add({
+                                userId: affiliateDoc.id,
+                                referralCode,
+                                amount,
+                                commission,
+                                commissionRate,
+                                currency,
+                                productId: productIds || productId, // Support both formats
+                                productName,
+                                type: productIds ? 'store' : 'subscription',
+                                status: 'completed',
+                                stripePaymentId: session.payment_intent,
+                                sessionId: session.id,
+                                customerEmail,
+                                createdAt: new Date(),
+                            });
+
+                            // Update affiliate earnings
+                            await affiliateDoc.ref.update({
+                                totalEarnings: admin.firestore.FieldValue.increment(commission),
+                                availableBalance: admin.firestore.FieldValue.increment(commission),
+                                lifetimeEarnings: admin.firestore.FieldValue.increment(commission),
+                                referralCount: admin.firestore.FieldValue.increment(1),
+                            });
+
+                            console.log(`Credited ${commission} ${currency} to affiliate: ${affiliateDoc.id}`);
+                        }
                     }
+
+                    // Grant product access for store purchases
+                    if (productIds && customerEmail) {
+                        const products = productIds.split(',');
+
+                        // Find user by email
+                        const userSnapshot = await db.collection('users')
+                            .where('email', '==', customerEmail)
+                            .limit(1)
+                            .get();
+
+                        if (!userSnapshot.empty) {
+                            const userDoc = userSnapshot.docs[0];
+
+                            // Grant access to each purchased product
+                            for (const productId of products) {
+                                await db.collection('userProducts').add({
+                                    userId: userDoc.id,
+                                    productId,
+                                    purchasedAt: new Date(),
+                                    sessionId: session.id,
+                                    status: 'active',
+                                });
+                            }
+
+                            console.log(`Granted access to ${products.length} product(s) for user: ${userDoc.id}`);
+                        } else {
+                            console.log(`User not found for email: ${customerEmail}. Consider creating pending access.`);
+                        }
+                    }
+
+                    // Record purchase
+                    await db.collection('purchases').add({
+                        sessionId: session.id,
+                        customerEmail,
+                        referralCode,
+                        productIds: productIds || productId,
+                        amount,
+                        currency,
+                        stripePaymentId: session.payment_intent,
+                        createdAt: new Date(),
+                    });
                 }
                 break;
         }

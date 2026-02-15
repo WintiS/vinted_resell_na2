@@ -104,54 +104,54 @@ function Cart() {
             </Head>
 
             <div className="min-h-screen bg-black">
-                <div className="container mx-auto px-6 py-16 max-w-6xl">
+                <div className="container mx-auto px-4 sm:px-6 py-12 md:py-16 max-w-6xl">
                     {/* Header */}
-                    <div className="mb-12">
+                    <div className="mb-8 md:mb-12">
                         <button
                             onClick={() => router.push('/store')}
-                            className="text-gray-400 hover:text-white transition-colors text-sm flex items-center gap-2 mb-6 group"
+                            className="text-gray-400 hover:text-white transition-colors text-sm flex items-center gap-2 mb-4 md:mb-6 group"
                         >
                             <span className="material-icons text-sm group-hover:-translate-x-1 transition-transform">arrow_back</span>
                             Back to Store
                         </button>
-                        <h1 className="text-4xl md:text-5xl font-black text-white">Shopping Cart</h1>
+                        <h1 className="text-3xl sm:text-4xl md:text-5xl font-black text-white">Shopping Cart</h1>
                     </div>
 
                     {cart.length === 0 ? (
                         // Empty Cart State
-                        <div className="text-center py-16">
-                            <span className="material-icons text-gray-600 text-9xl mb-6">shopping_cart</span>
-                            <h2 className="text-2xl font-bold text-white mb-4">Your cart is empty</h2>
-                            <p className="text-gray-400 mb-8">Add some products to get started!</p>
+                        <div className="text-center py-12 md:py-16">
+                            <span className="material-icons text-gray-600 text-7xl md:text-9xl mb-4 md:mb-6">shopping_cart</span>
+                            <h2 className="text-xl md:text-2xl font-bold text-white mb-3 md:mb-4">Your cart is empty</h2>
+                            <p className="text-gray-400 mb-6 md:mb-8 text-sm md:text-base">Add some products to get started!</p>
                             <button
                                 onClick={() => router.push('/store')}
-                                className="bg-[#9d34da] hover:bg-[#8a2cc2] text-white font-bold py-4 px-8 rounded-xl transition-all transform hover:scale-[1.02]"
+                                className="bg-[#9d34da] hover:bg-[#8a2cc2] text-white font-bold py-3 md:py-4 px-6 md:px-8 rounded-xl transition-all transform hover:scale-[1.02]"
                             >
                                 Browse Products
                             </button>
                         </div>
                     ) : (
-                        <div className="grid lg:grid-cols-3 gap-8">
+                        <div className="grid lg:grid-cols-3 gap-6 md:gap-8">
                             {/* Cart Items */}
-                            <div className="lg:col-span-2 space-y-6">
+                            <div className="lg:col-span-2 space-y-4 md:space-y-6">
                                 {cart.map((item) => (
-                                    <div key={item.id} className="bg-zinc-900 border border-zinc-800 rounded-2xl p-6 flex items-center gap-6">
+                                    <div key={item.id} className="bg-zinc-900 border border-zinc-800 rounded-2xl p-4 md:p-6 flex flex-col sm:flex-row items-start sm:items-center gap-4 md:gap-6">
                                         {/* Product Image Placeholder */}
-                                        <div className="w-24 h-24 bg-black rounded-xl flex items-center justify-center flex-shrink-0">
+                                        <div className="w-full sm:w-24 h-24 bg-black rounded-xl flex items-center justify-center flex-shrink-0">
                                             <span className="material-icons text-gray-600 text-4xl">inventory_2</span>
                                         </div>
 
                                         {/* Product Info */}
-                                        <div className="flex-grow">
-                                            <h3 className="text-white font-bold text-lg mb-2">{item.title}</h3>
-                                            <p className="text-[#9d34da] font-bold text-xl">{formatPrice(item.price)}</p>
-                                            <p className="text-gray-400 text-sm mt-1">Quantity: {item.quantity}</p>
+                                        <div className="flex-grow w-full sm:w-auto">
+                                            <h3 className="text-white font-bold text-base md:text-lg mb-2">{item.title}</h3>
+                                            <p className="text-[#9d34da] font-bold text-lg md:text-xl">{formatPrice(item.price)}</p>
+                                            <p className="text-gray-400 text-xs md:text-sm mt-1">Quantity: {item.quantity}</p>
                                         </div>
 
                                         {/* Remove Button */}
                                         <button
                                             onClick={() => removeFromCart(item.id)}
-                                            className="text-gray-400 hover:text-red-500 transition-colors p-2"
+                                            className="text-gray-400 hover:text-red-500 transition-colors p-2 self-end sm:self-auto"
                                         >
                                             <span className="material-icons">delete</span>
                                         </button>

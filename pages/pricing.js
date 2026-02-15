@@ -96,55 +96,57 @@ export default function Pricing() {
             <div className="min-h-screen bg-background-dark">
                 {/* Navigation */}
                 <nav className="bg-surface-dark shadow-xl border-b border-slate-700">
-                    <div className="container mx-auto px-6 py-4 flex justify-between items-center">
-                        <div className="flex items-center gap-2">
-                            <div className="w-10 h-10 bg-gradient-primary rounded-lg flex items-center justify-center">
-                                <span className="material-icons text-white">rocket_launch</span>
+                    <div className="container mx-auto px-4 sm:px-6 py-3 md:py-4">
+                        <div className="flex justify-between items-center">
+                            <div className="flex items-center gap-2">
+                                <div className="w-8 h-8 md:w-10 md:h-10 bg-gradient-primary rounded-lg flex items-center justify-center">
+                                    <span className="material-icons text-white text-xl md:text-2xl">rocket_launch</span>
+                                </div>
+                                <h1 className="text-lg md:text-xl font-bold text-white">
+                                    Supplier<span className="text-primary">SaaS</span>
+                                </h1>
                             </div>
-                            <h1 className="text-xl font-bold text-white">
-                                Supplier<span className="text-primary">SaaS</span>
-                            </h1>
-                        </div>
-                        <div className="flex gap-4">
-                            {user ? (
-                                <button
-                                    onClick={() => router.push('/dashboard')}
-                                    className="text-primary hover:text-primary/80 font-semibold transition-colors"
-                                >
-                                    Přehled
-                                </button>
-                            ) : (
-                                <>
+                            <div className="flex gap-2 md:gap-4">
+                                {user ? (
                                     <button
-                                        onClick={() => router.push('/login')}
-                                        className="text-slate-300 hover:text-white font-semibold transition-colors"
+                                        onClick={() => router.push('/dashboard')}
+                                        className="text-primary hover:text-primary/80 font-semibold text-xs md:text-sm transition-colors"
                                     >
-                                        Přihlásit se
+                                        Přehled
                                     </button>
-                                    <button
-                                        onClick={() => router.push('/signup')}
-                                        className="bg-gradient-primary text-white px-6 py-2 rounded-lg font-semibold hover:shadow-lg hover:shadow-primary/30 transition-all"
-                                    >
-                                        Registrace
-                                    </button>
-                                </>
-                            )}
+                                ) : (
+                                    <>
+                                        <button
+                                            onClick={() => router.push('/login')}
+                                            className="text-slate-300 hover:text-white font-semibold text-xs md:text-sm transition-colors"
+                                        >
+                                            Přihlásit se
+                                        </button>
+                                        <button
+                                            onClick={() => router.push('/signup')}
+                                            className="bg-gradient-primary text-white px-3 md:px-6 py-1.5 md:py-2 rounded-lg text-xs md:text-sm font-semibold hover:shadow-lg hover:shadow-primary/30 transition-all"
+                                        >
+                                            Registrace
+                                        </button>
+                                    </>
+                                )}
+                            </div>
                         </div>
                     </div>
                 </nav>
 
                 {/* Pricing Section */}
-                <div className="container mx-auto px-6 py-16">
-                    <div className="text-center mb-12">
-                        <h2 className="text-5xl font-bold text-white mb-4">
+                <div className="container mx-auto px-4 sm:px-6 py-12 md:py-16">
+                    <div className="text-center mb-8 md:mb-12">
+                        <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-3 md:mb-4">
                             Vyberte si svůj plán
                         </h2>
-                        <p className="text-xl text-slate-400 max-w-2xl mx-auto">
+                        <p className="text-base sm:text-lg md:text-xl text-slate-400 max-w-2xl mx-auto px-4">
                             Začněte vydělávat 100% provizi z každého prodeje. Zrušit kdykoliv.
                         </p>
                     </div>
 
-                    <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+                    <div className="grid sm:grid-cols-2 gap-6 md:gap-8 max-w-5xl mx-auto">
                         {plans.map((plan) => (
                             <div
                                 key={plan.id}
@@ -201,11 +203,11 @@ export default function Pricing() {
                     </div>
 
                     {/* Features Section */}
-                    <div className="mt-20 max-w-5xl mx-auto">
-                        <h3 className="text-3xl font-bold text-white text-center mb-12">
+                    <div className="mt-16 md:mt-20 max-w-5xl mx-auto">
+                        <h3 className="text-2xl sm:text-3xl font-bold text-white text-center mb-8 md:mb-12">
                             Proč si vybrat SupplierSaaS?
                         </h3>
-                        <div className="grid md:grid-cols-3 gap-8">
+                        <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6 md:gap-8">
                             <div className="text-center">
                                 <div className="w-16 h-16 bg-gradient-primary rounded-xl flex items-center justify-center mx-auto mb-4">
                                     <span className="material-icons text-white text-3xl">attach_money</span>

@@ -47,14 +47,14 @@ export default function Login() {
                 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
             </Head>
 
-            <div className="min-h-screen bg-background-dark flex items-center justify-center px-6">
-                <div className="max-w-md w-full bg-surface-dark rounded-2xl shadow-2xl p-8 border border-slate-700">
-                    <div className="text-center mb-8">
-                        <div className="w-16 h-16 bg-gradient-primary rounded-xl flex items-center justify-center mx-auto mb-4">
-                            <span className="material-icons text-white text-3xl">rocket_launch</span>
+            <div className="min-h-screen bg-background-dark flex items-center justify-center px-4 sm:px-6 py-8">
+                <div className="max-w-md w-full bg-surface-dark rounded-2xl shadow-2xl p-6 md:p-8 border border-slate-700">
+                    <div className="text-center mb-6 md:mb-8">
+                        <div className="w-14 h-14 md:w-16 md:h-16 bg-gradient-primary rounded-xl flex items-center justify-center mx-auto mb-3 md:mb-4">
+                            <span className="material-icons text-white text-2xl md:text-3xl">rocket_launch</span>
                         </div>
-                        <h2 className="text-3xl font-bold text-white mb-2">Vítejte zpět</h2>
-                        <p className="text-slate-400">Přihlaste se pro přístup k vašemu přehledu</p>
+                        <h2 className="text-2xl md:text-3xl font-bold text-white mb-2">Vítejte zpět</h2>
+                        <p className="text-sm md:text-base text-slate-400">Přihlašte se pro přístup k vašemu přehledu</p>
                     </div>
 
                     {error && (

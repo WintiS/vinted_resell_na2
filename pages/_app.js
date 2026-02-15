@@ -1,11 +1,17 @@
 import '../styles/globals.css';
 import { AuthProvider } from '../context/AuthContext';
+import Head from 'next/head';
 
 function MyApp({ Component, pageProps }) {
     return (
-        <AuthProvider>
-            <Component {...pageProps} />
-        </AuthProvider>
+        <>
+            <Head>
+                <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+            </Head>
+            <AuthProvider>
+                <Component {...pageProps} />
+            </AuthProvider>
+        </>
     );
 }
 

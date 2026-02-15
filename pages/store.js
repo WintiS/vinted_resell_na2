@@ -70,14 +70,14 @@ function Store() {
                 </div>
 
                 {/* Cart Icon */}
-                <div className="container mx-auto px-6 py-4 max-w-5xl">
+                <div className="container mx-auto px-4 sm:px-6 py-3 md:py-4 max-w-5xl">
                     <div className="flex justify-end">
                         <button
                             onClick={() => router.push('/store/cart')}
-                            className="relative bg-zinc-900 border border-zinc-800 hover:border-zinc-700 rounded-xl px-4 py-2 flex items-center gap-2 transition-all group"
+                            className="relative bg-zinc-900 border border-zinc-800 hover:border-zinc-700 rounded-xl px-3 md:px-4 py-2 flex items-center gap-2 transition-all group"
                         >
-                            <span className="material-icons text-[#9d34da] group-hover:scale-110 transition-transform">shopping_cart</span>
-                            <span className="text-white font-semibold">{getCartCount()}</span>
+                            <span className="material-icons text-[#9d34da] group-hover:scale-110 transition-transform text-xl md:text-2xl">shopping_cart</span>
+                            <span className="text-white font-semibold text-sm md:text-base">{getCartCount()}</span>
                             {getCartCount() > 0 && (
                                 <div className="absolute -top-1 -right-1 bg-[#9d34da] text-white text-xs w-5 h-5 rounded-full flex items-center justify-center font-bold">
                                     {getCartCount()}
@@ -89,8 +89,8 @@ function Store() {
 
                 {/* Added to Cart Popup */}
                 {showPopup && addedProduct && (
-                    <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-6" onClick={() => setShowPopup(false)}>
-                        <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-8 max-w-md w-full" onClick={(e) => e.stopPropagation()}>
+                    <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4 md:p-6" onClick={() => setShowPopup(false)}>
+                        <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-6 md:p-8 max-w-md w-full" onClick={(e) => e.stopPropagation()}>
                             <div className="text-center mb-6">
                                 <div className="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
                                     <span className="material-icons text-green-500 text-4xl">check_circle</span>
@@ -124,29 +124,29 @@ function Store() {
                     </div>
                 )}
 
-                <div className="container mx-auto px-6 py-16 max-w-5xl">
+                <div className="container mx-auto px-4 sm:px-6 py-12 md:py-16 max-w-5xl">
                     {/* Hero Section */}
-                    <div className="text-center mb-16">
-                        <h1 className="text-5xl md:text-7xl font-black text-white mb-6 leading-tight">
+                    <div className="text-center mb-12 md:mb-16">
+                        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-black text-white mb-4 md:mb-6 leading-tight">
                             Get Rich in 2026.<br />
                             <span className="text-[#9d34da]">Build Once.</span> Paid Forever.
                         </h1>
-                        <p className="text-xl md:text-2xl text-gray-400 mb-8 max-w-3xl mx-auto">
+                        <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-gray-400 mb-6 md:mb-8 max-w-3xl mx-auto px-4">
                             The ultimate database of 500+ verified Vinted suppliers. Start sourcing premium products today.
                         </p>
                     </div>
 
                     {/* Products Section */}
-                    <div className="mb-16">
-                        <div className="flex justify-between items-center mb-8">
-                            <h2 className="text-3xl md:text-4xl font-black text-white">Products</h2>
+                    <div className="mb-12 md:mb-16">
+                        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 md:mb-8 gap-3">
+                            <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-white">Products</h2>
                             <div className="text-gray-400 text-sm">
                                 <span className="font-semibold">8 products</span>
                             </div>
                         </div>
 
                         {/* Product Grid */}
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
                             {[
                                 {
                                     id: 1,
@@ -294,11 +294,11 @@ function Store() {
 
 
                     {/* Why Choose Section */}
-                    <div className="mb-16">
-                        <h3 className="text-3xl font-black text-white text-center mb-10">
+                    <div className="mb-12 md:mb-16">
+                        <h3 className="text-2xl sm:text-3xl font-black text-white text-center mb-8 md:mb-10">
                             Why Choose Our Database?
                         </h3>
-                        <div className="grid md:grid-cols-3 gap-8">
+                        <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6 md:gap-8">
                             {[
                                 {
                                     emoji: '🎯',

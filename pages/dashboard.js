@@ -110,49 +110,52 @@ export default function Dashboard() {
             <div className="min-h-screen bg-background-dark">
                 {/* Navigation */}
                 <nav className="bg-surface-dark shadow-xl border-b border-slate-700">
-                    <div className="container mx-auto px-6 py-4 flex justify-between items-center">
-                        <div className="flex items-center gap-2">
-                            <div className="w-10 h-10 bg-gradient-primary rounded-lg flex items-center justify-center">
-                                <span className="material-icons text-white">rocket_launch</span>
+                    <div className="container mx-auto px-4 sm:px-6 py-3 md:py-4">
+                        <div className="flex justify-between items-center">
+                            <div className="flex items-center gap-2">
+                                <div className="w-8 h-8 md:w-10 md:h-10 bg-gradient-primary rounded-lg flex items-center justify-center">
+                                    <span className="material-icons text-white text-xl md:text-2xl">rocket_launch</span>
+                                </div>
+                                <h1 className="text-lg md:text-xl font-bold text-white">
+                                    Supplier<span className="text-primary">SaaS</span>
+                                </h1>
                             </div>
-                            <h1 className="text-xl font-bold text-white">
-                                Supplier<span className="text-primary">SaaS</span>
-                            </h1>
-                        </div>
-                        <div className="flex items-center space-x-4">
-                            <span className="text-sm text-slate-400">{userData.email}</span>
-                            {process.env.NEXT_PUBLIC_ADMIN_EMAILS?.split(',').includes(user.email) && (
+                            <div className="flex items-center gap-2 md:gap-4">
+                                <span className="hidden sm:block text-xs md:text-sm text-slate-400 truncate max-w-[120px] md:max-w-none">{userData.email}</span>
+                                {process.env.NEXT_PUBLIC_ADMIN_EMAILS?.split(',').includes(user.email) && (
+                                    <button
+                                        onClick={() => router.push('/admin')}
+                                        className="text-primary hover:text-primary/80 font-semibold text-xs md:text-sm transition-colors flex items-center gap-1"
+                                    >
+                                        <span className="material-icons text-sm md:text-base">admin_panel_settings</span>
+                                        <span className="hidden sm:inline">Admin</span>
+                                    </button>
+                                )}
                                 <button
-                                    onClick={() => router.push('/admin')}
-                                    className="text-primary hover:text-primary/80 font-semibold text-sm transition-colors flex items-center gap-1"
+                                    onClick={logout}
+                                    className="text-red-400 hover:text-red-300 font-semibold text-xs md:text-sm transition-colors"
                                 >
-                                    <span className="material-icons text-sm">admin_panel_settings</span>
-                                    Admin
+                                    <span className="hidden sm:inline">Odhlásit se</span>
+                                    <span className="material-icons sm:hidden text-base">logout</span>
                                 </button>
-                            )}
-                            <button
-                                onClick={logout}
-                                className="text-red-400 hover:text-red-300 font-semibold text-sm transition-colors"
-                            >
-                                Odhlásit se
-                            </button>
+                            </div>
                         </div>
                     </div>
                 </nav>
 
-                <div className="container mx-auto px-6 py-8">
+                <div className="container mx-auto px-4 sm:px-6 py-6 md:py-8">
                     {/* Subscription Warning */}
                     {!isActive && (
-                        <div className="bg-yellow-500/10 border border-yellow-500/50 rounded-xl p-6 mb-6 flex items-start gap-4">
-                            <span className="material-icons text-yellow-500 text-3xl">warning</span>
+                        <div className="bg-yellow-500/10 border border-yellow-500/50 rounded-xl p-4 md:p-6 mb-4 md:mb-6 flex flex-col sm:flex-row items-start gap-3 md:gap-4">
+                            <span className="material-icons text-yellow-500 text-2xl md:text-3xl">warning</span>
                             <div className="flex-1">
-                                <h3 className="text-yellow-500 font-bold text-lg mb-2">Vyžadováno předplatné</h3>
-                                <p className="text-slate-300 mb-4">
+                                <h3 className="text-yellow-500 font-bold text-base md:text-lg mb-2">Vyžadováno předplatné</h3>
+                                <p className="text-slate-300 text-sm md:text-base mb-3 md:mb-4">
                                     Vaše předplatné je neaktivní. Přihlašte se k aktivaci vašeho affiliátního odkazu a začněte vydělávat provize.
                                 </p>
                                 <button
                                     onClick={() => router.push('/pricing')}
-                                    className="bg-gradient-primary text-white px-6 py-2 rounded-lg font-semibold hover:shadow-lg hover:shadow-primary/30 transition-all"
+                                    className="bg-gradient-primary text-white px-4 md:px-6 py-2 rounded-lg text-sm md:text-base font-semibold hover:shadow-lg hover:shadow-primary/30 transition-all w-full sm:w-auto"
                                 >
                                     Předplatit nyní
                                 </button>
@@ -214,41 +217,135 @@ export default function Dashboard() {
                     )}
 
                     {/* Referral Link */}
-                    <div className="bg-surface-dark rounded-xl shadow-xl p-6 mb-6 border border-slate-700">
-                        <h2 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-                            <span className="material-icons text-primary">link</span>
+                    <div className="bg-surface-dark rounded-xl shadow-xl p-4 md:p-6 mb-4 md:mb-6 border border-slate-700">
+                        <h2 className="text-base md:text-lg font-semibold text-white mb-3 md:mb-4 flex items-center gap-2">
+                            <span className="material-icons text-primary text-xl md:text-2xl">link</span>
                             Váš unikátní affiliátní odkaz
                         </h2>
-                        <div className="flex gap-2">
+                        <div className="flex flex-col sm:flex-row gap-2">
                             <input
                                 type="text"
                                 value={referralLink}
                                 readOnly
-                                className="flex-1 bg-slate-800 border border-slate-600 rounded-lg px-4 py-3 text-slate-300 font-mono text-sm"
+                                className="flex-1 bg-slate-800 border border-slate-600 rounded-lg px-3 md:px-4 py-2 md:py-3 text-slate-300 font-mono text-xs md:text-sm"
                             />
                             <button
                                 onClick={copyLink}
-                                className="bg-gradient-primary text-white px-6 py-3 rounded-lg font-semibold hover:shadow-lg hover:shadow-primary/30 transition-all whitespace-nowrap"
+                                className="bg-gradient-primary text-white px-4 md:px-6 py-2 md:py-3 rounded-lg text-sm md:text-base font-semibold hover:shadow-lg hover:shadow-primary/30 transition-all whitespace-nowrap flex items-center justify-center gap-1"
                             >
                                 {copied ? (
                                     <>
-                                        <span className="material-icons text-sm">check</span> Zkopírováno!
+                                        <span className="material-icons text-sm md:text-base">check</span> <span className="hidden sm:inline">Zkopírováno!</span>
                                     </>
                                 ) : (
                                     <>
-                                        <span className="material-icons text-sm">content_copy</span> Zkopírovat
+                                        <span className="material-icons text-sm md:text-base">content_copy</span> <span className="hidden sm:inline">Zkopírovat</span>
                                     </>
                                 )}
                             </button>
                         </div>
-                        <p className="text-sm text-slate-400 mt-3 flex items-center gap-1">
-                            <span className="material-icons text-xs">info</span>
-                            Sdílejte tento odkaz a vydělávejte 100% provizi za každý prodej
+                        <p className="text-xs md:text-sm text-slate-400 mt-2 md:mt-3 flex items-start md:items-center gap-1">
+                            <span className="material-icons text-xs mt-0.5 md:mt-0">info</span>
+                            <span>Sdílejte tento odkaz a vydělávejte 100% provizi za každý prodej</span>
                         </p>
                     </div>
 
+                    {/* View Store Section */}
+                    <div className="bg-surface-dark rounded-xl shadow-xl p-6 mb-6 border border-slate-700">
+                        <div className="flex items-center justify-between mb-6">
+                            <h2 className="text-lg font-semibold text-white flex items-center gap-2">
+                                <span className="material-icons text-primary">storefront</span>
+                                Obchod s produkty
+                            </h2>
+                            <button
+                                onClick={() => router.push('/store')}
+                                className="text-primary hover:text-primary/80 font-semibold text-sm transition-colors flex items-center gap-1"
+                            >
+                                Zobrazit vše
+                                <span className="material-icons text-sm">arrow_forward</span>
+                            </button>
+                        </div>
+
+                        {/* Featured Products Grid */}
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                            {[
+                                {
+                                    id: 1,
+                                    title: 'All Premium Suppliers Links Bundle',
+                                    price: '1.281,00 Kč',
+                                    rating: 5,
+                                    reviews: 13
+                                },
+                                {
+                                    id: 2,
+                                    title: 'All Regular Supplier Links Bundle',
+                                    price: '854,00 Kč',
+                                    rating: 5,
+                                    reviews: 11
+                                },
+                                {
+                                    id: 4,
+                                    title: 'Branded Knitwear Suppliers',
+                                    price: '427,00 Kč',
+                                    rating: 5,
+                                    reviews: 4
+                                },
+                                {
+                                    id: 5,
+                                    title: 'Nike Clothing Suppliers',
+                                    price: '427,00 Kč',
+                                    rating: 5,
+                                    reviews: 7
+                                }
+                            ].map((product) => (
+                                <div
+                                    key={product.id}
+                                    onClick={() => router.push('/store')}
+                                    className="bg-slate-800 rounded-lg overflow-hidden border border-slate-700 hover:border-primary/50 transition-all cursor-pointer group"
+                                >
+                                    {/* Product Image Placeholder */}
+                                    <div className="relative aspect-square bg-slate-900 p-4 flex items-center justify-center">
+                                        <div className="text-slate-600 text-center">
+                                            <span className="material-icons text-4xl mb-1 group-hover:text-primary transition-colors">inventory_2</span>
+                                            <p className="text-xs text-slate-500 line-clamp-2">{product.title}</p>
+                                        </div>
+                                    </div>
+
+                                    {/* Product Info */}
+                                    <div className="p-3">
+                                        <h3 className="font-semibold text-white text-sm mb-2 line-clamp-2 min-h-[40px]">
+                                            {product.title}
+                                        </h3>
+
+                                        {/* Rating */}
+                                        <div className="flex items-center gap-1 mb-2">
+                                            {[...Array(5)].map((_, i) => (
+                                                <span key={i} className="text-yellow-400 text-xs">★</span>
+                                            ))}
+                                            <span className="text-slate-400 text-xs ml-1">({product.reviews})</span>
+                                        </div>
+
+                                        {/* Price */}
+                                        <p className="text-primary font-bold text-base">{product.price}</p>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+
+                        {/* View All Button */}
+                        <div className="mt-6 text-center">
+                            <button
+                                onClick={() => router.push('/store')}
+                                className="bg-gradient-primary text-white px-8 py-3 rounded-lg font-semibold hover:shadow-lg hover:shadow-primary/30 transition-all inline-flex items-center gap-2"
+                            >
+                                <span className="material-icons text-sm">shopping_bag</span>
+                                Zobrazit všechny produkty
+                            </button>
+                        </div>
+                    </div>
+
                     {/* Stats Grid */}
-                    <div className="grid md:grid-cols-4 gap-6 mb-6">
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-6 mb-4 md:mb-6">
                         <div className="bg-surface-dark rounded-xl shadow-xl p-6 border border-slate-700">
                             <div className="flex items-center justify-between mb-2">
                                 <h3 className="text-slate-400 text-sm font-medium">Celkem prodejů</h3>

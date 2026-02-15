@@ -1,11 +1,12 @@
 import { useAuth } from '../context/AuthContext';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Head from 'next/head';
 
 export default function Home() {
     const { user, loading } = useAuth();
     const router = useRouter();
+    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
     useEffect(() => {
         if (!loading && user) {
@@ -30,16 +31,16 @@ export default function Home() {
                 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
             </Head>
 
-            <div className="bg-background-dark text-white min-h-screen">
+            <div className="bg-background-dark text-white min-h-screen overflow-x-hidden">
                 {/* Navigation */}
                 <nav className="sticky top-0 z-50 bg-background-dark/80 backdrop-blur-md border-b border-slate-800">
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                        <div className="flex justify-between items-center h-20">
+                        <div className="flex justify-between items-center h-16 md:h-20">
                             <div className="flex items-center gap-2">
-                                <div className="w-10 h-10 bg-gradient-primary rounded-lg flex items-center justify-center">
-                                    <span className="material-icons text-white">rocket_launch</span>
+                                <div className="w-8 h-8 md:w-10 md:h-10 bg-gradient-primary rounded-lg flex items-center justify-center">
+                                    <span className="material-icons text-white text-xl md:text-2xl">rocket_launch</span>
                                 </div>
-                                <span className="text-xl font-extrabold tracking-tight text-white">
+                                <span className="text-lg md:text-xl font-extrabold tracking-tight text-white">
                                     Supplier<span className="text-primary">SaaS</span>
                                 </span>
                             </div>
@@ -66,25 +67,69 @@ export default function Home() {
                                     Start Free Trial
                                 </button>
                             </div>
-                            <div className="md:hidden">
-                                <span className="material-icons text-white">menu</span>
-                            </div>
+                            <button
+                                className="md:hidden p-2"
+                                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                            >
+                                <span className="material-icons text-white">{mobileMenuOpen ? 'close' : 'menu'}</span>
+                            </button>
                         </div>
                     </div>
+
+                    {/* Mobile Menu */}
+                    {mobileMenuOpen && (
+                        <div className="md:hidden bg-background-dark border-t border-slate-800">
+                            <div className="px-4 py-4 space-y-3">
+                                <a
+                                    className="block text-sm font-semibold text-slate-400 hover:text-white transition-colors py-2"
+                                    href="#features"
+                                    onClick={() => setMobileMenuOpen(false)}
+                                >
+                                    Features
+                                </a>
+                                <a
+                                    className="block text-sm font-semibold text-slate-400 hover:text-white transition-colors py-2"
+                                    href="#how-it-works"
+                                    onClick={() => setMobileMenuOpen(false)}
+                                >
+                                    How it Works
+                                </a>
+                                <a
+                                    className="block text-sm font-semibold text-slate-400 hover:text-white transition-colors py-2"
+                                    href="#pricing"
+                                    onClick={() => setMobileMenuOpen(false)}
+                                >
+                                    Pricing
+                                </a>
+                                <button
+                                    onClick={() => router.push('/login')}
+                                    className="w-full text-sm font-semibold text-white border border-slate-700 px-5 py-2.5 rounded-lg hover:bg-slate-800 transition-all"
+                                >
+                                    Login
+                                </button>
+                                <button
+                                    onClick={() => router.push('/signup')}
+                                    className="w-full text-sm font-semibold bg-gradient-primary text-white px-6 py-2.5 rounded-lg hover:shadow-lg hover:shadow-primary/20 transition-all"
+                                >
+                                    Start Free Trial
+                                </button>
+                            </div>
+                        </div>
+                    )}
                 </nav>
 
                 {/* Hero Section */}
-                <header className="relative overflow-hidden pt-16 pb-24 lg:pt-32 lg:pb-40">
+                <header className="relative overflow-hidden pt-12 pb-16 md:pt-16 md:pb-24 lg:pt-32 lg:pb-40">
                     <div className="absolute inset-0 -z-10 bg-[radial-gradient(45%_45%_at_50%_50%,rgba(59,130,246,0.15)_0%,transparent_100%)]"></div>
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/30 text-primary text-sm font-bold mb-8">
+                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/30 text-primary text-xs md:text-sm font-bold mb-6 md:mb-8">
                             <span className="flex h-2 w-2 rounded-full bg-primary animate-pulse"></span>
                             Join 500+ successful store owners
                         </div>
-                        <h1 className="text-5xl lg:text-7xl font-extrabold text-white tracking-tight leading-[1.1] mb-6">
+                        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-extrabold text-white tracking-tight leading-[1.1] mb-4 md:mb-6">
                             Launch Your Own <br /> <span className="text-gradient">Supplier Store</span> in Minutes
                         </h1>
-                        <p className="max-w-2xl mx-auto text-xl text-slate-400 mb-10 leading-relaxed">
+                        <p className="max-w-2xl mx-auto text-base md:text-xl text-slate-400 mb-8 md:mb-10 leading-relaxed px-4">
                             The ultimate 100% profit model. Sell verified Vinted supplier lists through your own branded storefront without writing a single line of code.
                         </p>
                         <div className="flex flex-col sm:flex-row justify-center items-center gap-4">
@@ -99,7 +144,7 @@ export default function Home() {
                                 Watch Demo
                             </button>
                         </div>
-                        <div className="mt-20 relative">
+                        <div className="mt-12 md:mt-20 relative">
                             <div className="absolute -inset-4 bg-gradient-to-r from-primary/20 to-accent/20 blur-3xl rounded-[3rem] -z-10"></div>
                             <div className="rounded-2xl border border-slate-700 shadow-2xl bg-slate-900/50 p-2 backdrop-blur-sm">
                                 <img
@@ -186,8 +231,8 @@ export default function Home() {
                                     </div>
                                 </div>
                             </div>
-                            <div className="relative">
-                                <div className="aspect-square bg-primary/5 rounded-[4rem] absolute -top-10 -right-10 w-full h-full -z-10 rotate-6 border border-primary/20"></div>
+                            <div className="relative overflow-hidden">
+                                <div className="aspect-square bg-primary/5 rounded-[4rem] absolute -top-10 -right-10 w-full h-full -z-10 rotate-6 border border-primary/20 hidden md:block"></div>
                                 <div className="rounded-3xl overflow-hidden shadow-2xl border border-slate-700">
                                     <img
                                         className="w-full h-full object-cover brightness-75"

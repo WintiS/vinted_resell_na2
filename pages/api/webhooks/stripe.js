@@ -123,8 +123,8 @@ export default async function handler(req, res) {
                             if (!usersSnapshot.empty) {
                                 const affiliateDoc = usersSnapshot.docs[0];
 
-                                // Calculate commission (10% for store purchases, 100% for subscriptions)
-                                const commissionRate = productIds ? 0.10 : 1.0; // 10% for store, 100% for subs
+                                // Calculate commission (100% for store purchases, 10% for subscriptions)
+                                const commissionRate = productIds ? 1.0 : 0.10; // 100% for store, 10% for subs
                                 const commission = amount * commissionRate;
 
                                 // Create sale record

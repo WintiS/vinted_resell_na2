@@ -358,21 +358,21 @@ export default function Dashboard() {
                                 <h3 className="text-slate-400 text-sm font-medium">Tento měsíc</h3>
                                 <span className="material-icons text-green-500">trending_up</span>
                             </div>
-                            <p className="text-3xl font-bold text-green-500">${stats.thisMonth.toFixed(2)}</p>
+                            <p className="text-3xl font-bold text-green-500">${stats.thisMonth.toFixed(0)}</p>
                         </div>
                         <div className="bg-surface-dark rounded-xl shadow-xl p-6 border border-slate-700">
                             <div className="flex items-center justify-between mb-2">
                                 <h3 className="text-slate-400 text-sm font-medium">Minulý měsíc</h3>
                                 <span className="material-icons text-slate-500">calendar_month</span>
                             </div>
-                            <p className="text-3xl font-bold text-slate-300">${stats.lastMonth.toFixed(2)}</p>
+                            <p className="text-3xl font-bold text-slate-300">${stats.lastMonth.toFixed(0)}</p>
                         </div>
                         <div className="bg-surface-dark rounded-xl shadow-xl p-6 border border-slate-700">
                             <div className="flex items-center justify-between mb-2">
                                 <h3 className="text-slate-400 text-sm font-medium">Dostupný zůstatek</h3>
                                 <span className="material-icons text-blue-500">account_balance_wallet</span>
                             </div>
-                            <p className="text-3xl font-bold text-blue-500">${(userData.availableBalance || 0).toFixed(2)}</p>
+                            <p className="text-3xl font-bold text-blue-500">${(userData.availableBalance || 0).toFixed(0)}</p>
                             {(userData.availableBalance || 0) >= 50 && (
                                 <button className="mt-3 bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-green-700 w-full transition-colors">
                                     Požádat o výběr
@@ -412,9 +412,9 @@ export default function Dashboard() {
                                                     {sale.createdAt?.toLocaleDateString()}
                                                 </td>
                                                 <td className="py-3 px-2 text-white">{sale.productName}</td>
-                                                <td className="text-right py-3 px-2 text-slate-300">${sale.amount.toFixed(2)}</td>
+                                                <td className="text-right py-3 px-2 text-slate-300">${sale.amount.toFixed(0)}</td>
                                                 <td className="text-right py-3 px-2 text-green-400 font-semibold">
-                                                    ${sale.commission.toFixed(2)}
+                                                    ${sale.commission.toFixed(0)}
                                                 </td>
                                                 <td className="text-center py-3 px-2">
                                                     <span className={`px-3 py-1 rounded-full text-xs font-semibold ${sale.status === 'completed'

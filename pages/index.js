@@ -157,6 +157,110 @@ export default function Home() {
                     </div>
                 </header>
 
+                {/* Infinite Scrolling Icons */}
+                <section className="py-12 bg-slate-900/30 border-y border-slate-800 overflow-hidden">
+                    <div className="text-center mb-8 px-4">
+                        <h3 className="text-2xl md:text-3xl font-bold text-white mb-2">
+                            One platform.
+                        </h3>
+                        <p className="text-slate-400 text-lg">
+                            Over <span className="text-primary font-bold">$450+ in savings every month</span> by replacing all of these subscriptions:
+                        </p>
+                    </div>
+                    <div className="relative">
+                        <style jsx>{`
+                            @keyframes scroll-left {
+                                0% {
+                                    transform: translateX(0);
+                                }
+                                100% {
+                                    transform: translateX(-50%);
+                                }
+                            }
+                            .scroll-container {
+                                animation: scroll-left 30s linear infinite;
+                            }
+                            .scroll-container:hover {
+                                animation-play-state: paused;
+                            }
+                        `}</style>
+
+                        <div className="flex scroll-container">
+                            {/* First set of icons */}
+                            <div className="flex items-center gap-12 px-6 flex-shrink-0">
+                                <div className="flex items-center gap-3 px-6 py-4 bg-slate-800/50 rounded-xl border border-slate-700">
+                                    <span className="material-icons text-primary text-3xl">shopping_cart</span>
+                                    <span className="text-white font-bold text-lg">Shopify</span>
+                                </div>
+                                <div className="flex items-center gap-3 px-6 py-4 bg-slate-800/50 rounded-xl border border-slate-700">
+                                    <span className="material-icons text-primary text-3xl">store</span>
+                                    <span className="text-white font-bold text-lg">WooCommerce</span>
+                                </div>
+                                <div className="flex items-center gap-3 px-6 py-4 bg-slate-800/50 rounded-xl border border-slate-700">
+                                    <span className="material-icons text-primary text-3xl">language</span>
+                                    <span className="text-white font-bold text-lg">Wix</span>
+                                </div>
+                                <div className="flex items-center gap-3 px-6 py-4 bg-slate-800/50 rounded-xl border border-slate-700">
+                                    <span className="material-icons text-primary text-3xl">web</span>
+                                    <span className="text-white font-bold text-lg">Squarespace</span>
+                                </div>
+                                <div className="flex items-center gap-3 px-6 py-4 bg-slate-800/50 rounded-xl border border-slate-700">
+                                    <span className="material-icons text-primary text-3xl">payment</span>
+                                    <span className="text-white font-bold text-lg">Stripe</span>
+                                </div>
+                                <div className="flex items-center gap-3 px-6 py-4 bg-slate-800/50 rounded-xl border border-slate-700">
+                                    <span className="material-icons text-primary text-3xl">account_balance</span>
+                                    <span className="text-white font-bold text-lg">PayPal</span>
+                                </div>
+                                <div className="flex items-center gap-3 px-6 py-4 bg-slate-800/50 rounded-xl border border-slate-700">
+                                    <span className="material-icons text-primary text-3xl">inventory</span>
+                                    <span className="text-white font-bold text-lg">BigCommerce</span>
+                                </div>
+                                <div className="flex items-center gap-3 px-6 py-4 bg-slate-800/50 rounded-xl border border-slate-700">
+                                    <span className="material-icons text-primary text-3xl">local_shipping</span>
+                                    <span className="text-white font-bold text-lg">Vinted</span>
+                                </div>
+                            </div>
+
+                            {/* Duplicate set for seamless loop */}
+                            <div className="flex items-center gap-12 px-6 flex-shrink-0">
+                                <div className="flex items-center gap-3 px-6 py-4 bg-slate-800/50 rounded-xl border border-slate-700">
+                                    <span className="material-icons text-primary text-3xl">shopping_cart</span>
+                                    <span className="text-white font-bold text-lg">Shopify</span>
+                                </div>
+                                <div className="flex items-center gap-3 px-6 py-4 bg-slate-800/50 rounded-xl border border-slate-700">
+                                    <span className="material-icons text-primary text-3xl">store</span>
+                                    <span className="text-white font-bold text-lg">WooCommerce</span>
+                                </div>
+                                <div className="flex items-center gap-3 px-6 py-4 bg-slate-800/50 rounded-xl border border-slate-700">
+                                    <span className="material-icons text-primary text-3xl">language</span>
+                                    <span className="text-white font-bold text-lg">Wix</span>
+                                </div>
+                                <div className="flex items-center gap-3 px-6 py-4 bg-slate-800/50 rounded-xl border border-slate-700">
+                                    <span className="material-icons text-primary text-3xl">web</span>
+                                    <span className="text-white font-bold text-lg">Squarespace</span>
+                                </div>
+                                <div className="flex items-center gap-3 px-6 py-4 bg-slate-800/50 rounded-xl border border-slate-700">
+                                    <span className="material-icons text-primary text-3xl">payment</span>
+                                    <span className="text-white font-bold text-lg">Stripe</span>
+                                </div>
+                                <div className="flex items-center gap-3 px-6 py-4 bg-slate-800/50 rounded-xl border border-slate-700">
+                                    <span className="material-icons text-primary text-3xl">account_balance</span>
+                                    <span className="text-white font-bold text-lg">PayPal</span>
+                                </div>
+                                <div className="flex items-center gap-3 px-6 py-4 bg-slate-800/50 rounded-xl border border-slate-700">
+                                    <span className="material-icons text-primary text-3xl">inventory</span>
+                                    <span className="text-white font-bold text-lg">BigCommerce</span>
+                                </div>
+                                <div className="flex items-center gap-3 px-6 py-4 bg-slate-800/50 rounded-xl border border-slate-700">
+                                    <span className="material-icons text-primary text-3xl">local_shipping</span>
+                                    <span className="text-white font-bold text-lg">Vinted</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
                 {/* How it Works */}
                 <section className="py-24 bg-slate-900/50" id="how-it-works">
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

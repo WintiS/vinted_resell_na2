@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
+import { useLanguage } from '../context/LanguageContext';
+import LanguageToggle from '../components/LanguageToggle';
 
 export default function Login() {
     const [email, setEmail] = useState('');
@@ -10,6 +12,7 @@ export default function Login() {
     const [loading, setLoading] = useState(false);
     const { loginWithEmail, signInWithGoogle } = useAuth();
     const router = useRouter();
+    const { t } = useLanguage();
 
     const handleEmailLogin = async (e) => {
         e.preventDefault();
@@ -43,18 +46,23 @@ export default function Login() {
     return (
         <>
             <Head>
-                <title>Přihlášení | SupplierSaaS</title>
+                <title>{t('login.pageTitle')}</title>
                 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
             </Head>
 
-            <div className="min-h-screen bg-background-dark flex items-center justify-center px-4 sm:px-6 py-8">
+            <div className="min-h-screen bg-background-dark flex items-center justify-center px-4 sm:px-6 py-8 relative">
+                {/* Language toggle */}
+                <div className="absolute top-4 right-4">
+                    <LanguageToggle variant="minimal" />
+                </div>
+
                 <div className="max-w-md w-full bg-surface-dark rounded-2xl shadow-2xl p-6 md:p-8 border border-slate-700">
                     <div className="text-center mb-6 md:mb-8">
                         <div className="w-14 h-14 md:w-16 md:h-16 bg-gradient-primary rounded-xl flex items-center justify-center mx-auto mb-3 md:mb-4">
                             <span className="material-icons text-white text-2xl md:text-3xl">rocket_launch</span>
                         </div>
-                        <h2 className="text-2xl md:text-3xl font-bold text-white mb-2">Vítejte zpět</h2>
-                        <p className="text-sm md:text-base text-slate-400">Přihlašte se pro přístup k vašemu přehledu</p>
+                        <h2 className="text-2xl md:text-3xl font-bold text-white mb-2">{t('login.title')}</h2>
+                        <p className="text-sm md:text-base text-slate-400">{t('login.subtitle')}</p>
                     </div>
 
                     {error && (
@@ -65,26 +73,26 @@ export default function Login() {
 
                     <form onSubmit={handleEmailLogin} className="space-y-4">
                         <div>
-                            <label className="block text-sm font-medium text-slate-300 mb-2">E-mail</label>
+                            <label className="block text-sm font-medium text-slate-300 mb-2">{t('login.email')}</label>
                             <input
                                 type="email"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                                 className="w-full bg-slate-800 border border-slate-600 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
                                 required
-                                placeholder="vas-email@priklad.cz"
+                                placeholder={t('login.emailPlaceholder')}
                             />
                         </div>
 
                         <div>
-                            <label className="block text-sm font-medium text-slate-300 mb-2">Heslo</label>
+                            <label className="block text-sm font-medium text-slate-300 mb-2">{t('login.password')}</label>
                             <input
                                 type="password"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                                 className="w-full bg-slate-800 border border-slate-600 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
                                 required
-                                placeholder="••••••••"
+                                placeholder={t('login.passwordPlaceholder')}
                             />
                         </div>
 
@@ -93,7 +101,7 @@ export default function Login() {
                             disabled={loading}
                             className="w-full bg-gradient-primary text-white py-3 rounded-lg font-semibold hover:shadow-lg hover:shadow-primary/30 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                         >
-                            {loading ? 'Přihlašuji...' : 'Přihlásit se'}
+                            {loading ? t('login.signingIn') : t('login.submit')}
                         </button>
                     </form>
 
@@ -103,7 +111,7 @@ export default function Login() {
                                 <div className="w-full border-t border-slate-700"></div>
                             </div>
                             <div className="relative flex justify-center text-sm">
-                                <span className="px-2 bg-surface-dark text-slate-400">nebo</span>
+                                <span className="px-2 bg-surface-dark text-slate-400">{t('login.or')}</span>
                             </div>
                         </div>
                     </div>
@@ -119,16 +127,16 @@ export default function Login() {
                             <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" />
                             <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
                         </svg>
-                        <span>Pokračovat s Google</span>
+                        <span>{t('login.googleBtn')}</span>
                     </button>
 
                     <p className="text-center mt-8 text-sm text-slate-400">
-                        Nemáte účet?{' '}
+                        {t('login.noAccount')}{' '}
                         <button
                             onClick={() => router.push('/signup')}
                             className="text-primary hover:underline font-semibold"
                         >
-                            Zaregistrujte se
+                            {t('login.signupLink')}
                         </button>
                     </p>
                 </div>

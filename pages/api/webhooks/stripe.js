@@ -1,6 +1,7 @@
 import { buffer } from 'micro';
 import Stripe from 'stripe';
 import admin from '../../../lib/firebase-admin';
+import { sendPurchaseConfirmationEmail } from '../../../lib/email';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
@@ -228,6 +229,31 @@ export default async function handler(req, res) {
                     } catch (error) {
                         console.error('❌ Error recording purchase:', error);
                         // Don't throw - this is just for record keeping
+                    }
+
+                    // Send purchase confirmation email
+                    if (customerEmail && (productNames || productName)) {
+                        try {
+                            const emailResult = await sendPurchaseConfirmationEmail(
+                                customerEmail,
+                                productNames || productName,
+                                session.id
+                            );
+                            
+                            if (!emailResult.success) {
+                                console.error(`⚠️ Failed to send confirmation email to ${customerEmail}:`, emailResult.error);
+                            }
+                        } catch (error) {
+                            console.error('❌ Error sending purchase confirmation email:', error);
+                            // Don't throw - email failure should not break the webhook
+                        }
+                    } else {
+                        if (!customerEmail) {
+                            console.log(`⚠️ Skipping email: No customer email for session ${session.id}`);
+                        }
+                        if (!productNames && !productName) {
+                            console.log(`⚠️ Skipping email: No product names for session ${session.id}`);
+                        }
                     }
                 }
                 break;

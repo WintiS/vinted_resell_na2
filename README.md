@@ -86,6 +86,7 @@ vinted_resell_na2/
 ├── lib/
 │   ├── firebase.js                   # Firebase client config
 │   ├── firebase-admin.js             # Firebase Admin SDK
+│   ├── email.js                      # Email sending (Resend)
 │   ├── utils.js                      # Utility functions
 │   └── constants.js                  # App constants
 ├── styles/
@@ -126,6 +127,10 @@ NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_test_xxx
 STRIPE_SECRET_KEY=sk_test_xxx
 STRIPE_WEBHOOK_SECRET=whsec_xxx
 
+# Email (Resend)
+RESEND_API_KEY=re_xxxxxxxxxxxxx
+RESEND_FROM_EMAIL=onboarding@resend.dev  # Optional: Use your verified domain email
+
 # App
 NEXT_PUBLIC_BASE_URL=http://localhost:3000
 NEXT_PUBLIC_ADMIN_EMAILS=your-email@example.com
@@ -147,7 +152,13 @@ NEXT_PUBLIC_ADMIN_EMAILS=your-email@example.com
 4. Set up webhook endpoint: `http://localhost:3000/api/webhooks/stripe`
 5. Add webhook secret to `.env.local`
 
-### 5. Run Development Server
+### 5. Set Up Email (Resend)
+1. Create account at [Resend](https://resend.com/)
+2. Get your API key from the dashboard
+3. Add `RESEND_API_KEY` to `.env.local`
+4. (Optional) Verify your domain and set `RESEND_FROM_EMAIL` to use your custom domain
+
+### 6. Run Development Server
 ```bash
 npm run dev
 ```
@@ -309,7 +320,7 @@ NEXT_PUBLIC_ADMIN_EMAILS=admin@example.com
 
 ## 🎯 Roadmap
 
-- [ ] Email notifications
+- [x] Email notifications (purchase confirmations)
 - [ ] Withdrawal processing automation
 - [ ] Advanced analytics dashboard
 - [ ] Marketing materials and training

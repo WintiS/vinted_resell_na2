@@ -14,6 +14,17 @@ export function LanguageProvider({ children }) {
         const saved = localStorage.getItem('lang');
         if (saved === 'en' || saved === 'cs') {
             setLang(saved);
+            return;
+        }
+
+        // If no saved preference, detect browser language on first visit
+        if (typeof navigator !== 'undefined') {
+            const browserLang = navigator.language || navigator.userLanguage;
+            if (browserLang && browserLang.toLowerCase().startsWith('cs')) {
+                setLang('cs');
+            } else {
+                setLang('en');
+            }
         }
     }, []);
 

@@ -150,8 +150,8 @@ export default function Home() {
     }, []);
 
     const pricingConfig = {
-        monthly: { price: 29, originalPrice: 42, priceId: 'price_1T0ekuK0Js68kvLkMYhxx8CM', interval: 'month' },
-        yearly: { price: 290, originalPrice: 414, priceId: 'price_1T0elcK0Js68kvLk6VSn2qZi', interval: 'year' }
+        monthly: { price: 17, originalPrice: 42, priceId: 'price_1T0ekuK0Js68kvLkMYhxx8CM', interval: 'month' },
+        yearly: { price: 85, originalPrice: 414, priceId: 'price_1T0elcK0Js68kvLk6VSn2qZi', interval: 'year' }
     };
 
     const currentPlan = isYearly ? pricingConfig.yearly : pricingConfig.monthly;
@@ -516,6 +516,9 @@ export default function Home() {
                                         {t(card.titleKey)}
                                     </p>
                                     <p className="text-slate-400 text-base sm:text-lg leading-relaxed">{t(card.descKey)}</p>
+                                    <button onClick={() => router.push('/signup')} className="mt-6 inline-flex items-center gap-2 px-8 py-4 bg-gradient-primary text-white font-bold rounded-xl hover:shadow-lg hover:shadow-primary/30 transition-all">
+                                    {t('hiw.step1.cta')} <span className="material-icons">arrow_forward</span>
+                                    </button>
                                 </div>
                             ))}
                         </div>
@@ -577,14 +580,7 @@ export default function Home() {
                                     {t('pricing.cta')}
                                     <span className="material-icons">arrow_forward</span>
                                 </button>
-                                <div className="flex items-center justify-center gap-2 mb-6 pb-6 border-b border-slate-700">
-                                    <span className="text-white font-semibold">{t('pricing.trustpilot.excellent')}</span>
-                                    <span className="text-slate-400">{t('pricing.trustpilot.rating')}</span>
-                                    <div className="flex items-center gap-0.5">
-                                        {[...Array(5)].map((_, i) => (<span key={i} className="material-icons text-green-500 text-sm">star</span>))}
-                                    </div>
-                                    <span className="text-slate-400">{t('pricing.trustpilot.name')}</span>
-                                </div>
+                                
                                 <div className="rounded-xl overflow-hidden bg-slate-800 p-2">
                                     <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=400&fit=crop" alt="Platform preview" className="w-full h-auto rounded-lg" />
                                 </div>
@@ -657,7 +653,7 @@ export default function Home() {
                                 <button onClick={() => router.push('/signup')} className="bg-white text-primary px-12 py-5 rounded-xl font-extrabold text-lg shadow-2xl hover:bg-blue-50 transition-all">
                                     {t('cta.primary')}
                                 </button>
-                                <button className="bg-transparent border-2 border-white/30 text-white px-12 py-5 rounded-xl font-extrabold text-lg hover:bg-white/10 transition-all">
+                                <button onClick={() => router.push('/store')} className="bg-transparent border-2 border-white/30 text-white px-12 py-5 rounded-xl font-extrabold text-lg hover:bg-white/10 transition-all">
                                     {t('cta.secondary')}
                                 </button>
                             </div>

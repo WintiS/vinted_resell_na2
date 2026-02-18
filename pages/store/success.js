@@ -71,7 +71,7 @@ function SuccessPage() {
 
                     <div className="space-y-3">
                         <button
-                            onClick={() => router.push('/dashboard')}
+                            onClick={() => router.push('/store')}
                             className="w-full bg-[#9d34da] hover:bg-[#8a2cc2] text-white font-bold py-4 rounded-xl transition-all transform hover:scale-[1.02]"
                         >
                             {t('storeSuccess.toDashboard')}
@@ -83,7 +83,7 @@ function SuccessPage() {
                             {t('storeSuccess.continueShopping')}
                         </button>
                         <button
-                            onClick={() => router.push('/')}
+                            onClick={() => router.push('/store')}
                             className="w-full bg-transparent border border-zinc-700 hover:border-zinc-600 text-gray-400 hover:text-white font-bold py-4 rounded-xl transition-all"
                         >
                             {t('storeSuccess.backToHome')}

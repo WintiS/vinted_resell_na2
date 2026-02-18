@@ -8,31 +8,52 @@ export default async function handler(req, res) {
     }
 
     try {
-        const { items, referralCode } = req.body;
+        const { items, referralCode, currency } = req.body;
 
         if (!items || items.length === 0) {
             return res.status(400).json({ error: 'No items in cart' });
         }
 
-        // Parse price from Czech format (e.g., "1.281,00 Kč") to cents
-        const parsePriceToKc = (priceStr) => {
-            // Remove everything except digits, dots, and commas
-            const cleaned = priceStr.replace(/[^\d.,]/g, '');
-            // Replace comma with dot and parse
-            const numericPrice = parseFloat(cleaned.replace(/\./g, '').replace(',', '.'));
-            // Return price in korunas (smallest unit for CZK is 1 koruna = 100 haléřů, but we use whole korunas)
-            return Math.round(numericPrice);
+        const USD_TO_CZK = 23;
+
+        const checkoutCurrency = (currency || 'czk').toLowerCase();
+        if (checkoutCurrency !== 'czk' && checkoutCurrency !== 'usd') {
+            return res.status(400).json({ error: 'Invalid currency' });
+        }
+
+        // Returns unit_amount for Stripe (in the smallest currency unit: cents/haléřů)
+        const getUnitAmount = (item) => {
+            // Preferred: priceUsd (number)
+            if (item.priceUsd !== undefined) {
+                if (checkoutCurrency === 'usd') {
+                    return Math.round(item.priceUsd * 100);
+                }
+                // czk
+                return Math.round(item.priceUsd * USD_TO_CZK) * 100;
+            }
+
+            // Legacy: price string (assumed CZK, e.g., "1.281,00 Kč")
+            if (item.price) {
+                if (checkoutCurrency !== 'czk') {
+                    throw new Error(`Legacy price format only supported for CZK checkout: ${item.title}`);
+                }
+                const cleaned = item.price.replace(/[^\d.,]/g, '');
+                const numericPrice = parseFloat(cleaned.replace(/\./g, '').replace(',', '.'));
+                return Math.round(numericPrice) * 100;
+            }
+
+            throw new Error(`Invalid price format for item: ${item.title}`);
         };
 
         // Create line items with price_data (dynamic pricing)
         const lineItems = items.map(item => ({
             price_data: {
-                currency: 'czk',
+                currency: checkoutCurrency,
                 product_data: {
                     name: item.title,
                     description: `Digital product access - ${item.title}`,
                 },
-                unit_amount: parsePriceToKc(item.price) * 100, // Stripe requires amount in haléřů (cents)
+                unit_amount: getUnitAmount(item), // Stripe requires amount in smallest currency unit
             },
             quantity: item.quantity || 1
         }));

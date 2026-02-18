@@ -70,10 +70,16 @@ export function CartProvider({ children }) {
 
     const getCartTotal = () => {
         return cart.reduce((total, item) => {
-            // Parse Czech price format (e.g., "1.281,00 Kč")
-            const priceStr = item.price.replace(/[^\d,]/g, '').replace(',', '.');
-            const price = parseFloat(priceStr);
-            return total + (price * item.quantity);
+            // Support both old format (price string) and new format (priceUsd number)
+            if (item.priceUsd !== undefined) {
+                return total + (item.priceUsd * item.quantity);
+            } else if (item.price) {
+                // Legacy: Parse Czech price format (e.g., "1.281,00 Kč")
+                const priceStr = item.price.replace(/[^\d,]/g, '').replace(',', '.');
+                const price = parseFloat(priceStr);
+                return total + (price * item.quantity);
+            }
+            return total;
         }, 0);
     };
 

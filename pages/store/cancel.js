@@ -68,7 +68,7 @@ export default function Cancel() {
                             {t('storeCancel.continueShopping')}
                         </button>
                         <button
-                            onClick={() => router.push('/')}
+                            onClick={() => router.push('/store')}
                             className="w-full bg-transparent border border-zinc-700 hover:border-zinc-600 text-gray-400 hover:text-white font-bold py-4 rounded-xl transition-all"
                         >
                             {t('storeCancel.backToHome')}

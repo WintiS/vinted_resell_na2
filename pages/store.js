@@ -11,7 +11,18 @@ function Store() {
     const { addToCart, isInCart, getCartCount, setReferralCode } = useCart();
     const [showPopup, setShowPopup] = useState(false);
     const [addedProduct, setAddedProduct] = useState(null);
-    const { t } = useLanguage();
+    const { t, lang } = useLanguage();
+
+    const USD_TO_CZK = 23;
+    const priceLocale = lang === 'cs' ? 'cs-CZ' : 'en-US';
+    const priceCurrency = lang === 'cs' ? 'CZK' : 'USD';
+    const formatPrice = (amountUsd) =>
+        new Intl.NumberFormat(priceLocale, {
+            style: 'currency',
+            currency: priceCurrency,
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 0,
+        }).format(lang === 'cs' ? amountUsd * USD_TO_CZK : amountUsd);
 
     useEffect(() => {
         if (ref) {
@@ -38,14 +49,17 @@ function Store() {
     };
 
     const products = [
-        { id: 1, title: 'All Premium Suppliers Links Bundle', rating: 5, reviews: 13, price: '1.281,00 Kč', priceId: 'price_1QrnB8GfZEaA9RkQ5cWfKKyf', soldOut: false },
-        { id: 2, title: 'All Regular Supplier Links Bundle', rating: 5, reviews: 11, price: '854,00 Kč', priceId: 'price_1QrnB8GfZEaA9RkQGdvLFSIE', soldOut: false },
-        { id: 3, title: 'Branded Knitwear Mystery Box', rating: 5, reviews: 1, price: '570,00 Kč', priceId: 'price_PLACEHOLDER_3', soldOut: true },
-        { id: 4, title: 'Branded Knitwear Suppliers', rating: 5, reviews: 4, price: '427,00 Kč', priceId: 'price_PLACEHOLDER_4', soldOut: false },
-        { id: 5, title: 'Nike Clothing Suppliers', rating: 5, reviews: 7, price: '427,00 Kč', priceId: 'price_PLACEHOLDER_5', soldOut: false },
-        { id: 6, title: 'Windbreaker Mystery Box', rating: 5, reviews: 2, price: '570,00 Kč', priceId: 'price_PLACEHOLDER_6', soldOut: true },
-        { id: 7, title: 'Windbreaker Suppliers', rating: 5, reviews: 5, price: '427,00 Kč', priceId: 'price_PLACEHOLDER_7', soldOut: false },
-        { id: 8, title: 'Burberry Scarfs Suppliers', rating: 5, reviews: 3, price: '284,00 Kč', priceId: 'price_PLACEHOLDER_8', soldOut: false },
+        { id: 1, title: 'Premium Suppliers Links Bundle', rating: 5, reviews: 13, priceUsd: 55.70, priceId: 'price_1QrnB8GfZEaA9RkQ5cWfKKyf', soldOut: false, imgUrl: 'img11.png' },
+        { id: 3, title: 'Full Raplh Lauren Bundle', rating: 5, reviews: 1, priceUsd: 24.78, priceId: 'price_PLACEHOLDER_3', soldOut: false, imgUrl: 'img2.png' },
+        { id: 11, title: 'Stussy suppliers Bundle', rating: 5, reviews: 1, priceUsd: 24.78, priceId: 'price_PLACEHOLDER_3', soldOut: false, imgUrl: 'img5.png' },
+        { id: 2, title: 'Stone Island & YSL Links Bundle', rating: 5, reviews: 11, priceUsd: 37.13, priceId: 'price_1QrnB8GfZEaA9RkQGdvLFSIE', soldOut: false, imgUrl: 'img1.png' },
+        { id: 4, title: 'Bape suppliers bundle', rating: 5, reviews: 4, priceUsd: 18.57, priceId: 'price_PLACEHOLDER_4', soldOut: false, imgUrl: 'img10.png' },
+        { id: 5, title: 'Ralph Lauren Knitwear suppliers', rating: 5, reviews: 7, priceUsd: 18.57, priceId: 'price_PLACEHOLDER_5', soldOut: false, imgUrl: 'img3.png' },
+        { id: 6, title: 'Ralph Lauren Polo suppliers', rating: 5, reviews: 2, priceUsd: 24.78, priceId: 'price_PLACEHOLDER_6', soldOut: false, imgUrl: 'img4.png' },
+        { id: 7, title: 'Ralph Lauren Shirts suppliers', rating: 5, reviews: 5, priceUsd: 18.57, priceId: 'price_PLACEHOLDER_7', soldOut: false, imgUrl: 'img6.png' },
+        { id: 8, title: 'Burberry Scarfs Suppliers', rating: 5, reviews: 4, priceUsd: 12.35, priceId: 'price_PLACEHOLDER_8', soldOut: false, imgUrl: 'img7.png' },
+        { id: 9, title: 'Branded windbreakers bundle', rating: 5, reviews: 3, priceUsd: 12.35, priceId: 'price_PLACEHOLDER_8', soldOut: false, imgUrl: 'img8.png' },
+        { id: 10, title: 'Branded Belts Suppliers', rating: 5, reviews: 5, priceUsd: 12.35, priceId: 'price_PLACEHOLDER_8', soldOut: false, imgUrl: 'img9.png' },
     ];
 
     const whyItems = [
@@ -117,13 +131,10 @@ function Store() {
                                 </div>
                                 <h3 className="text-2xl font-bold text-white mb-2">{t('store.popup.title')}</h3>
                                 <p className="text-gray-400">{addedProduct.title}</p>
-                                <p className="text-[#9d34da] font-bold text-xl mt-2">{addedProduct.price}</p>
+                                <p className="text-[#9d34da] font-bold text-xl mt-2">{formatPrice(addedProduct.priceUsd)}</p>
                             </div>
                             <div className="space-y-3">
                                 <button onClick={handleCheckoutNow} className="w-full py-4 bg-[#9d34da] hover:bg-[#8a2cc2] text-white font-bold rounded-xl transition-all transform hover:scale-[1.02]">
-                                    {t('store.popup.checkout')}
-                                </button>
-                                <button onClick={handleViewCart} className="w-full py-4 bg-zinc-800 hover:bg-zinc-700 text-white font-bold rounded-xl transition-all">
                                     {t('store.popup.viewCart')}
                                 </button>
                                 <button onClick={() => setShowPopup(false)} className="w-full py-4 bg-transparent border border-zinc-700 hover:border-zinc-600 text-gray-400 hover:text-white font-bold rounded-xl transition-all">
@@ -158,11 +169,19 @@ function Store() {
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
                             {products.map((product) => (
                                 <div key={product.id} className="bg-zinc-900 rounded-2xl overflow-hidden border border-zinc-800 hover:border-zinc-700 transition-all">
-                                    <div className="relative aspect-square bg-black p-6 flex items-center justify-center">
-                                        <div className="text-gray-600 text-center">
-                                            <span className="material-icons text-6xl mb-2">inventory_2</span>
-                                            <p className="text-sm">{product.title}</p>
-                                        </div>
+                                    <div className="relative aspect-square bg-black flex items-center justify-center">
+                                        {product.imgUrl ? (
+                                            <img
+                                                src={product.imgUrl}
+                                                alt={product.title}
+                                                className="w-full h-full object-cover"
+                                            />
+                                        ) : (
+                                            <div className="text-gray-600 text-center p-6">
+                                                <span className="material-icons text-6xl mb-2">inventory_2</span>
+                                                <p className="text-sm">{product.title}</p>
+                                            </div>
+                                        )}
                                         {product.soldOut && (
                                             <div className="absolute top-3 right-3 bg-[#9d34da] text-white px-3 py-1 rounded-lg text-xs font-bold">
                                                 {t('store.soldOut')}
@@ -177,7 +196,7 @@ function Store() {
                                             ))}
                                             <span className="text-gray-400 text-sm ml-1">({product.reviews})</span>
                                         </div>
-                                        <p className="text-white font-bold text-xl mb-4">{product.price}</p>
+                                        <p className="text-white font-bold text-xl mb-4">{formatPrice(product.priceUsd)}</p>
                                         <button
                                             onClick={() => handleAddToCart(product)}
                                             disabled={product.soldOut || isInCart(product.id)}

@@ -8,17 +8,27 @@ import LanguageToggle from '../components/LanguageToggle';
 // Live Sales Section Component
 function LiveSalesSection() {
     const router = useRouter();
-    const { t } = useLanguage();
+    const { t, lang } = useLanguage();
     const [countdown, setCountdown] = useState(5);
     const [products] = useState([
-        { id: 1, title: 'All Premium Suppliers Links Bundle', sales: 211, revenue: 19555.97, image: 'https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=400&h=300&fit=crop' },
-        { id: 2, title: 'All Regular Supplier Links Bundle', sales: 142, revenue: 7129.80, image: 'https://images.unsplash.com/photo-1607082349566-187342175e2f?w=400&h=300&fit=crop' },
-        { id: 3, title: 'Branded Knitwear Suppliers', sales: 228, revenue: 13445.34, image: 'https://images.unsplash.com/photo-1434389677669-e08b4cac3105?w=400&h=300&fit=crop' },
-        { id: 4, title: 'Nike Clothing Suppliers', sales: 187, revenue: 9823.45, image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&h=300&fit=crop' },
-        { id: 5, title: 'Windbreaker Suppliers', sales: 156, revenue: 8234.12, image: 'https://images.unsplash.com/photo-1551028719-00167b16eac5?w=400&h=300&fit=crop' },
-        { id: 6, title: 'Burberry Scarfs Suppliers', sales: 134, revenue: 6789.23, image: 'https://images.unsplash.com/photo-1520903920243-00d872a2d1c9?w=400&h=300&fit=crop' }
+        { id: 1, title: 'All Premium Suppliers Links Bundle', sales: 21, revenue: 1525.97, image: 'https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=400&h=300&fit=crop' },
+        { id: 2, title: 'All Regular Supplier Links Bundle', sales: 32, revenue: 729.80, image: 'https://images.unsplash.com/photo-1607082349566-187342175e2f?w=400&h=300&fit=crop' },
+        { id: 3, title: 'Branded Knitwear Suppliers', sales: 28, revenue: 445.34, image: 'https://images.unsplash.com/photo-1434389677669-e08b4cac3105?w=400&h=300&fit=crop' },
+        { id: 4, title: 'Nike Clothing Suppliers', sales: 17, revenue: 93.45, image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&h=300&fit=crop' },
+        { id: 5, title: 'Windbreaker Suppliers', sales: 16, revenue: 84.12, image: 'https://images.unsplash.com/photo-1551028719-00167b16eac5?w=400&h=300&fit=crop' },
+        { id: 6, title: 'Burberry Scarfs Suppliers', sales: 14, revenue: 69.23, image: 'https://images.unsplash.com/photo-1520903920243-00d872a2d1c9?w=400&h=300&fit=crop' }
     ]);
     const [salesData, setSalesData] = useState(products);
+
+    const revenueLocale = lang === 'cs' ? 'cs-CZ' : 'en-US';
+    const revenueCurrency = lang === 'cs' ? 'CZK' : 'USD';
+    const formatRevenue = (amountUsd) =>
+        new Intl.NumberFormat(revenueLocale, {
+            style: 'currency',
+            currency: revenueCurrency,
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 0,
+        }).format(lang === 'cs' ? amountUsd * 23 : amountUsd);
 
     useEffect(() => {
         const timer = setInterval(() => {
@@ -50,7 +60,7 @@ function LiveSalesSection() {
                         {t('liveSales.title')}
                     </h2>
                     <p className="text-slate-400 text-lg max-w-3xl mx-auto">
-                        {t('liveSales.subtitleBefore')} <span className="text-primary font-semibold">{t('liveSales.freeText')}</span> {t('liveSales.subtitleAfter')}
+                        {t('liveSales.subtitleBefore')}
                     </p>
                 </div>
 
@@ -70,7 +80,7 @@ function LiveSalesSection() {
                                         <div>
                                             <p className="text-slate-500 text-xs mb-1">{t('liveSales.revenue')}</p>
                                             <p className="text-green-500 font-bold text-xl">
-                                                ${product.revenue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                                                {formatRevenue(product.revenue)}
                                             </p>
                                         </div>
                                         <div>
@@ -107,9 +117,20 @@ export default function Home() {
     const { user, loading } = useAuth();
     const router = useRouter();
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-    const [isYearly, setIsYearly] = useState(true);
+    const [isYearly, setIsYearly] = useState(false);
     const [timeLeft, setTimeLeft] = useState('');
-    const { t } = useLanguage();
+    const { t, lang } = useLanguage();
+
+    const USD_TO_CZK = 23;
+    const pricingLocale = lang === 'cs' ? 'cs-CZ' : 'en-US';
+    const pricingCurrency = lang === 'cs' ? 'CZK' : 'USD';
+    const formatPriceFromUsd = (amountUsd) =>
+        new Intl.NumberFormat(pricingLocale, {
+            style: 'currency',
+            currency: pricingCurrency,
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 0,
+        }).format(lang === 'cs' ? amountUsd * USD_TO_CZK : amountUsd);
 
     // Countdown to midnight
     useEffect(() => {
@@ -219,7 +240,9 @@ export default function Home() {
                     <div className="absolute inset-0 -z-10 bg-[radial-gradient(45%_45%_at_50%_50%,rgba(59,130,246,0.15)_0%,transparent_100%)]"></div>
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
                         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/30 text-primary text-xs md:text-sm font-bold mb-6 md:mb-8">
-                            <div className="py-2"><LanguageToggle /></div>
+                            <LanguageToggle />
+                        </div>
+                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/30 text-primary text-xs md:text-sm font-bold mb-6 md:mb-8">
                             <span className="flex h-2 w-2 rounded-full bg-primary animate-pulse"></span>
                             {t('hero.badge')}
                         </div>
@@ -433,37 +456,68 @@ export default function Home() {
                 </section>
 
                 {/* Features */}
-                <section className="py-24" id="features">
+                <section className="py-24 bg-slate-900/30 border-y border-slate-800" id="features">
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                        <div className="grid lg:grid-cols-2 gap-16 items-center">
-                            <div>
-                                <span className="text-primary font-bold text-sm uppercase tracking-widest">{t('features.badge')}</span>
-                                <h2 className="text-4xl font-extrabold text-white mt-4 mb-6 leading-tight">{t('features.title')}</h2>
-                                <p className="text-slate-400 text-lg mb-8">{t('features.subtitle')}</p>
-                                <div className="space-y-6">
-                                    {[
-                                        { icon: 'bolt', titleKey: 'features.f1.title', descKey: 'features.f1.desc' },
-                                        { icon: 'verified_user', titleKey: 'features.f2.title', descKey: 'features.f2.desc' },
-                                        { icon: 'account_balance_wallet', titleKey: 'features.f3.title', descKey: 'features.f3.desc' },
-                                    ].map((f, i) => (
-                                        <div key={i} className="flex gap-4 p-4 rounded-xl bg-slate-800/50 border border-slate-700 hover:border-primary/50 transition-colors">
-                                            <div className="flex-shrink-0 w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
-                                                <span className="material-icons text-primary">{f.icon}</span>
-                                            </div>
-                                            <div>
-                                                <h4 className="font-bold text-white text-lg">{t(f.titleKey)}</h4>
-                                                <p className="text-slate-400">{t(f.descKey)}</p>
-                                            </div>
+                        <div className="text-center mb-14">
+                            <span className="text-primary font-bold text-sm uppercase tracking-widest">{t('features.badge')}</span>
+                            <h2 className="text-4xl lg:text-5xl font-extrabold text-white mt-4 mb-5 leading-tight">
+                                {t('features.title')}
+                            </h2>
+                            <p className="text-slate-400 text-lg max-w-3xl mx-auto">{t('features.subtitle')}</p>
+                        </div>
+
+                        <div className="grid md:grid-cols-2 gap-8">
+                            {[
+                                {
+                                    icon: 'rocket_launch',
+                                    labelKey: 'features.cards.storeReady.label',
+                                    titleKey: 'features.cards.storeReady.title',
+                                    descKey: 'features.cards.storeReady.desc',
+                                    iconWrapClass: 'bg-amber-500/15 border-amber-500/25',
+                                    iconClass: 'text-amber-400',
+                                },
+                                {
+                                    icon: 'handyman',
+                                    labelKey: 'features.cards.noTechSkills.label',
+                                    titleKey: 'features.cards.noTechSkills.title',
+                                    descKey: 'features.cards.noTechSkills.desc',
+                                    iconWrapClass: 'bg-green-500/15 border-green-500/25',
+                                    iconClass: 'text-green-400',
+                                },
+                                {
+                                    icon: 'trending_up',
+                                    labelKey: 'features.cards.revenueOptimization.label',
+                                    titleKey: 'features.cards.revenueOptimization.title',
+                                    descKey: 'features.cards.revenueOptimization.desc',
+                                    iconWrapClass: 'bg-red-500/15 border-red-500/25',
+                                    iconClass: 'text-red-400',
+                                },
+                                {
+                                    icon: 'inventory_2',
+                                    labelKey: 'features.cards.broadSuppliers.label',
+                                    titleKey: 'features.cards.broadSuppliers.title',
+                                    descKey: 'features.cards.broadSuppliers.desc',
+                                    iconWrapClass: 'bg-purple-500/15 border-purple-500/25',
+                                    iconClass: 'text-purple-400',
+                                },
+                            ].map((card) => (
+                                <div
+                                    key={card.titleKey}
+                                    className="rounded-[2rem] bg-slate-900/40 border border-slate-700/80 p-8 shadow-sm hover:bg-slate-900/60 hover:border-slate-600 transition-all"
+                                >
+                                    <div className="flex items-center gap-3 mb-6">
+                                        <div className={`w-11 h-11 rounded-xl flex items-center justify-center border ${card.iconWrapClass}`}>
+                                            <span className={`material-icons ${card.iconClass}`}>{card.icon}</span>
                                         </div>
-                                    ))}
+                                        <h3 className="text-xl font-extrabold text-white">{t(card.labelKey)}</h3>
+                                    </div>
+
+                                    <p className="text-2xl sm:text-3xl font-extrabold text-white mb-4 leading-tight">
+                                        {t(card.titleKey)}
+                                    </p>
+                                    <p className="text-slate-400 text-base sm:text-lg leading-relaxed">{t(card.descKey)}</p>
                                 </div>
-                            </div>
-                            <div className="relative overflow-hidden">
-                                <div className="aspect-square bg-primary/5 rounded-[4rem] absolute -top-10 -right-10 w-full h-full -z-10 rotate-6 border border-primary/20 hidden md:block"></div>
-                                <div className="rounded-3xl overflow-hidden shadow-2xl border border-slate-700">
-                                    <img className="w-full h-full object-cover brightness-75" alt="Digital marketing strategy visualization" src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=800&fit=crop" />
-                                </div>
-                            </div>
+                            ))}
                         </div>
                     </div>
                 </section>
@@ -501,7 +555,7 @@ export default function Home() {
                             <div className="relative bg-slate-900 border-2 border-primary/30 rounded-3xl p-8 shadow-2xl">
                                 <div className="absolute -top-3 right-8">
                                     <span className="px-4 py-1.5 bg-green-500/20 text-green-400 text-sm font-bold rounded-full border border-green-500/30">
-                                        {t('pricing.badge')}
+                                    -{discountPercent}%
                                     </span>
                                 </div>
                                 <div className="flex items-center gap-3 mb-4">
@@ -512,10 +566,9 @@ export default function Home() {
                                 </div>
                                 <p className="text-slate-400 mb-6">{t('pricing.planDesc')}</p>
                                 <div className="flex items-baseline gap-3 mb-6">
-                                    <span className="text-slate-500 text-3xl font-bold line-through">${currentPlan.originalPrice}</span>
-                                    <span className="text-white text-5xl font-extrabold">${currentPlan.price}</span>
-                                    <span className="text-slate-400 text-lg">/ {currentPlan.interval}</span>
-                                    <span className="px-2 py-1 bg-green-500/20 text-green-400 text-sm font-bold rounded">-{discountPercent}%</span>
+                                    <span className="text-slate-500 text-2xl sm:text-3xl font-bold line-through">{formatPriceFromUsd(currentPlan.originalPrice)}</span>
+                                    <span className="text-white text-3xl sm:text-5xl font-extrabold">{formatPriceFromUsd(currentPlan.price)}</span>
+                                    <span className="text-slate-400 text-base sm:text-lg">/ {t(`pricing.interval.${currentPlan.interval}`)}</span>
                                 </div>
                                 <button
                                     onClick={() => router.push(`/signup?plan=${isYearly ? 'yearly' : 'monthly'}`)}
@@ -548,7 +601,7 @@ export default function Home() {
                         <div className="mt-12 max-w-md mx-auto text-center">
                             <div className="bg-slate-800/50 border border-slate-700 rounded-2xl p-6">
                                 <h4 className="text-xl font-bold text-white mb-4">{t('pricing.otherApps.title')}</h4>
-                                <div className="text-4xl font-extrabold text-white mb-4">{t('pricing.otherApps.price')}</div>
+                                <div className="text-4xl font-extrabold text-white mb-4">{formatPriceFromUsd(1100)}+</div>
                                 <p className="text-slate-400 mb-4">{t('pricing.otherApps.subtitle')}</p>
                                 <ul className="space-y-2 text-sm text-slate-500">
                                     {['f1', 'f2', 'f3', 'f4'].map(k => (
@@ -623,13 +676,13 @@ export default function Home() {
                                 <div className="w-8 h-8 bg-gradient-primary rounded flex items-center justify-center">
                                     <span className="material-icons text-white text-sm">rocket_launch</span>
                                 </div>
-                                <span className="text-lg font-bold text-white">SupplierSaaS</span>
+                                <span className="text-lg font-bold text-white">SupplyPoint</span>
                             </div>
                             <div className="flex gap-8 text-sm font-semibold text-slate-500">
-                                <a className="hover:text-primary transition-colors" href="#">{t('footer.privacy')}</a>
+                                <a className="hover:text-primary transition-colors" href="#">{t('footer.privacy')}</a>  
                                 <a className="hover:text-primary transition-colors" href="#">{t('footer.terms')}</a>
                                 <a className="hover:text-primary transition-colors" href="#">{t('footer.contact')}</a>
-                                <a className="hover:text-primary transition-colors" href="#">{t('footer.affiliates')}</a>
+
                             </div>
                         </div>
                         <div className="mt-8 pt-8 border-t border-slate-800/50 text-center text-slate-600 text-sm">

@@ -12,8 +12,8 @@ export default function LanguageToggle({ variant = 'default', className = '' }) 
     const base = 'flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-sm font-bold transition-colors cursor-pointer';
 
     const variants = {
-        default: 'border border-slate-700 hover:border-primary/50',
-        store: 'border border-zinc-800 hover:border-zinc-600 bg-zinc-900/50',
+        default: ' hover:border-primary/50',
+        store: 'hover:border-zinc-600 bg-zinc-900/50',
         minimal: 'border border-slate-700 hover:border-primary/50 bg-slate-900/80 backdrop-blur-sm',
     };
 

@@ -13,9 +13,20 @@ export default function Pricing() {
     const router = useRouter();
     const [loading, setLoading] = useState(false);
     const [selectedPlan, setSelectedPlan] = useState(null);
-    const [isYearly, setIsYearly] = useState(true);
+    const [isYearly, setIsYearly] = useState(false);
     const [timeLeft, setTimeLeft] = useState('');
-    const { t } = useLanguage();
+    const { t, lang } = useLanguage();
+
+    const USD_TO_CZK = 23;
+    const pricingLocale = lang === 'cs' ? 'cs-CZ' : 'en-US';
+    const pricingCurrency = lang === 'cs' ? 'CZK' : 'USD';
+    const formatPriceFromUsd = (amountUsd) =>
+        new Intl.NumberFormat(pricingLocale, {
+            style: 'currency',
+            currency: pricingCurrency,
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 0,
+        }).format(lang === 'cs' ? amountUsd * USD_TO_CZK : amountUsd);
 
     useEffect(() => {
         const updateCountdown = () => {
@@ -193,9 +204,9 @@ export default function Pricing() {
                             <p className="text-slate-400 mb-6">{t('pricing.planDesc')}</p>
 
                             <div className="flex items-baseline gap-3 mb-6">
-                                <span className="text-slate-500 text-3xl font-bold line-through">${currentPlan.originalPrice}</span>
-                                <span className="text-white text-5xl font-extrabold">${currentPlan.price}</span>
-                                <span className="text-slate-400 text-lg">/ {currentPlan.interval}</span>
+                                <span className="text-slate-500 text-3xl font-bold line-through">{formatPriceFromUsd(currentPlan.originalPrice)}</span>
+                                <span className="text-white text-5xl font-extrabold">{formatPriceFromUsd(currentPlan.price)}</span>
+                                <span className="text-slate-400 text-lg">/ {t(`pricing.interval.${currentPlan.interval}`)}</span>
                                 <span className="px-2 py-1 bg-green-500/20 text-green-400 text-sm font-bold rounded">
                                     -{discountPercent}%
                                 </span>
@@ -252,7 +263,7 @@ export default function Pricing() {
                     <div className="mt-12 max-w-md mx-auto text-center">
                         <div className="bg-slate-800/50 border border-slate-700 rounded-2xl p-6">
                             <h4 className="text-xl font-bold text-white mb-4">{t('pricing.otherApps.title')}</h4>
-                            <div className="text-4xl font-extrabold text-white mb-4">{t('pricing.otherApps.price')}</div>
+                            <div className="text-4xl font-extrabold text-white mb-4">{formatPriceFromUsd(1100)}+</div>
                             <p className="text-slate-400 mb-4">{t('pricing.otherApps.subtitle')}</p>
                             <ul className="space-y-2 text-sm text-slate-500">
                                 {['f1', 'f2', 'f3', 'f4'].map(k => (

@@ -20,7 +20,7 @@ const cs = {
     'hero.titleLine2': 'za\u00a0jednu minutu',
     'hero.subtitle': 'Tohle je to místo, kde top 1% Vinted resellerů vydělávají peníze. 100% zisku je vaše.',
     'hero.ctaPrimary': 'Zapněte váš obchod',
-    'hero.ctaSecondary': 'Koukněte na demo',
+    'hero.ctaSecondary': 'Koukněte na demo obchod',
 
     // Scrolling banner
     'banner.title': 'Jedna platforma.',
@@ -30,7 +30,7 @@ const cs = {
 
     // How It Works
     'hiw.title': 'Jak to funguje',
-    'hiw.subtitle': 'Čtyři jednoduché kroky od nuly k plně funkčnímu impériu obchodů se suppliery.',
+    'hiw.subtitle': 'Čtyři jednoduché kroky od nuly k pěti cifernému zisku každý týden.',
     'hiw.step1.badge': 'Okamžitý přístup',
     'hiw.step1.title': 'Krok první:',
     'hiw.step1.highlight': 'Registrace a nastavení',
@@ -190,6 +190,7 @@ const cs = {
     'signup.or': 'nebo',
     'signup.hasAccount': 'Již máte účet?',
     'signup.loginLink': 'Přihlásit se',
+    'signup.goBack': 'Zpět',
 
     // Dashboard page
     'dashboard.pageTitle': 'Přehled | SupplierSaaS',

@@ -59,6 +59,14 @@ export default function Signup() {
             </Head>
 
             <div className="min-h-screen bg-background-dark flex items-center justify-center px-4 sm:px-6 py-8 md:py-12 relative">
+                {/* Go back */}
+                <button
+                    onClick={() => router.push('/')}
+                    className="absolute top-4 left-4 flex items-center gap-1.5 text-slate-400 hover:text-white text-sm font-medium transition-colors"
+                >
+                    <span className="material-icons text-lg">arrow_back</span>
+                    {t('signup.goBack')}
+                </button>
                 {/* Language toggle */}
                 <div className="absolute top-4 right-4">
                     <LanguageToggle variant="minimal" />

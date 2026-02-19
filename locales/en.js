@@ -20,7 +20,7 @@ const en = {
     'hero.titleLine2': 'in\u00a0one minute',
     'hero.subtitle': 'This is where the top 1% of Vinted resellers make their money. 100% profit is yours.',
     'hero.ctaPrimary': 'Start your store',
-    'hero.ctaSecondary': 'Watch the demo',
+    'hero.ctaSecondary': 'See demo store',
 
     // Scrolling banner
     'banner.title': 'One platform.',
@@ -192,6 +192,7 @@ const en = {
     'signup.or': 'or',
     'signup.hasAccount': 'Already have an account?',
     'signup.loginLink': 'Sign in',
+    'signup.goBack': 'Go back',
 
     // Dashboard page
     'dashboard.pageTitle': 'Dashboard | SupplierSaaS',

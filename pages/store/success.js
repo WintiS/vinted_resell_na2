@@ -53,16 +53,16 @@ function SuccessPage() {
                     <LanguageToggle variant="store" />
                 </div>
 
-                <div className="max-w-2xl w-full bg-zinc-900 border border-zinc-800 rounded-2xl p-12 text-center">
+                <div className="max-w-2xl w-full bg-zinc-900 border border-zinc-800 rounded-2xl p-4 text-center">
                     <div className="w-24 h-24 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
                         <span className="material-icons text-green-500 text-7xl">check_circle</span>
                     </div>
 
-                    <h1 className="text-4xl md:text-5xl font-black text-white mb-4">
+                    <h1 className="text-2xl md:text-5xl font-black text-white mb-4">
                         {t('storeSuccess.title')}
                     </h1>
 
-                    <p className="text-xl text-gray-400 mb-8">
+                    <p className="text-lg text-gray-400 mb-8">
                         {t('storeSuccess.desc')}
                     </p>
 
@@ -97,12 +97,7 @@ function SuccessPage() {
                                 <div className="mt-4 pt-4 border-t border-zinc-800">
                                     <div className="flex justify-between items-center">
                                         <span className="text-gray-400">{t('storeSuccess.totalAmount')}</span>
-                                        <span className="text-white font-bold text-lg">
-                                            {new Intl.NumberFormat('en-US', {
-                                                style: 'currency',
-                                                currency: purchase.currency?.toUpperCase() || 'USD',
-                                            }).format(purchase.amount / 100)}
-                                        </span>
+                                        
                                     </div>
                                 </div>
                             )}

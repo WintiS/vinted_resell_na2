@@ -165,8 +165,42 @@ export default function Home() {
 
     if (loading) {
         return (
-            <div className="min-h-screen flex items-center justify-center bg-background-dark">
-                <div className="text-white text-lg">Loading...</div>
+            <div className="min-h-screen flex flex-col items-center justify-center bg-background-dark">
+                <div className="loading-chart">
+                    {[0, 1, 2, 3, 4, 5, 6, 7].map((i) => (
+                        <div
+                            key={i}
+                            className="loading-chart-bar"
+                            style={{ animationDelay: `${i * 0.1}s` }}
+                        />
+                    ))}
+                </div>
+                <style jsx>{`
+                    .loading-chart {
+                        display: flex;
+                        align-items: flex-end;
+                        gap: 8px;
+                        height: 64px;
+                        padding: 16px 24px;
+                        background: linear-gradient(180deg, rgba(30, 41, 59, 0.6) 0%, rgba(15, 23, 42, 0.9) 100%);
+                        border: 1px solid rgba(51, 65, 85, 0.8);
+                        border-radius: 16px;
+                        box-shadow: 0 0 40px rgba(59, 130, 246, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+                    }
+                    .loading-chart-bar {
+                        width: 12px;
+                        min-height: 8px;
+                        background: linear-gradient(180deg, #3b82f6 0%, #a855f7 100%);
+                        border-radius: 6px 6px 0 0;
+                        transform-origin: bottom;
+                        animation: chart-bounce 0.8s ease-in-out infinite;
+                        box-shadow: 0 -2px 12px rgba(59, 130, 246, 0.4);
+                    }
+                    @keyframes chart-bounce {
+                        0%, 100% { transform: scaleY(0.25); }
+                        50% { transform: scaleY(1); }
+                    }
+                `}</style>
             </div>
         );
     }
@@ -259,7 +293,7 @@ export default function Home() {
                             >
                                 {t('hero.ctaPrimary')}
                             </button>
-                            <button className="w-full sm:w-auto px-10 py-5 bg-slate-800/50 backdrop-blur-sm text-white text-lg font-bold rounded-xl border border-slate-700 hover:bg-slate-800 transition-all flex items-center justify-center gap-2">
+                            <button onClick={() => router.push('/store')} className="w-full sm:w-auto px-10 py-5 bg-slate-800/50 backdrop-blur-sm text-white text-md font-bold rounded-xl border border-slate-700 hover:bg-slate-800 transition-all flex items-center justify-center gap-2">
                                 <span className="material-icons">play_circle</span>
                                 {t('hero.ctaSecondary')}
                             </button>
@@ -268,7 +302,7 @@ export default function Home() {
                             <div className="absolute -inset-4 bg-gradient-to-r from-primary/20 to-accent/20 blur-3xl rounded-[3rem] -z-10"></div>
                             <div className="rounded-2xl border border-slate-700 shadow-2xl bg-slate-900/50 p-2 backdrop-blur-sm">
                                 <img
-                                    className="rounded-xl w-full h-auto object-cover max-h-[600px] brightness-90 grayscale-[0.2]"
+                                    className="rounded-xl w-full h-auto object-cover max-h-[600px] brightness-90 grayscale-[0.2 bg-top-10]"
                                     alt="Modern SaaS dashboard showing sales analytics and supplier inventory"
                                     src="heroStore.png"
                                 />

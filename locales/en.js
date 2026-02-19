@@ -297,11 +297,14 @@ const en = {
     'storeSuccess.orderId': 'Order ID',
     'storeSuccess.whatsNext': "What's Next?",
     'storeSuccess.next1': "You'll receive a confirmation email with your order details",
-    'storeSuccess.next2': 'Access your purchased products from your dashboard',
+    'storeSuccess.next2': 'You will receive purchased suppliers via email',
     'storeSuccess.next3': 'Contact support if you need any assistance',
     'storeSuccess.toDashboard': 'Go to Dashboard',
     'storeSuccess.continueShopping': 'Continue Shopping',
     'storeSuccess.backToHome': 'Back to Home',
+    'storeSuccess.loading': 'Loading purchase details...',
+    'storeSuccess.purchasedProducts': 'Purchased Products',
+    'storeSuccess.totalAmount': 'Total Amount',
 
     // Store checkout cancelled
     'storeCancel.pageTitle': 'Checkout Cancelled | VintedResells',

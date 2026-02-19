@@ -295,11 +295,14 @@ const cs = {
     'storeSuccess.orderId': 'ID objednávky',
     'storeSuccess.whatsNext': 'Co dál?',
     'storeSuccess.next1': 'Obdržíte potvrzovací e-mail s podrobnostmi objednávky',
-    'storeSuccess.next2': 'Přistupte ke zakoupeným produktům z vašeho přehledu',
+    'storeSuccess.next2': 'Obdržíte přistupte k zakoupeným dodavatelům na váš email',
     'storeSuccess.next3': 'V případě potřeby kontaktujte podporu',
     'storeSuccess.toDashboard': 'Přejít na přehled',
     'storeSuccess.continueShopping': 'Pokračovat v nákupu',
     'storeSuccess.backToHome': 'Zpět na hlavní stránku',
+    'storeSuccess.loading': 'Načítání podrobností nákupu...',
+    'storeSuccess.purchasedProducts': 'Zakoupené produkty',
+    'storeSuccess.totalAmount': 'Celková částka',
 
     // Store checkout cancelled
     'storeCancel.pageTitle': 'Pokladna zrušena | VintedResells',

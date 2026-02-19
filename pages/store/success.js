@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useRouter } from 'next/router';
 import { CartProvider, useCart } from '../../contexts/CartContext';
 import Head from 'next/head';
@@ -10,10 +10,35 @@ function SuccessPage() {
     const { session_id } = router.query;
     const { clearCart } = useCart();
     const { t } = useLanguage();
+    const [purchase, setPurchase] = useState(null);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         clearCart();
     }, []);
+
+    const fetchPurchaseData = useCallback(async () => {
+        if (!session_id) {
+            setLoading(false);
+            return;
+        }
+
+        try {
+            const response = await fetch(`/api/purchase/${session_id}`);
+            if (response.ok) {
+                const data = await response.json();
+                setPurchase(data);
+            }
+        } catch (error) {
+            console.error('Error fetching purchase data:', error);
+        } finally {
+            setLoading(false);
+        }
+    }, [session_id]);
+
+    useEffect(() => {
+        fetchPurchaseData();
+    }, [fetchPurchaseData]);
 
     return (
         <>
@@ -45,6 +70,42 @@ function SuccessPage() {
                         <div className="bg-black border border-zinc-800 rounded-xl p-4 mb-8">
                             <p className="text-sm text-gray-500 mb-1">{t('storeSuccess.orderId')}</p>
                             <p className="text-white font-mono text-sm break-all">{session_id}</p>
+                        </div>
+                    )}
+
+                    {loading && (
+                        <div className="bg-black border border-zinc-800 rounded-xl p-6 mb-8">
+                            <p className="text-gray-400">{t('storeSuccess.loading')}</p>
+                        </div>
+                    )}
+
+                    {!loading && purchase && purchase.productNames && purchase.productNames.length > 0 && (
+                        <div className="bg-black border border-zinc-800 rounded-xl p-6 mb-8 text-left">
+                            <h2 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
+                                <span className="material-icons text-[#9d34da]">shopping_bag</span>
+                                {t('storeSuccess.purchasedProducts')}
+                            </h2>
+                            <ul className="space-y-3">
+                                {purchase.productNames.map((productName, index) => (
+                                    <li key={index} className="flex items-center gap-3 text-gray-300">
+                                        <span className="material-icons text-green-500 text-xl">check_circle</span>
+                                        <span>{productName}</span>
+                                    </li>
+                                ))}
+                            </ul>
+                            {purchase.amount && (
+                                <div className="mt-4 pt-4 border-t border-zinc-800">
+                                    <div className="flex justify-between items-center">
+                                        <span className="text-gray-400">{t('storeSuccess.totalAmount')}</span>
+                                        <span className="text-white font-bold text-lg">
+                                            {new Intl.NumberFormat('en-US', {
+                                                style: 'currency',
+                                                currency: purchase.currency?.toUpperCase() || 'USD',
+                                            }).format(purchase.amount / 100)}
+                                        </span>
+                                    </div>
+                                </div>
+                            )}
                         </div>
                     )}
 

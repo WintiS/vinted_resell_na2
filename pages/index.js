@@ -270,7 +270,7 @@ export default function Home() {
                                 <img
                                     className="rounded-xl w-full h-auto object-cover max-h-[600px] brightness-90 grayscale-[0.2]"
                                     alt="Modern SaaS dashboard showing sales analytics and supplier inventory"
-                                    src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&h=600&fit=crop"
+                                    src="heroStore.png"
                                 />
                             </div>
                         </div>

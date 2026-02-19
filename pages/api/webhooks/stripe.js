@@ -7,22 +7,47 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
 const db = admin.firestore();
 
-export const config = { api: { bodyParser: false } };
+export const config = { 
+    api: { 
+        bodyParser: false,
+    } 
+};
 
 export default async function handler(req, res) {
+    // Log incoming request for debugging
+    console.log(`[Webhook] Received ${req.method} request to /api/webhooks/stripe`);
+
+    // Handle preflight requests
+    if (req.method === 'OPTIONS') {
+        console.log('[Webhook] Handling OPTIONS preflight request');
+        return res.status(200).end();
+    }
+
     if (req.method !== 'POST') {
-        return res.status(405).end();
+        console.error(`[Webhook] Invalid method: ${req.method}, expected POST`);
+        return res.status(405).json({ error: 'Method not allowed', method: req.method });
+    }
+
+    // Verify webhook secret is configured
+    if (!webhookSecret) {
+        console.error('STRIPE_WEBHOOK_SECRET is not configured');
+        return res.status(500).json({ error: 'Webhook secret not configured' });
     }
 
     const buf = await buffer(req);
     const sig = req.headers['stripe-signature'];
+
+    if (!sig) {
+        console.error('Missing Stripe signature header');
+        return res.status(400).json({ error: 'Missing stripe-signature header' });
+    }
 
     let event;
     try {
         event = stripe.webhooks.constructEvent(buf, sig, webhookSecret);
     } catch (err) {
         console.error('Webhook signature verification failed:', err.message);
-        return res.status(400).send(`Webhook Error: ${err.message}`);
+        return res.status(400).json({ error: `Webhook Error: ${err.message}` });
     }
 
     try {

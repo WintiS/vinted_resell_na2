@@ -4,20 +4,23 @@ import { useEffect, useState } from 'react';
 import Head from 'next/head';
 import { useLanguage } from '../context/LanguageContext';
 import LanguageToggle from '../components/LanguageToggle';
+import ScrollReveal from '../components/ScrollReveal';
+import { STORE_PRODUCTS } from './store';
 
 // Live Sales Section Component
 function LiveSalesSection() {
     const router = useRouter();
     const { t, lang } = useLanguage();
     const [countdown, setCountdown] = useState(5);
-    const [products] = useState([
-        { id: 1, title: 'All Premium Suppliers Links Bundle', sales: 21, revenue: 1525.97, image: 'https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=400&h=300&fit=crop' },
-        { id: 2, title: 'All Regular Supplier Links Bundle', sales: 32, revenue: 729.80, image: 'https://images.unsplash.com/photo-1607082349566-187342175e2f?w=400&h=300&fit=crop' },
-        { id: 3, title: 'Branded Knitwear Suppliers', sales: 28, revenue: 445.34, image: 'https://images.unsplash.com/photo-1434389677669-e08b4cac3105?w=400&h=300&fit=crop' },
-        { id: 4, title: 'Nike Clothing Suppliers', sales: 17, revenue: 93.45, image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&h=300&fit=crop' },
-        { id: 5, title: 'Windbreaker Suppliers', sales: 16, revenue: 84.12, image: 'https://images.unsplash.com/photo-1551028719-00167b16eac5?w=400&h=300&fit=crop' },
-        { id: 6, title: 'Burberry Scarfs Suppliers', sales: 14, revenue: 69.23, image: 'https://images.unsplash.com/photo-1520903920243-00d872a2d1c9?w=400&h=300&fit=crop' }
-    ]);
+    const [products] = useState(() =>
+        STORE_PRODUCTS.map((p) => ({
+            id: p.id,
+            title: p.title,
+            sales: Math.max(10, p.reviews * 4),
+            revenue: p.priceUsd * Math.max(10, p.reviews * 4),
+            image: `/${p.imgUrl}`,
+        }))
+    );
     const [salesData, setSalesData] = useState(products);
 
     const revenueLocale = lang === 'cs' ? 'cs-CZ' : 'en-US';
@@ -51,7 +54,7 @@ function LiveSalesSection() {
     return (
         <section className="py-24 bg-background-dark">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="text-center mb-12">
+                <ScrollReveal className="text-center mb-12">
                     <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/30 mb-6">
                         <span className="flex h-2 w-2 rounded-full bg-green-500 animate-pulse"></span>
                         <span className="text-primary text-sm font-bold">{t('liveSales.live', { countdown })}</span>
@@ -62,7 +65,7 @@ function LiveSalesSection() {
                     <p className="text-slate-400 text-lg max-w-3xl mx-auto">
                         {t('liveSales.subtitleBefore')}
                     </p>
-                </div>
+                </ScrollReveal>
 
                 <div className="relative overflow-hidden">
                     <div className="flex gap-6 overflow-x-auto pb-4 scrollbar-hide snap-x snap-mandatory">
@@ -216,7 +219,7 @@ export default function Home() {
             <Head>
                 <title>{t('index.pageTitle')}</title>
                 <meta name="description" content={t('index.metaDesc')} />
-                <link rel="icon" href="/favicon.ico" />
+                <link rel="icon" href="/logo.ico" />
                 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
             </Head>
 
@@ -226,11 +229,9 @@ export default function Home() {
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                         <div className="flex justify-between items-center h-16 md:h-20">
                             <div className="flex items-center gap-2">
-                                <div className="w-8 h-8 md:w-10 md:h-10 bg-gradient-primary rounded-lg flex items-center justify-center">
-                                    <span className="material-icons text-white text-xl md:text-2xl">rocket_launch</span>
-                                </div>
-                                <span className="text-lg md:text-xl font-extrabold tracking-tight text-white">
-                                    Supply<span className="text-primary">Point</span>
+                                <img src="/pointlogo.png" alt="VintedPoint" className="w-8 h-8 md:w-10 md:h-10 object-contain" />
+                                <span className="text-lg md:text-xl font-extrabold tracking-tight">
+                                    <span className="text-blue-500">Vinted</span><span className="text-white">point</span>
                                 </span>
                             </div>
                             <div className="hidden md:flex items-center space-x-8">
@@ -273,8 +274,10 @@ export default function Home() {
                 <header className="relative overflow-hidden pt-12 pb-16 md:pt-16 md:pb-24 lg:pt-32 lg:pb-40">
                     <div className="absolute inset-0 -z-10 bg-[radial-gradient(45%_45%_at_50%_50%,rgba(59,130,246,0.15)_0%,transparent_100%)]"></div>
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/30 text-primary text-xs md:text-sm font-bold mb-6 md:mb-8">
+                        <div className="md:w-full md:justify-center">
+                            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/30 text-primary text-xs md:text-sm font-bold mb-6 md:mb-8">
                             <LanguageToggle />
+                            </div>
                         </div>
                         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/30 text-primary text-xs md:text-sm font-bold mb-6 md:mb-8">
                             <span className="flex h-2 w-2 rounded-full bg-primary animate-pulse"></span>
@@ -293,7 +296,7 @@ export default function Home() {
                             >
                                 {t('hero.ctaPrimary')}
                             </button>
-                            <button onClick={() => router.push('/store')} className="w-full sm:w-auto px-10 py-5 bg-slate-800/50 backdrop-blur-sm text-white text-md font-bold rounded-xl border border-slate-700 hover:bg-slate-800 transition-all flex items-center justify-center gap-2">
+                            <button onClick={() => router.push('/store?demo=true')} className="w-full sm:w-auto px-10 py-5 bg-slate-800/50 backdrop-blur-sm text-white text-md font-bold rounded-xl border border-slate-700 hover:bg-slate-800 transition-all flex items-center justify-center gap-2">
                                 <span className="material-icons">play_circle</span>
                                 {t('hero.ctaSecondary')}
                             </button>
@@ -313,12 +316,12 @@ export default function Home() {
 
                 {/* Scrolling Tools Banner */}
                 <section className="py-12 bg-slate-900/30 border-y border-slate-800 overflow-hidden">
-                    <div className="text-center mb-8 px-4">
+                    <ScrollReveal className="text-center mb-8 px-4">
                         <h3 className="text-2xl md:text-3xl font-bold text-white mb-2">{t('banner.title')}</h3>
                         <p className="text-slate-400 text-lg">
                             {t('banner.subtitleBefore')} <span className="text-primary font-bold">{t('banner.subtitleHighlight')}</span>{t('banner.subtitleAfter')}
                         </p>
-                    </div>
+                    </ScrollReveal>
                     <div className="relative">
                         <style jsx>{`
                             @keyframes scroll-left { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
@@ -352,13 +355,13 @@ export default function Home() {
                 {/* How it Works */}
                 <section className="py-24 bg-slate-900/50" id="how-it-works">
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                        <div className="text-center mb-20">
+                        <ScrollReveal className="text-center mb-20">
                             <h2 className="text-3xl lg:text-4xl font-extrabold text-white mb-4">{t('hiw.title')}</h2>
                             <p className="text-slate-400 max-w-2xl mx-auto text-lg">{t('hiw.subtitle')}</p>
-                        </div>
+                        </ScrollReveal>
 
                         {/* Step 1 */}
-                        <div className="grid lg:grid-cols-2 gap-12 items-center mb-32">
+                        <ScrollReveal className="grid lg:grid-cols-2 gap-12 items-center mb-32" direction="up">
                             <div className="order-2 lg:order-1">
                                 <div className="flex items-center gap-3 mb-6">
                                     <div className="w-12 h-12 bg-gradient-primary rounded-xl flex items-center justify-center">
@@ -379,21 +382,21 @@ export default function Home() {
                             </div>
                             <div className="order-1 lg:order-2">
                                 <div className="relative">
-                                    <div className="absolute -inset-4 bg-gradient-to-r from-primary/20 to-accent/20 blur-3xl rounded-3xl -z-10"></div>
-                                    <div className="rounded-2xl border border-slate-700 shadow-2xl bg-slate-900/50 p-2 backdrop-blur-sm overflow-hidden">
-                                        <img className="rounded-xl w-full h-auto object-cover" alt="Dashboard signup interface" src="https://images.unsplash.com/photo-1555421689-d68471e189f2?w=800&h=600&fit=crop" />
+                                    <div className="absolute -inset-4 bg-gradient-to-r from-primary/25 to-accent/25 blur-3xl rounded-3xl -z-10"></div>
+                                    <div className="rounded-2xl border border-slate-700 shadow-2xl shadow-primary/10 bg-slate-900/50 p-2 backdrop-blur-sm overflow-hidden ring-2 ring-primary/5">
+                                        <img className="rounded-xl w-full h-auto object-cover" alt="Dashboard signup interface" src="signup.png" />
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </ScrollReveal>
 
                         {/* Step 2 */}
-                        <div className="grid lg:grid-cols-2 gap-12 items-center mb-32">
+                        <ScrollReveal className="grid lg:grid-cols-2 gap-12 items-center mb-32" direction="up">
                             <div className="order-1">
                                 <div className="relative">
-                                    <div className="absolute -inset-4 bg-gradient-to-r from-accent/20 to-primary/20 blur-3xl rounded-3xl -z-10"></div>
-                                    <div className="rounded-2xl border border-slate-700 shadow-2xl bg-slate-900/50 p-2 backdrop-blur-sm overflow-hidden">
-                                        <img className="rounded-xl w-full h-auto object-cover" alt="Store customization panel" src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=600&fit=crop" />
+                                    <div className="absolute -inset-4 bg-gradient-to-r from-accent/25 to-primary/25 blur-3xl rounded-3xl -z-10"></div>
+                                    <div className="rounded-2xl border border-slate-700 shadow-2xl shadow-primary/10 bg-slate-900/50 p-2 backdrop-blur-sm overflow-hidden ring-2 ring-primary/5">
+                                        <img className="rounded-xl w-full h-auto object-cover" alt="Store customization panel" src="socials.png" />
                                     </div>
                                 </div>
                             </div>
@@ -415,10 +418,10 @@ export default function Home() {
                                     {t('hiw.step2.cta')} <span className="material-icons">arrow_forward</span>
                                 </button>
                             </div>
-                        </div>
+                        </ScrollReveal>
 
                         {/* Step 3 */}
-                        <div className="grid lg:grid-cols-2 gap-12 items-center mb-32">
+                        <ScrollReveal className="grid lg:grid-cols-2 gap-12 items-center mb-32" direction="up">
                             <div className="order-2 lg:order-1">
                                 <div className="flex items-center gap-3 mb-6">
                                     <div className="w-12 h-12 bg-gradient-primary rounded-xl flex items-center justify-center">
@@ -439,31 +442,29 @@ export default function Home() {
                             </div>
                             <div className="order-1 lg:order-2">
                                 <div className="relative">
-                                    <div className="absolute -inset-4 bg-gradient-to-r from-primary/20 to-accent/20 blur-3xl rounded-3xl -z-10"></div>
-                                    <div className="rounded-2xl border border-slate-700 shadow-2xl bg-slate-900/50 p-3 backdrop-blur-sm overflow-hidden">
+                                    <div className="absolute -inset-4 bg-gradient-to-r from-primary/25 to-accent/25 blur-3xl rounded-3xl -z-10"></div>
+                                    <div className="rounded-2xl border border-slate-700 shadow-2xl shadow-primary/10 bg-slate-900/50 p-3 backdrop-blur-sm overflow-hidden ring-2 ring-primary/5">
                                         <div className="bg-slate-800 rounded-t-lg px-4 py-2 flex items-center gap-2 mb-2">
                                             <div className="flex gap-1.5">
                                                 <div className="w-3 h-3 rounded-full bg-red-500"></div>
                                                 <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
                                                 <div className="w-3 h-3 rounded-full bg-green-500"></div>
                                             </div>
-                                            <div className="flex-1 text-center text-xs text-slate-400">yourstorename.com</div>
+                                            <div className="flex-1 text-center text-xs text-slate-400">VintedPoint.com</div>
                                         </div>
-                                        <img className="rounded-b-xl w-full h-auto object-cover" alt="Landing page preview" src="https://images.unsplash.com/photo-1547658719-da2b51169166?w=800&h=600&fit=crop" />
-                                        <p className="text-center text-xs text-slate-500 mt-3">{t('hiw.step3.linkNote')}</p>
+                                        <img className="rounded-b-xl w-full h-auto object-cover" alt="Landing page preview" src="sales.png" />
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </ScrollReveal>
 
                         {/* Step 4 */}
-                        <div className="grid lg:grid-cols-2 gap-12 items-center">
+                        <ScrollReveal className="grid lg:grid-cols-2 gap-12 items-center" direction="up">
                             <div className="order-1">
                                 <div className="relative">
-                                    <div className="absolute -inset-4 bg-gradient-to-r from-accent/20 to-primary/20 blur-3xl rounded-3xl -z-10"></div>
-                                    <div className="rounded-2xl border border-slate-700 shadow-2xl bg-slate-900/50 p-2 backdrop-blur-sm overflow-hidden">
-                                        <img className="rounded-xl w-full h-auto object-cover" alt="Payment notifications showing 100% profit" src="/brain/bef7397b-704c-4cbc-a333-2ec7c41628cc/payment_notifications_mockup_1771351729102.png" />
-                                        <p className="text-center text-xs text-slate-500 mt-3">{t('hiw.step4.profitNote')}</p>
+                                    <div className="absolute -inset-4 bg-gradient-to-r from-accent/25 to-primary/25 blur-3xl rounded-3xl -z-10"></div>
+                                    <div className="rounded-2xl border border-slate-700 shadow-2xl shadow-primary/10 bg-slate-900/50 p-2 backdrop-blur-sm overflow-hidden ring-2 ring-primary/5">
+                                        <img className="rounded-xl w-full h-auto object-cover" alt="Payment notifications showing 100% profit" src="withdraw2.png" />
                                     </div>
                                 </div>
                             </div>
@@ -485,22 +486,22 @@ export default function Home() {
                                     {t('hiw.step4.cta')} <span className="material-icons">arrow_forward</span>
                                 </button>
                             </div>
-                        </div>
+                        </ScrollReveal>
                     </div>
                 </section>
 
                 {/* Features */}
                 <section className="py-24 bg-slate-900/30 border-y border-slate-800" id="features">
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                        <div className="text-center mb-14">
+                        <ScrollReveal className="text-center mb-14">
                             <span className="text-primary font-bold text-sm uppercase tracking-widest">{t('features.badge')}</span>
                             <h2 className="text-4xl lg:text-5xl font-extrabold text-white mt-4 mb-5 leading-tight">
                                 {t('features.title')}
                             </h2>
                             <p className="text-slate-400 text-lg max-w-3xl mx-auto">{t('features.subtitle')}</p>
-                        </div>
+                        </ScrollReveal>
 
-                        <div className="grid md:grid-cols-2 gap-8">
+                        <ScrollReveal className="grid md:grid-cols-2 gap-8" stagger>
                             {[
                                 {
                                     icon: 'rocket_launch',
@@ -555,19 +556,19 @@ export default function Home() {
                                     </button>
                                 </div>
                             ))}
-                        </div>
+                        </ScrollReveal>
                     </div>
                 </section>
 
                 {/* Pricing */}
                 <section className="py-24 bg-slate-900/50" id="pricing">
                     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-                        <div className="text-center mb-8">
+                        <ScrollReveal className="text-center mb-8">
                             <h2 className="text-4xl lg:text-5xl font-extrabold text-white mb-4">{t('pricing.title')}</h2>
                             <p className="text-lg text-primary">{t('pricing.subtitle')}</p>
-                        </div>
+                        </ScrollReveal>
 
-                        <div className="flex items-center justify-center gap-4 mb-6">
+                        <ScrollReveal className="flex items-center justify-center gap-4 mb-6">
                             <span className={`font-medium ${!isYearly ? 'text-white' : 'text-slate-400'}`}>{t('pricing.monthly')}</span>
                             <button onClick={() => setIsYearly(!isYearly)} className="relative w-14 h-8 bg-primary rounded-full transition-colors">
                                 <div className={`absolute left-1 top-1 w-6 h-6 bg-white rounded-full shadow-md transition-transform transform ${isYearly ? 'translate-x-6' : 'translate-x-0'}`}></div>
@@ -576,18 +577,18 @@ export default function Home() {
                             <span className="px-3 py-1 bg-green-500/20 text-green-400 text-sm font-bold rounded-md border border-green-500/30">
                                 {t('pricing.savings')}
                             </span>
-                        </div>
+                        </ScrollReveal>
 
-                        <div className="text-center mb-8">
+                        <ScrollReveal className="text-center mb-8">
                             <div className="inline-flex items-center gap-2 px-4 py-2 bg-orange-500/10 border border-orange-500/30 rounded-lg">
                                 <span className="material-icons text-orange-500 text-sm">local_fire_department</span>
                                 <span className="text-orange-500 font-semibold text-sm">
                                     {t('pricing.countdown', { pct: discountPercent, time: timeLeft })}
                                 </span>
                             </div>
-                        </div>
+                        </ScrollReveal>
 
-                        <div className="relative max-w-2xl mx-auto">
+                        <ScrollReveal className="relative max-w-2xl mx-auto">
                             <div className="absolute -inset-1 bg-gradient-to-r from-primary/30 to-accent/30 rounded-3xl blur-xl"></div>
                             <div className="relative bg-slate-900 border-2 border-primary/30 rounded-3xl p-8 shadow-2xl">
                                 <div className="absolute -top-3 right-8">
@@ -626,9 +627,9 @@ export default function Home() {
                                     </p>
                                 </div>
                             </div>
-                        </div>
+                        </ScrollReveal>
 
-                        <div className="mt-12 max-w-md mx-auto text-center">
+                        <ScrollReveal className="mt-12 max-w-md mx-auto text-center">
                             <div className="bg-slate-800/50 border border-slate-700 rounded-2xl p-6">
                                 <h4 className="text-xl font-bold text-white mb-4">{t('pricing.otherApps.title')}</h4>
                                 <div className="text-4xl font-extrabold text-white mb-4">{formatPriceFromUsd(1100)}+</div>
@@ -642,20 +643,20 @@ export default function Home() {
                                     ))}
                                 </ul>
                             </div>
-                        </div>
+                        </ScrollReveal>
                     </div>
                 </section>
 
                 {/* Testimonials */}
                 <section className="py-24">
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                        <div className="text-center mb-16">
+                        <ScrollReveal className="text-center mb-16">
                             <h2 className="text-3xl lg:text-4xl font-extrabold text-white mb-4">{t('testimonials.title')}</h2>
                             <div className="flex justify-center gap-1 text-yellow-500">
                                 {[...Array(5)].map((_, i) => (<span key={i} className="material-icons">star</span>))}
                             </div>
-                        </div>
-                        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        </ScrollReveal>
+                        <ScrollReveal className="grid md:grid-cols-2 lg:grid-cols-3 gap-8" stagger>
                             {testimonials.map((item, i) => (
                                 <div key={i} className="p-8 bg-slate-800/40 rounded-2xl border border-slate-700 shadow-sm relative">
                                     <span className="material-icons absolute top-8 right-8 text-slate-700 text-6xl">format_quote</span>
@@ -671,14 +672,14 @@ export default function Home() {
                                     </div>
                                 </div>
                             ))}
-                        </div>
+                        </ScrollReveal>
                     </div>
                 </section>
 
                 {/* CTA */}
                 <section className="py-24">
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                        <div className="bg-gradient-primary rounded-[2rem] p-8 lg:p-20 relative overflow-hidden text-center text-white">
+                        <ScrollReveal className="bg-gradient-primary rounded-[2rem] p-8 lg:p-20 relative overflow-hidden text-center text-white">
                             <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -mr-32 -mt-32"></div>
                             <div className="absolute bottom-0 left-0 w-64 h-64 bg-black/10 rounded-full -ml-32 -mb-32"></div>
                             <h2 className="text-4xl lg:text-6xl font-extrabold mb-8 relative z-10">{t('cta.title')}</h2>
@@ -687,11 +688,11 @@ export default function Home() {
                                 <button onClick={() => router.push('/signup')} className="bg-white text-primary px-12 py-5 rounded-xl font-extrabold text-lg shadow-2xl hover:bg-blue-50 transition-all">
                                     {t('cta.primary')}
                                 </button>
-                                <button onClick={() => router.push('/store')} className="bg-transparent border-2 border-white/30 text-white px-12 py-5 rounded-xl font-extrabold text-lg hover:bg-white/10 transition-all">
+                                <button onClick={() => router.push('/store')} className="bg-transparent border-2 border-white/30 text-white px-10 py-5 rounded-xl font-extrabold md:text-lg text-sm hover:bg-white/10 transition-all">
                                     {t('cta.secondary')}
                                 </button>
                             </div>
-                        </div>
+                        </ScrollReveal>
                     </div>
                 </section>
 
@@ -703,10 +704,8 @@ export default function Home() {
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                         <div className="flex flex-col md:flex-row justify-between items-center gap-8">
                             <div className="flex items-center gap-2">
-                                <div className="w-8 h-8 bg-gradient-primary rounded flex items-center justify-center">
-                                    <span className="material-icons text-white text-sm">rocket_launch</span>
-                                </div>
-                                <span className="text-lg font-bold text-white">SupplyPoint</span>
+                                <img src="/pointlogo.png" alt="VintedPoint" className="w-8 h-8 object-contain" />
+                                <span className="text-lg font-bold"><span className="text-blue-500">Vinted</span><span className="text-white">point</span></span>
                             </div>
                             <div className="flex gap-8 text-sm font-semibold text-slate-500">
                                 <a className="hover:text-primary transition-colors" href="#">{t('footer.privacy')}</a>  

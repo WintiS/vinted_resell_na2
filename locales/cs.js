@@ -10,7 +10,7 @@ const cs = {
     'nav.admin': 'Admin',
 
     // Index page meta
-    'index.pageTitle': 'SupplyPoint | Spusťte váš Supplier obchod',
+    'index.pageTitle': 'VintedPoint | Spusťte váš Supplier obchod',
     'index.metaDesc': 'Ultimátní model 100% zisku. Prodávejte ověřené dodavatele pro Vinted prostřednictvím vlastního    obchodu.',
 
     // Hero
@@ -31,26 +31,25 @@ const cs = {
     // How It Works
     'hiw.title': 'Jak to funguje',
     'hiw.subtitle': 'Čtyři jednoduché kroky od nuly k pěti cifernému zisku každý týden.',
-    'hiw.step1.badge': 'Okamžitý přístup',
+    'hiw.step1.badge': 'Okamžitý start',
     'hiw.step1.title': 'Krok první:',
-    'hiw.step1.highlight': 'Registrace a nastavení',
-    'hiw.step1.desc': 'Vytvořte si účet a vyberte si vlastní doménu obchodu za méně než 60 sekund. Bez kódování, bez nastavení. Stačí přizpůsobit údaje a okamžitě začít.',
+    'hiw.step1.highlight': 'Registrace a vyzkoušení zdarma',
+    'hiw.step1.desc': 'Vytvořte si účet pomocí Google nebo E-mailu. Obchod máte připravený hned. Stačí si jen zapnout zkušební obdodbí zdarma a můžete začít vydělávat.',
     'hiw.step1.cta': 'Začít dnes',
     'hiw.step2.badge': 'Plná kontrola',
     'hiw.step2.title': 'Krok druhý:',
-    'hiw.step2.highlight': 'Přizpůsobte svůj obchod',
-    'hiw.step2.desc': 'Přidejte logo, nastavte ceny a vyberte, které ověřené seznamy dodavatelů chcete nabízet. Zcela přizpůsobte vše svému brandu.',
+    'hiw.step2.highlight': 'Propagujte svůj obchod',
+    'hiw.step2.desc': 'Propagujte svůj obchod pomocí unikátního odkazu. Na TikToku, Instagramu, Discrodu, úplně jakkoliv. 100% zisku je vaše',
     'hiw.step2.cta': 'Začít dnes',
-    'hiw.step3.badge': 'Okamžitý přístup',
+    'hiw.step3.badge': 'Pravidelný příjem',
     'hiw.step3.title': 'Krok třetí:',
-    'hiw.step3.highlight': 'Plug & play landing page za 2 minuty',
-    'hiw.step3.desc': 'Každý obchod má vlastní landing page s vysokou konverzí. Bez kódování, bez nastavení. Stačí přizpůsobit odkazy a okamžitě začít prodávat.',
+    'hiw.step3.highlight': 'Pravidelné zisky',
+    'hiw.step3.desc': 'Obchod s dodavateli je optimalizovaný pro maximální konverzi, a vy tak jen můžete sledovat, jak vám do peňeženky každý den chodí peníze.',
     'hiw.step3.cta': 'Začít dnes',
-    'hiw.step3.linkNote': 'Propojte svou plug & play landing page',
-    'hiw.step4.badge': 'Okamžitý přístup',
+    'hiw.step4.badge': 'Okamžitý výběr',
     'hiw.step4.title': 'Krok čtvrtý:',
-    'hiw.step4.highlight': 'Získejte 100% zisk ze všech prodejů',
-    'hiw.step4.desc': 'Jen několika kliknutími začněte bezpečně zpracovávat platby přes Stripe, PayPal, Square a další. A 100% zisku si necháváte sami. Žádné skryté poplatky.',
+    'hiw.step4.highlight': 'Převeďte si peníze na svůj účet',
+    'hiw.step4.desc': 'Vybrat zisky si můžete od jakékoliv částky. Stačí zadat číslo účtu a do druhého dne jsou peníze u vás.',
     'hiw.step4.cta': 'Začít dnes',
     'hiw.step4.profitNote': 'Vydělávejte 100% zisk z každého prodeje',
 
@@ -106,7 +105,7 @@ const cs = {
     'pricing.trustpilot.rating': '4,9 z 5',
     'pricing.trustpilot.name': 'Trustpilot',
     'pricing.accessText': 'Okamžitý plný přístup',
-    'pricing.accessTo': 'k SupplyPoint',
+    'pricing.accessTo': 'k VintedPoint',
     'pricing.interval.month': 'měsíc',
     'pricing.interval.year': 'rok',
     'pricing.otherApps.title': 'Ostatní aplikace',
@@ -116,14 +115,14 @@ const cs = {
     'pricing.otherApps.f2': 'Více platforem',
     'pricing.otherApps.f3': 'Transakční poplatky',
     'pricing.otherApps.f4': 'Menší výdělky',
-    'pricing.whyTitle': 'Proč si vybrat SupplyPoint?',
+    'pricing.whyTitle': 'Proč si vybrat VintedPoint?',
     'pricing.feature1.title': '100% Provize',
     'pricing.feature1.desc': 'Zachováte si každou korunu, kterou vyděláte. Žádné skryté poplatky.',
     'pricing.feature2.title': 'Analytika v reálném čase',
     'pricing.feature2.desc': 'Sledujte své prodeje, příjmy a výkon v reálném čase.',
     'pricing.feature3.title': 'Dedikovaná podpora',
     'pricing.feature3.desc': 'Získejte pomoc, když ji potřebujete, s naším responzivním týmem.',
-    'pricing.pageTitle': 'Ceník | SupplierSaaS',
+    'pricing.pageTitle': 'Ceník | VintedPoint',
 
     // Testimonials
     'testimonials.title': 'Skutečné výsledky od skutečných uživatelů',
@@ -141,12 +140,12 @@ const cs = {
     'cta.title': 'Připraveni vybudovat váš online business?',
     'cta.subtitle': 'Přidejte se k 50+ majitelům, kteří pochopili, že peníze nejsou v resellingu oblečení ale právě dodavatelů.',
     'cta.primary': 'Spustit obchod',
-    'cta.secondary': 'Zobrazit ukázkový obchod',
+    'cta.secondary': 'Zobrazit demo obchod',
 
     // Live Sales ticker
     'liveSales.live': 'Živá data se obnovují za {countdown}s',
     'liveSales.title': 'Sledujte, co se prodává v reálném čase',
-    'liveSales.subtitleBefore': 'Živý pohled na oblíbené produkty ze supplyPoint',
+    'liveSales.subtitleBefore': 'Živý pohled na oblíbené produkty ze VintedPoint',
     'liveSales.revenue': 'Tržby dnes:',
     'liveSales.sales': 'Prodeje dnes:',
     'liveSales.scrollHint': '← Posuňte pro zobrazení dalších produktů →',
@@ -156,10 +155,10 @@ const cs = {
     'footer.terms': 'Podmínky služby',
     'footer.contact': 'Kontakt',
     'footer.affiliates': 'Affiliáti',
-    'footer.copyright': '© 2024 SupplierSaaS Platform. Všechna práva vyhrazena.',
+    'footer.copyright': '© 2024 VintedPoint. Všechna práva vyhrazena.',
 
     // Login page
-    'login.pageTitle': 'Přihlášení | SupplierSaaS',
+    'login.pageTitle': 'Přihlášení | VintedPoint',
     'login.title': 'Vítejte zpět',
     'login.subtitle': 'Přihlašte se pro přístup k vašemu přehledu',
     'login.email': 'E-mail',
@@ -172,9 +171,10 @@ const cs = {
     'login.or': 'nebo',
     'login.noAccount': 'Nemáte účet?',
     'login.signupLink': 'Zaregistrujte se',
+    'login.goBack': 'Zpět',
 
     // Signup page
-    'signup.pageTitle': 'Registrace | SupplierSaaS',
+    'signup.pageTitle': 'Registrace | VintedPoint',
     'signup.title': 'Vytvořit účet',
     'signup.planYearly': 'Roční plán — $290/rok',
     'signup.planMonthly': 'Měsíční plán — $29/měsíc',
@@ -193,7 +193,7 @@ const cs = {
     'signup.goBack': 'Zpět',
 
     // Dashboard page
-    'dashboard.pageTitle': 'Přehled | SupplierSaaS',
+    'dashboard.pageTitle': 'Přehled | VintedPoint',
     'dashboard.loading': 'Načítám...',
     'dashboard.subscriptionWarning.title': 'Vyžadováno předplatné',
     'dashboard.subscriptionWarning.desc': 'Vaše předplatné je neaktivní. Přihlašte se k aktivaci vašeho affiliátního odkazu a začněte vydělávat provize.',
@@ -206,6 +206,7 @@ const cs = {
     'dashboard.referral.copied': 'Zkopírováno!',
     'dashboard.referral.copy': 'Zkopírovat',
     'dashboard.referral.hint': 'Sdílejte tento odkaz a vydělávejte 100% provizi za každý prodej',
+    'dashboard.referral.hintNoSubscription': 'Pro výdělek z vašeho obchodu potřebujete aktivní předplatné.',
     'dashboard.viewStore': 'Zobrazit váš obchod',
     'dashboard.stats.totalSales': 'Celkem prodejů',
     'dashboard.stats.thisMonth': 'Tento měsíc',
@@ -224,7 +225,7 @@ const cs = {
     'dashboard.status.failed': 'neúspěšné',
 
     // Payment success page (subscription)
-    'success.pageTitle': 'Platba úspěšná | SupplierSaaS',
+    'success.pageTitle': 'Platba úspěšná | VintedPoint',
     'success.title': 'Platba byla úspěšná!',
     'success.desc': 'Děkujeme za předplatné! Vaše předplatné bylo aktivováno a můžete začít využívat všechny funkce.',
     'success.sessionId': 'ID relace:',
@@ -232,12 +233,12 @@ const cs = {
     'success.viewPricing': 'Zobrazit ceník',
 
     // Public store
-    'store.pageTitle': 'Prémiová databáze dodavatelů Vinted | VintedResells',
-    'store.metaDesc': 'Získejte přístup k 500+ ověřeným dodavatelům Vinted. Ultimátní zdroj pro prodejce na Vinted.',
-    'store.banner.b1': '✨ 100% OVĚŘENÍ DODAVATELÉ',
+    'store.pageTitle': 'Prémiová databáze dodavatelů Vinted | VintedPoint',
+    'store.metaDesc': 'Získejte přístup k OSOBNĚ ověřeným dodavatelům oblečení. Ultimátní zdroj pro prodejce na Vinted.',
+    'store.banner.b1': '✨ OSOBNĚ OVĚŘENÍ DODAVATELÉ',
     'store.banner.b2': '🚀 DOŽIVOTNÍ PŘÍSTUP',
-    'store.banner.b3': '💎 500+ PRÉMIOVÝCH KONTAKTŮ',
-    'store.banner.b4': '📈 AKTUALIZOVÁNO MĚSÍČNĚ',
+    'store.banner.b3': '💎 PRÉMIOVÉ KONTAKTY',
+    'store.banner.b4': '📈 PENÍZE ZPĚT DO 14 DNŮ',
     'store.popup.title': 'Přidáno do košíku!',
     'store.popup.checkout': 'Pokladna',
     'store.popup.viewCart': 'Zobrazit košík',
@@ -266,10 +267,10 @@ const cs = {
     'store.trust.sslDesc': 'Zabezpečení 256-bit',
     'store.trust.guarantee': '30denní záruka',
     'store.trust.guaranteeDesc': 'Bez otázek',
-    'store.backToHome': 'Zpět na hlavní stránku',
+    'store.backToHome': 'Zpět - ty jsi hustler',
 
     // Shopping cart
-    'cart.pageTitle': 'Nákupní košík | VintedResells',
+    'cart.pageTitle': 'Nákupní košík | VintedPoint',
     'cart.backToStore': 'Zpět do obchodu',
     'cart.title': 'Nákupní košík',
     'cart.empty.title': 'Váš košík je prázdný',
@@ -288,9 +289,11 @@ const cs = {
     'cart.youMightLike': 'Mohlo by se vám líbit',
     'cart.addToCart': 'Přidat do košíku',
     'cart.checkoutError': 'Nepodařilo se spustit pokladnu. Zkuste to znovu.',
+    'cart.freeGuide.title': 'Průvodce: Jak nakupovat od dodavatelů a maximalizovat zisk',
+    'cart.freeGuide.free': 'ZDARMA',
 
     // Store order success
-    'storeSuccess.pageTitle': 'Objednávka úspěšná | VintedResells',
+    'storeSuccess.pageTitle': 'Objednávka úspěšná | VintedPoint',
     'storeSuccess.title': 'Objednávka úspěšná!',
     'storeSuccess.desc': 'Děkujeme za váš nákup! Vaše objednávka byla potvrzena.',
     'storeSuccess.orderId': 'ID objednávky',
@@ -306,7 +309,7 @@ const cs = {
     'storeSuccess.totalAmount': 'Celková částka',
 
     // Store checkout cancelled
-    'storeCancel.pageTitle': 'Pokladna zrušena | VintedResells',
+    'storeCancel.pageTitle': 'Pokladna zrušena | VintedPoint',
     'storeCancel.title': 'Pokladna zrušena',
     'storeCancel.desc': 'Žádný problém! Vaše položky v košíku byly uloženy a nákup můžete dokončit kdykoli budete připraveni.',
     'storeCancel.whatHappened': 'Co se stalo?',
@@ -318,7 +321,7 @@ const cs = {
     'storeCancel.backToHome': 'Zpět na hlavní stránku',
 
     // Admin panel
-    'admin.pageTitle': 'Administrace | SupplierSaaS',
+    'admin.pageTitle': 'Administrace | VintedPoint',
     'admin.title': 'Administrace',
     'admin.backToDashboard': 'Zpět na přehled',
     'admin.stats.totalUsers': 'Celkem uživatelů',

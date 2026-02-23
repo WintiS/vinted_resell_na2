@@ -101,6 +101,7 @@ export default function Pricing() {
         <>
             <Head>
                 <title>{t('pricing.pageTitle')}</title>
+                <link rel="icon" href="/logo.ico" />
                 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
             </Head>
 
@@ -110,9 +111,7 @@ export default function Pricing() {
                     <div className="container mx-auto px-4 sm:px-6 py-3 md:py-4">
                         <div className="flex justify-between items-center">
                             <div className="flex items-center gap-2">
-                                <div className="w-8 h-8 md:w-10 md:h-10 bg-gradient-primary rounded-lg flex items-center justify-center">
-                                    <span className="material-icons text-white text-xl md:text-2xl">rocket_launch</span>
-                                </div>
+                                <img src="/pointlogo.png" alt="VintedPoint" className="w-8 h-8 md:w-10 md:h-10 object-contain" />
                                 <h1 className="text-lg md:text-xl font-bold text-white">
                                     Supplier<span className="text-primary">SaaS</span>
                                 </h1>

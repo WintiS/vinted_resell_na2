@@ -68,11 +68,12 @@ function Cart() {
         <>
             <Head>
                 <title>{t('cart.pageTitle')}</title>
+                <link rel="icon" href="/logo.ico" />
                 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
             </Head>
 
             <div className="min-h-screen bg-black">
-                <div className="container mx-auto px-4 sm:px-6 py-12 md:py-16 max-w-6xl">
+                <div className="container mx-auto px-4 sm:px-6 py-4 md:py-16 max-w-6xl">
                     {/* Header */}
                     <div className="mb-8 md:mb-12">
                         <div className="flex items-center justify-between mb-4 md:mb-6">
@@ -107,8 +108,8 @@ function Cart() {
                                 {cart.map((item) => {
                                     const product = allProducts.find(p => p.id === item.id);
                                     return (
-                                    <div key={item.id} className="bg-zinc-900 border border-zinc-800 rounded-2xl px-4 py-2 md:p-6 flex flex-col sm:flex-row items-start sm:items-center gap-4 md:gap-6">
-                                        <div className="w-full sm:w-24 h-32 bg-black rounded-xl flex items-center justify-center flex-shrink-0 overflow-hidden">
+                                    <div key={item.id} className="bg-zinc-900 border border-zinc-800 rounded-2xl px-4 pt-2 pb-4 md:p-6 flex flex-col sm:flex-row items-start sm:items-center gap-4 md:gap-6">
+                                        <div className="w-full sm:w-24 h-24 bg-black rounded-xl flex items-center justify-center flex-shrink-0 overflow-hidden">
                                             {product?.imgUrl ? (
                                                 <img 
                                                     src={`/${product.imgUrl}`} 
@@ -120,21 +121,37 @@ function Cart() {
                                             )}
                                         </div>
                                         <div className="flex-grow w-full sm:w-auto">
-                                            <h3 className="text-white font-bold text-base md:text-lg mb-2">{item.title}</h3>
-                                            <p className="text-[#9d34da] font-bold text-lg md:text-xl">
-                                                {item.priceUsd !== undefined ? formatPrice(item.priceUsd) : item.price || 'N/A'}
-                                            </p>
+                                            <h3 className="text-white font-bold text-base md:text-lg mb-1">{item.title}</h3>
+                                            <div className="flex items-center justify-between gap-2">
+                                                <p className="text-[#9d34da] font-bold text-lg md:text-xl">
+                                                    {item.priceUsd !== undefined ? formatPrice(item.priceUsd) : item.price || 'N/A'}
+                                                </p>
+                                                <button
+                                                    onClick={() => removeFromCart(item.id)}
+                                                    className="text-gray-400 hover:text-red-500 transition-colors"
+                                                >
+                                                    <span className="material-icons">delete</span>
+                                                </button>
+                                            </div>
                                             <p className="text-gray-400 text-xs md:text-sm mt-1">{t('cart.quantity', { qty: item.quantity })}</p>
                                         </div>
-                                        <button
-                                            onClick={() => removeFromCart(item.id)}
-                                            className="text-gray-400 hover:text-red-500 transition-colors self-end sm:self-auto"
-                                        >
-                                            <span className="material-icons">delete</span>
-                                        </button>
                                     </div>
                                     );
                                 })}
+                                {/* Free guide bonus - shown when cart has at least one item */}
+                                <div className="bg-zinc-900 border border-zinc-800 rounded-2xl px-4 py-2 md:p-6 flex flex-col sm:flex-row items-start sm:items-center gap-4 md:gap-6">
+                                    <div className="w-full sm:w-24 h-32 bg-black rounded-xl flex items-center justify-center flex-shrink-0 overflow-hidden">
+                                        <img 
+                                            src="/heroStore.png" 
+                                            alt={t('cart.freeGuide.title')}
+                                            className="w-full h-full object-cover"
+                                        />
+                                    </div>
+                                    <div className="flex-grow w-full sm:w-auto">
+                                        <h3 className="text-white font-bold text-base md:text-lg mb-2">{t('cart.freeGuide.title')}</h3>
+                                        <p className="text-emerald-500 font-bold text-lg md:text-xl">{t('cart.freeGuide.free')}</p>
+                                    </div>
+                                </div>
                             </div>
 
                             {/* Order Summary */}

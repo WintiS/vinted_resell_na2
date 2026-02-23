@@ -18,7 +18,7 @@ The entire Vinted SaaS platform has been fully translated from English to Czech.
 - "NEJLEPŠÍ HODNOTA"
 - Features translated to Czech
 - "Předplatit nyní"
-- "Proč si vybrat SupplierSaaS?"
+- "Proč si vybrat VintedPoint?"
 - All benefit descriptions in Czech
 
 ### 2. **Login Page** (`/login.js`)

@@ -47,10 +47,19 @@ export default function Login() {
         <>
             <Head>
                 <title>{t('login.pageTitle')}</title>
+                <link rel="icon" href="/logo.ico" />
                 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
             </Head>
 
             <div className="min-h-screen bg-background-dark flex items-center justify-center px-4 sm:px-6 py-8 relative">
+                {/* Go back */}
+                <button
+                    onClick={() => router.push('/')}
+                    className="absolute top-4 left-4 flex items-center gap-1.5 text-slate-400 hover:text-white text-sm font-medium transition-colors"
+                >
+                    <span className="material-icons text-lg">arrow_back</span>
+                    {t('login.goBack')}
+                </button>
                 {/* Language toggle */}
                 <div className="absolute top-4 right-4">
                     <LanguageToggle variant="minimal" />
@@ -58,9 +67,7 @@ export default function Login() {
 
                 <div className="max-w-md w-full bg-surface-dark rounded-2xl shadow-2xl p-6 md:p-8 border border-slate-700">
                     <div className="text-center mb-6 md:mb-8">
-                        <div className="w-14 h-14 md:w-16 md:h-16 bg-gradient-primary rounded-xl flex items-center justify-center mx-auto mb-3 md:mb-4">
-                            <span className="material-icons text-white text-2xl md:text-3xl">rocket_launch</span>
-                        </div>
+                        <img src="/pointlogo.png" alt="VintedPoint" className="w-14 h-14 md:w-16 md:h-16 object-contain mx-auto mb-3 md:mb-4" />
                         <h2 className="text-2xl md:text-3xl font-bold text-white mb-2">{t('login.title')}</h2>
                         <p className="text-sm md:text-base text-slate-400">{t('login.subtitle')}</p>
                     </div>

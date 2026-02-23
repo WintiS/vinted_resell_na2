@@ -93,6 +93,7 @@ export default function AdminDashboard() {
         <>
             <Head>
                 <title>{t('admin.pageTitle')}</title>
+                <link rel="icon" href="/logo.ico" />
                 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
             </Head>
 
@@ -100,7 +101,7 @@ export default function AdminDashboard() {
                 <nav className="bg-surface-dark shadow-xl border-b border-slate-700">
                     <div className="container mx-auto px-6 py-4 flex justify-between items-center">
                         <div className="flex items-center gap-2">
-                            <span className="material-icons text-primary text-3xl">admin_panel_settings</span>
+                            <img src="/pointlogo.png" alt="VintedPoint" className="w-8 h-8 md:w-10 md:h-10 object-contain" />
                             <h1 className="text-xl font-bold text-white">{t('admin.title')}</h1>
                         </div>
                         <div className="flex items-center gap-4">

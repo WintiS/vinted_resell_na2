@@ -87,6 +87,14 @@ export default function Dashboard() {
 
     const isActive = userData.subscriptionStatus === 'active';
     const locale = lang === 'cs' ? 'cs-CZ' : 'en-US';
+    const isCzech = lang === 'cs';
+
+    const formatCurrency = (amount) => {
+        const baseAmount = amount || 0;
+        const displayAmount = isCzech ? baseAmount : baseAmount * 0.047;
+        const currencySymbol = isCzech ? 'Kč' : '$';
+        return `${displayAmount.toFixed(0)} ${currencySymbol}`;
+    };
 
     const translateStatus = (status) => {
         if (status === 'completed') return t('dashboard.status.completed');
@@ -99,6 +107,7 @@ export default function Dashboard() {
         <>
             <Head>
                 <title>{t('dashboard.pageTitle')}</title>
+                <link rel="icon" href="/logo.ico" />
                 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
             </Head>
 
@@ -108,11 +117,9 @@ export default function Dashboard() {
                     <div className="container mx-auto px-4 sm:px-6 py-3 md:py-4">
                         <div className="flex justify-between items-center">
                             <div className="flex items-center gap-2">
-                                <div className="w-8 h-8 md:w-10 md:h-10 bg-gradient-primary rounded-lg flex items-center justify-center">
-                                    <span className="material-icons text-white text-xl md:text-2xl">rocket_launch</span>
-                                </div>
+                                <img src="/pointlogo.png" alt="VintedPoint" className="w-8 h-8 md:w-10 md:h-10 object-contain" />
                                 <h1 className="text-lg md:text-xl font-bold text-white">
-                                    Supplier<span className="text-primary">SaaS</span>
+                                    Vinted<span className="text-primary">Point</span>
                                 </h1>
                             </div>
                             <div className="flex items-center gap-2 md:gap-4">
@@ -158,9 +165,157 @@ export default function Dashboard() {
                         </div>
                     )}
 
-                    {/* Subscription Status Card */}
+                    {/* Referral Link */}
+                    <div className="bg-surface-dark rounded-xl shadow-xl p-4 md:p-6 mb-4 md:mb-6 border border-slate-700">
+                        <h2 className="text-base md:text-lg font-semibold text-white mb-3 md:mb-4 flex items-center gap-2">
+                            <span className="material-icons text-primary text-xl md:text-2xl">link</span>
+                            {t('dashboard.referral.title')}
+                        </h2>
+                        <div className="flex flex-col sm:flex-row gap-2">
+                            {isActive ? (
+                                <>
+                                    <input
+                                        type="text"
+                                        value={referralLink}
+                                        readOnly
+                                        className="flex-1 bg-slate-800 border border-slate-600 rounded-lg px-3 md:px-4 py-2 md:py-3 text-slate-300 font-mono text-xs md:text-sm"
+                                    />
+                                    <button
+                                        onClick={copyLink}
+                                        className="bg-gradient-primary text-white px-4 md:px-6 py-2 md:py-3 rounded-lg text-sm md:text-base font-semibold hover:shadow-lg hover:shadow-primary/30 transition-all whitespace-nowrap flex items-center justify-center gap-1"
+                                    >
+                                        {copied ? (
+                                            <>
+                                                <span className="material-icons text-sm md:text-base">check</span>
+                                                <span className="hidden sm:inline">{t('dashboard.referral.copied')}</span>
+                                            </>
+                                        ) : (
+                                            <>
+                                                <span className="material-icons text-sm md:text-base">content_copy</span>
+                                                <span className="hidden sm:inline">{t('dashboard.referral.copy')}</span>
+                                            </>
+                                        )}
+                                    </button>
+                                </>
+                            ) : (
+                                <button
+                                    onClick={() => router.push('/pricing')}
+                                    className="flex-1 bg-slate-800 border border-slate-600 rounded-lg px-3 md:px-4 py-2 md:py-3 text-slate-300 font-mono text-xs md:text-sm text-left cursor-pointer hover:bg-slate-700 transition-colors select-none"
+                                    style={{ filter: 'blur(4px)' }}
+                                    title={t('dashboard.subscriptionWarning.cta')}
+                                >
+                                    {referralLink || 'https://example.com/store?ref=xxxx'}
+                                </button>
+                            )}
+                        </div>
+                        <p className="text-xs md:text-sm text-slate-400 mt-2 md:mt-3 flex items-start md:items-center gap-1">
+                            <span className="material-icons text-xs mt-0.5 md:mt-0">info</span>
+                            <span>{isActive ? t('dashboard.referral.hint') : t('dashboard.referral.hintNoSubscription')}</span>
+                        </p>
+                    </div>
+
+                    {/* View Store */}
+                    <div className="bg-surface-dark rounded-xl shadow-xl p-6 mb-6 border border-slate-700">
+                        <div className="text-center">
+                            <button
+                                onClick={() => router.push('/store')}
+                                className="w-full justify-center bg-gradient-primary text-white px-8 py-3 rounded-lg font-semibold hover:shadow-lg hover:shadow-primary/30 transition-all inline-flex items-center gap-2"
+                            >
+                                <span className="material-icons text-sm">shopping_bag</span>
+                                {t('dashboard.viewStore')}
+                            </button>
+                        </div>
+                    </div>
+
+                    {/* Stats Grid */}
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-6 mb-4 md:mb-6">
+                        <div className="bg-surface-dark rounded-xl shadow-xl p-6 border border-slate-700">
+                            <div className="flex items-center justify-between mb-2">
+                                <h3 className="text-slate-400 text-sm font-medium">{t('dashboard.stats.totalSales')}</h3>
+                                <span className="material-icons text-primary">shopping_cart</span>
+                            </div>
+                            <p className="text-3xl font-bold text-white">{stats.totalSales}</p>
+                        </div>
+                        <div className="bg-surface-dark rounded-xl shadow-xl p-6 border border-slate-700">
+                            <div className="flex items-center justify-between mb-2">
+                                <h3 className="text-slate-400 text-sm font-medium">{t('dashboard.stats.thisMonth')}</h3>
+                                <span className="material-icons text-green-500">trending_up</span>
+                            </div>
+                            <p className="text-3xl font-bold text-green-500">{formatCurrency(stats.thisMonth)}</p>
+                        </div>
+                        <div className="bg-surface-dark rounded-xl shadow-xl p-6 border border-slate-700">
+                            <div className="flex items-center justify-between mb-2">
+                                <h3 className="text-slate-400 text-sm font-medium">{t('dashboard.stats.lastMonth')}</h3>
+                                <span className="material-icons text-slate-500">calendar_month</span>
+                            </div>
+                            <p className="text-3xl font-bold text-slate-300">{formatCurrency(stats.lastMonth)}</p>
+                        </div>
+                        <div className="bg-surface-dark rounded-xl shadow-xl p-6 border border-slate-700">
+                            <div className="flex items-center justify-between mb-2">
+                                <h3 className="text-slate-400 text-sm font-medium">{t('dashboard.stats.balance')}</h3>
+                                <span className="material-icons text-blue-500">account_balance_wallet</span>
+                            </div>
+                            <p className="text-3xl font-bold text-blue-500">{formatCurrency(userData.availableBalance || 0)}</p>
+                            {(userData.availableBalance || 0) >= 50 && (
+                                <button className="mt-3 bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-green-700 w-full transition-colors">
+                                    {t('dashboard.stats.withdraw')}
+                                </button>
+                            )}
+                        </div>
+                    </div>
+
+                    {/* Recent Sales */}
+                    <div className="bg-surface-dark rounded-xl shadow-xl p-6 border border-slate-700">
+                        <h2 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+                            <span className="material-icons text-primary">receipt_long</span>
+                            {t('dashboard.recentSales.title')}
+                        </h2>
+                        {sales.length === 0 ? (
+                            <div className="text-center py-12">
+                                <span className="material-icons text-slate-600 text-6xl mb-4">inbox</span>
+                                <p className="text-slate-400 text-lg mb-2">{t('dashboard.recentSales.empty.title')}</p>
+                                <p className="text-slate-500 text-sm">{t('dashboard.recentSales.empty.desc')}</p>
+                            </div>
+                        ) : (
+                            <div className="overflow-x-auto">
+                                <table className="w-full">
+                                    <thead>
+                                        <tr className="border-b border-slate-700">
+                                            <th className="text-left py-3 px-2 text-slate-400 font-semibold text-sm">{t('dashboard.recentSales.date')}</th>
+                                            <th className="text-left py-3 px-2 text-slate-400 font-semibold text-sm">{t('dashboard.recentSales.product')}</th>
+                                            <th className="text-right py-3 px-2 text-slate-400 font-semibold text-sm">{t('dashboard.recentSales.price')}</th>
+                                            <th className="text-center py-3 px-2 text-slate-400 font-semibold text-sm">{t('dashboard.recentSales.status')}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {sales.map(sale => (
+                                            <tr key={sale.id} className="border-b border-slate-700/50 hover:bg-slate-800/30 transition-colors">
+                                                <td className="py-3 px-2 text-slate-300">
+                                                    {sale.createdAt?.toLocaleDateString(locale)}
+                                                </td>
+                                                <td className="py-3 px-2 text-white">{sale.productName}</td>
+                                                <td className="text-right py-3 px-2 text-slate-300">{formatCurrency(sale.amount)}</td>
+                                                <td className="text-center py-3 px-2">
+                                                    <span className={`px-3 py-1 rounded-full text-xs font-semibold ${sale.status === 'completed'
+                                                        ? 'bg-green-500/20 text-green-400 border border-green-500/30'
+                                                        : sale.status === 'pending'
+                                                            ? 'bg-yellow-500/20 text-yellow-400 border border-yellow-500/30'
+                                                            : 'bg-red-500/20 text-red-400 border border-red-500/30'
+                                                        }`}>
+                                                        {translateStatus(sale.status)}
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                        )}
+                    </div>
+
+                    {/* Subscription Status Card - shown at bottom when active */}
                     {isActive && (
-                        <div className="bg-gradient-to-br from-green-500/10 to-blue-500/10 border border-green-500/50 rounded-xl p-6 mb-6">
+                        <div className="bg-gradient-to-br from-green-500/10 to-blue-500/10 border border-green-500/50 rounded-xl p-6 mt-6">
                             <div className="flex items-start justify-between flex-wrap gap-4">
                                 <div className="flex items-start gap-4">
                                     <div className="w-12 h-12 bg-green-500/20 rounded-xl flex items-center justify-center border border-green-500/30">
@@ -210,141 +365,6 @@ export default function Dashboard() {
                             </div>
                         </div>
                     )}
-
-                    {/* Referral Link */}
-                    <div className="bg-surface-dark rounded-xl shadow-xl p-4 md:p-6 mb-4 md:mb-6 border border-slate-700">
-                        <h2 className="text-base md:text-lg font-semibold text-white mb-3 md:mb-4 flex items-center gap-2">
-                            <span className="material-icons text-primary text-xl md:text-2xl">link</span>
-                            {t('dashboard.referral.title')}
-                        </h2>
-                        <div className="flex flex-col sm:flex-row gap-2">
-                            <input
-                                type="text"
-                                value={referralLink}
-                                readOnly
-                                className="flex-1 bg-slate-800 border border-slate-600 rounded-lg px-3 md:px-4 py-2 md:py-3 text-slate-300 font-mono text-xs md:text-sm"
-                            />
-                            <button
-                                onClick={copyLink}
-                                className="bg-gradient-primary text-white px-4 md:px-6 py-2 md:py-3 rounded-lg text-sm md:text-base font-semibold hover:shadow-lg hover:shadow-primary/30 transition-all whitespace-nowrap flex items-center justify-center gap-1"
-                            >
-                                {copied ? (
-                                    <>
-                                        <span className="material-icons text-sm md:text-base">check</span>
-                                        <span className="hidden sm:inline">{t('dashboard.referral.copied')}</span>
-                                    </>
-                                ) : (
-                                    <>
-                                        <span className="material-icons text-sm md:text-base">content_copy</span>
-                                        <span className="hidden sm:inline">{t('dashboard.referral.copy')}</span>
-                                    </>
-                                )}
-                            </button>
-                        </div>
-                        <p className="text-xs md:text-sm text-slate-400 mt-2 md:mt-3 flex items-start md:items-center gap-1">
-                            <span className="material-icons text-xs mt-0.5 md:mt-0">info</span>
-                            <span>{t('dashboard.referral.hint')}</span>
-                        </p>
-                    </div>
-
-                    {/* View Store */}
-                    <div className="bg-surface-dark rounded-xl shadow-xl p-6 mb-6 border border-slate-700">
-                        <div className="text-center">
-                            <button
-                                onClick={() => router.push('/store')}
-                                className="w-full justify-center bg-gradient-primary text-white px-8 py-3 rounded-lg font-semibold hover:shadow-lg hover:shadow-primary/30 transition-all inline-flex items-center gap-2"
-                            >
-                                <span className="material-icons text-sm">shopping_bag</span>
-                                {t('dashboard.viewStore')}
-                            </button>
-                        </div>
-                    </div>
-
-                    {/* Stats Grid */}
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-6 mb-4 md:mb-6">
-                        <div className="bg-surface-dark rounded-xl shadow-xl p-6 border border-slate-700">
-                            <div className="flex items-center justify-between mb-2">
-                                <h3 className="text-slate-400 text-sm font-medium">{t('dashboard.stats.totalSales')}</h3>
-                                <span className="material-icons text-primary">shopping_cart</span>
-                            </div>
-                            <p className="text-3xl font-bold text-white">{stats.totalSales}</p>
-                        </div>
-                        <div className="bg-surface-dark rounded-xl shadow-xl p-6 border border-slate-700">
-                            <div className="flex items-center justify-between mb-2">
-                                <h3 className="text-slate-400 text-sm font-medium">{t('dashboard.stats.thisMonth')}</h3>
-                                <span className="material-icons text-green-500">trending_up</span>
-                            </div>
-                            <p className="text-3xl font-bold text-green-500">{stats.thisMonth.toFixed(0)} Kč</p>
-                        </div>
-                        <div className="bg-surface-dark rounded-xl shadow-xl p-6 border border-slate-700">
-                            <div className="flex items-center justify-between mb-2">
-                                <h3 className="text-slate-400 text-sm font-medium">{t('dashboard.stats.lastMonth')}</h3>
-                                <span className="material-icons text-slate-500">calendar_month</span>
-                            </div>
-                            <p className="text-3xl font-bold text-slate-300">{stats.lastMonth.toFixed(0)} Kč</p>
-                        </div>
-                        <div className="bg-surface-dark rounded-xl shadow-xl p-6 border border-slate-700">
-                            <div className="flex items-center justify-between mb-2">
-                                <h3 className="text-slate-400 text-sm font-medium">{t('dashboard.stats.balance')}</h3>
-                                <span className="material-icons text-blue-500">account_balance_wallet</span>
-                            </div>
-                            <p className="text-3xl font-bold text-blue-500">{(userData.availableBalance || 0).toFixed(0)} Kč</p>
-                            {(userData.availableBalance || 0) >= 50 && (
-                                <button className="mt-3 bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-green-700 w-full transition-colors">
-                                    {t('dashboard.stats.withdraw')}
-                                </button>
-                            )}
-                        </div>
-                    </div>
-
-                    {/* Recent Sales */}
-                    <div className="bg-surface-dark rounded-xl shadow-xl p-6 border border-slate-700">
-                        <h2 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-                            <span className="material-icons text-primary">receipt_long</span>
-                            {t('dashboard.recentSales.title')}
-                        </h2>
-                        {sales.length === 0 ? (
-                            <div className="text-center py-12">
-                                <span className="material-icons text-slate-600 text-6xl mb-4">inbox</span>
-                                <p className="text-slate-400 text-lg mb-2">{t('dashboard.recentSales.empty.title')}</p>
-                                <p className="text-slate-500 text-sm">{t('dashboard.recentSales.empty.desc')}</p>
-                            </div>
-                        ) : (
-                            <div className="overflow-x-auto">
-                                <table className="w-full">
-                                    <thead>
-                                        <tr className="border-b border-slate-700">
-                                            <th className="text-left py-3 px-2 text-slate-400 font-semibold text-sm">{t('dashboard.recentSales.date')}</th>
-                                            <th className="text-left py-3 px-2 text-slate-400 font-semibold text-sm">{t('dashboard.recentSales.product')}</th>
-                                            <th className="text-right py-3 px-2 text-slate-400 font-semibold text-sm">{t('dashboard.recentSales.price')}</th>
-                                            <th className="text-center py-3 px-2 text-slate-400 font-semibold text-sm">{t('dashboard.recentSales.status')}</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {sales.map(sale => (
-                                            <tr key={sale.id} className="border-b border-slate-700/50 hover:bg-slate-800/30 transition-colors">
-                                                <td className="py-3 px-2 text-slate-300">
-                                                    {sale.createdAt?.toLocaleDateString(locale)}
-                                                </td>
-                                                <td className="py-3 px-2 text-white">{sale.productName}</td>
-                                                <td className="text-right py-3 px-2 text-slate-300">{sale.amount.toFixed(0)} Kč</td>
-                                                <td className="text-center py-3 px-2">
-                                                    <span className={`px-3 py-1 rounded-full text-xs font-semibold ${sale.status === 'completed'
-                                                        ? 'bg-green-500/20 text-green-400 border border-green-500/30'
-                                                        : sale.status === 'pending'
-                                                            ? 'bg-yellow-500/20 text-yellow-400 border border-yellow-500/30'
-                                                            : 'bg-red-500/20 text-red-400 border border-red-500/30'
-                                                        }`}>
-                                                        {translateStatus(sale.status)}
-                                                    </span>
-                                                </td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
-                            </div>
-                        )}
-                    </div>
                 </div>
             </div>
         </>

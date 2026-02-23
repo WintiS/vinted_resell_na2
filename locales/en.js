@@ -10,7 +10,7 @@ const en = {
     'nav.admin': 'Admin',
 
     // Index page meta
-    'index.pageTitle': 'SupplyPoint | Launch Your Supplier Store',
+    'index.pageTitle': 'VintedPoint | Launch Your Supplier Store',
     'index.metaDesc': 'The ultimate 100% profit model. Sell verified Vinted suppliers through your own store.',
 
     // Hero
@@ -30,27 +30,26 @@ const en = {
 
     // How It Works
     'hiw.title': 'How it Works',
-    'hiw.subtitle': 'Four simple steps to transition from zero to a fully operational supplier store empire.',
-    'hiw.step1.badge': 'Instant access',
+    'hiw.subtitle': 'Four simple steps from zero to five-figure profit every week.',
+    'hiw.step1.badge': 'Instant start',
     'hiw.step1.title': 'Step One:',
-    'hiw.step1.highlight': 'Sign Up & Setup',
-    'hiw.step1.desc': 'Create your account and choose your custom store domain in less than 60 seconds. No coding, no setup. Just personalize your details and start building instantly.',
+    'hiw.step1.highlight': 'Registration & free trial',
+    'hiw.step1.desc': 'Create an account using Google or Email. Your shop is ready right away. Just activate the free trial period and you can start earning.',
     'hiw.step1.cta': 'Start today',
     'hiw.step2.badge': 'Full control',
     'hiw.step2.title': 'Step Two:',
-    'hiw.step2.highlight': 'Customize Your Store',
-    'hiw.step2.desc': 'Add your logo, set your pricing, and select which verified supplier lists you want to offer. Make it yours with complete branding control.',
+    'hiw.step2.highlight': 'Promote your store',
+    'hiw.step2.desc': 'Promote your store using a unique link. On TikTok, Instagram, Discord, however you want. You keep 100% of the profits',
     'hiw.step2.cta': 'Start today',
-    'hiw.step3.badge': 'Instant access',
+    'hiw.step3.badge': 'Regular income',
     'hiw.step3.title': 'Step Three:',
-    'hiw.step3.highlight': 'Plug & play landing page in 2 mins',
-    'hiw.step3.desc': 'Every store comes with a high-converting landing page. No coding, no setup. Just personalize your links and start selling instantly.',
+    'hiw.step3.highlight': 'Regular profits',
+    'hiw.step3.desc': 'The supplier store is optimized for maximum conversion, so you can just watch the money flow into your wallet every day.',
     'hiw.step3.cta': 'Start today',
-    'hiw.step3.linkNote': 'Link your plug & play landing page',
-    'hiw.step4.badge': 'Instant access',
+    'hiw.step4.badge': 'Instant withdrawal',
     'hiw.step4.title': 'Step Four:',
-    'hiw.step4.highlight': 'Get paid 100% profit on all sales',
-    'hiw.step4.desc': 'In just a few clicks, start processing payments securely through Stripe, PayPal, Square and more. Plus, you take home 100% profit on every sale. No hidden fees.',
+    'hiw.step4.highlight': 'Transfer money to your account',
+    'hiw.step4.desc': 'You can withdraw profits from any amount. Just enter your account number and the money will be with you by the next day.',
     'hiw.step4.cta': 'Start today',
     'hiw.step4.profitNote': 'Make 100% profit on every sale',
 
@@ -106,7 +105,7 @@ const en = {
     'pricing.trustpilot.rating': '4.9 out of 5',
     'pricing.trustpilot.name': 'Trustpilot',
     'pricing.accessText': 'Instant Full All-Access',
-    'pricing.accessTo': 'to SupplyPoint',
+    'pricing.accessTo': 'to VintedPoint',
     'pricing.interval.month': 'month',
     'pricing.interval.year': 'year',
     'pricing.otherApps.title': 'Other apps',
@@ -116,14 +115,14 @@ const en = {
     'pricing.otherApps.f2': 'Multiple platforms',
     'pricing.otherApps.f3': 'Transaction fees',
     'pricing.otherApps.f4': 'Earn less money',
-    'pricing.whyTitle': 'Why choose SupplyPoint?',
+    'pricing.whyTitle': 'Why choose VintedPoint?',
     'pricing.feature1.title': '100% Commission',
     'pricing.feature1.desc': 'Keep every penny you earn. No hidden fees.',
     'pricing.feature2.title': 'Real-time Analytics',
     'pricing.feature2.desc': 'Track your sales, revenue, and performance in real time.',
     'pricing.feature3.title': 'Dedicated Support',
     'pricing.feature3.desc': 'Get help when you need it with our responsive team.',
-    'pricing.pageTitle': 'Pricing | SupplyPoint',
+    'pricing.pageTitle': 'Pricing | VintedPoint',
 
     // Testimonials
     'testimonials.title': 'Real Results from Real Users',
@@ -148,7 +147,7 @@ const en = {
     'liveSales.title': "See what's being sold in real time",
     'liveSales.subtitleBefore': 'A live look at popular products being hosted on our platform and sold online. All products come',
     'liveSales.freeText': 'free',
-    'liveSales.subtitleAfter': 'with SupplierSaaS.',
+    'liveSales.subtitleAfter': 'with VintedPoint.',
     'liveSales.revenue': 'Revenue Today:',
     'liveSales.sales': 'Sales Today:',
     'liveSales.scrollHint': '← Scroll to see more products →',
@@ -158,10 +157,10 @@ const en = {
     'footer.terms': 'Terms of Service',
     'footer.contact': 'Contact',
     'footer.affiliates': 'Affiliates',
-    'footer.copyright': '© 2024 SupplierSaaS Platform. All rights reserved. Built for creators.',
+    'footer.copyright': '© 2024 VintedPoint. All rights reserved. Built for creators.',
 
     // Login page
-    'login.pageTitle': 'Login | SupplierSaaS',
+    'login.pageTitle': 'Login | VintedPoint',
     'login.title': 'Welcome back',
     'login.subtitle': 'Sign in to access your dashboard',
     'login.email': 'Email',
@@ -174,9 +173,10 @@ const en = {
     'login.or': 'or',
     'login.noAccount': "Don't have an account?",
     'login.signupLink': 'Sign up',
+    'login.goBack': 'Go back',
 
     // Signup page
-    'signup.pageTitle': 'Sign Up | SupplierSaaS',
+    'signup.pageTitle': 'Sign Up | VintedPoint',
     'signup.title': 'Create account',
     'signup.planYearly': 'Yearly plan — $290/year',
     'signup.planMonthly': 'Monthly plan — $29/month',
@@ -195,7 +195,7 @@ const en = {
     'signup.goBack': 'Go back',
 
     // Dashboard page
-    'dashboard.pageTitle': 'Dashboard | SupplierSaaS',
+    'dashboard.pageTitle': 'Dashboard | VintedPoint',
     'dashboard.loading': 'Loading...',
     'dashboard.subscriptionWarning.title': 'Subscription Required',
     'dashboard.subscriptionWarning.desc': 'Your subscription is inactive. Subscribe to activate your affiliate link and start earning commissions.',
@@ -208,6 +208,7 @@ const en = {
     'dashboard.referral.copied': 'Copied!',
     'dashboard.referral.copy': 'Copy',
     'dashboard.referral.hint': 'Share this link and earn 100% commission on every sale',
+    'dashboard.referral.hintNoSubscription': 'You need an active subscription to start earning from your store.',
     'dashboard.viewStore': 'View your store',
     'dashboard.stats.totalSales': 'Total Sales',
     'dashboard.stats.thisMonth': 'This Month',
@@ -226,7 +227,7 @@ const en = {
     'dashboard.status.failed': 'failed',
 
     // Payment success page (subscription)
-    'success.pageTitle': 'Payment Successful | SupplierSaaS',
+    'success.pageTitle': 'Payment Successful | VintedPoint',
     'success.title': 'Payment Successful!',
     'success.desc': 'Thank you for subscribing! Your subscription has been activated and you can now access all features.',
     'success.sessionId': 'Session ID:',
@@ -234,12 +235,12 @@ const en = {
     'success.viewPricing': 'View Pricing',
 
     // Public store
-    'store.pageTitle': 'Premium Vinted Suppliers Database | VintedResells',
-    'store.metaDesc': 'Get access to 500+ verified Vinted suppliers. The ultimate resource for Vinted resellers.',
-    'store.banner.b1': '✨ 100% VERIFIED SUPPLIERS',
+    'store.pageTitle': 'Premium Vinted Suppliers Database | VintedPoint',
+    'store.metaDesc': 'Get access to PERSONALLY verified clothing suppliers. The ultimate resource for Vinted sellers.',
+    'store.banner.b1': '✨ PERSONALLY VERIFIED SUPPLIERS',
     'store.banner.b2': '🚀 LIFETIME ACCESS',
-    'store.banner.b3': '💎 500+ PREMIUM CONTACTS',
-    'store.banner.b4': '📈 UPDATED MONTHLY',
+    'store.banner.b3': '💎 PREMIUM CONTACTS',
+    'store.banner.b4': '📈 MONEY BACK WITHIN 14 DAYS',
     'store.popup.title': 'Added to Cart!',
     'store.popup.checkout': 'Checkout Now',
     'store.popup.viewCart': 'View Cart',
@@ -268,10 +269,10 @@ const en = {
     'store.trust.sslDesc': '256-bit Security',
     'store.trust.guarantee': '30-Day Guarantee',
     'store.trust.guaranteeDesc': 'No Questions Asked',
-    'store.backToHome': 'Back to Home',
+    'store.backToHome': 'Back Home - you are the hustler',
 
     // Shopping cart
-    'cart.pageTitle': 'Shopping Cart | VintedResells',
+    'cart.pageTitle': 'Shopping Cart | VintedPoint',
     'cart.backToStore': 'Back to Store',
     'cart.title': 'Shopping Cart',
     'cart.empty.title': 'Your cart is empty',
@@ -290,9 +291,11 @@ const en = {
     'cart.youMightLike': 'You might also like',
     'cart.addToCart': 'Add to Cart',
     'cart.checkoutError': 'Failed to start checkout. Please try again.',
+    'cart.freeGuide.title': 'Guide: How to buy from suppliers and maximise your profit',
+    'cart.freeGuide.free': 'FREE',
 
     // Store order success
-    'storeSuccess.pageTitle': 'Order Successful | VintedResells',
+    'storeSuccess.pageTitle': 'Order Successful | VintedPoint',
     'storeSuccess.title': 'Order Successful!',
     'storeSuccess.desc': 'Thank you for your purchase! Your order has been confirmed.',
     'storeSuccess.orderId': 'Order ID',
@@ -308,7 +311,7 @@ const en = {
     'storeSuccess.totalAmount': 'Total Amount',
 
     // Store checkout cancelled
-    'storeCancel.pageTitle': 'Checkout Cancelled | VintedResells',
+    'storeCancel.pageTitle': 'Checkout Cancelled | VintedPoint',
     'storeCancel.title': 'Checkout Cancelled',
     'storeCancel.desc': "No worries! Your cart items have been saved and you can complete your purchase whenever you're ready.",
     'storeCancel.whatHappened': 'What Happened?',
@@ -320,7 +323,7 @@ const en = {
     'storeCancel.backToHome': 'Back to Home',
 
     // Admin panel
-    'admin.pageTitle': 'Admin | SupplierSaaS',
+    'admin.pageTitle': 'Admin | VintedPoint',
     'admin.title': 'Administration',
     'admin.backToDashboard': 'Back to Dashboard',
     'admin.stats.totalUsers': 'Total Users',

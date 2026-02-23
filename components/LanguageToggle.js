@@ -2,7 +2,7 @@ import { useLanguage } from '../context/LanguageContext';
 
 /**
  * CZ | EN language toggle button.
- * variant="default"  — for SupplierSaaS pages (blue primary, dark slate bg)
+ * variant="default"  — for VintedPoint pages (blue primary, dark slate bg)
  * variant="store"    — for store/cart pages (purple accent, pure black bg)
  * variant="minimal"  — small absolute-positioned pill for pages without a nav
  */

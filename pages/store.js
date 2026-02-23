@@ -5,13 +5,40 @@ import { CartProvider, useCart } from '../contexts/CartContext';
 import { useLanguage } from '../context/LanguageContext';
 import LanguageToggle from '../components/LanguageToggle';
 
+export const STORE_PRODUCTS = [
+    { id: 1, title: 'Premium Suppliers Links Bundle', rating: 5, reviews: 13, priceUsd: 55.70, priceId: 'price_1QrnB8GfZEaA9RkQ5cWfKKyf', soldOut: false, imgUrl: 'img11.png' },
+    { id: 3, title: 'Full Raplh Lauren Bundle', rating: 5, reviews: 1, priceUsd: 24.78, priceId: 'price_PLACEHOLDER_3', soldOut: false, imgUrl: 'img2.png' },
+    { id: 11, title: 'Stussy suppliers Bundle', rating: 5, reviews: 1, priceUsd: 24.78, priceId: 'price_PLACEHOLDER_3', soldOut: false, imgUrl: 'img5.png' },
+    { id: 2, title: 'Stone Island & YSL Links Bundle', rating: 5, reviews: 11, priceUsd: 37.13, priceId: 'price_1QrnB8GfZEaA9RkQGdvLFSIE', soldOut: false, imgUrl: 'img1.png' },
+    { id: 4, title: 'Bape suppliers bundle', rating: 5, reviews: 4, priceUsd: 18.57, priceId: 'price_PLACEHOLDER_4', soldOut: false, imgUrl: 'img10.png' },
+    { id: 5, title: 'Ralph Lauren Knitwear suppliers', rating: 5, reviews: 7, priceUsd: 18.57, priceId: 'price_PLACEHOLDER_5', soldOut: false, imgUrl: 'img3.png' },
+    { id: 6, title: 'Ralph Lauren Polo suppliers', rating: 5, reviews: 2, priceUsd: 24.78, priceId: 'price_PLACEHOLDER_6', soldOut: false, imgUrl: 'img4.png' },
+    { id: 7, title: 'Ralph Lauren Shirts suppliers', rating: 5, reviews: 5, priceUsd: 18.57, priceId: 'price_PLACEHOLDER_7', soldOut: false, imgUrl: 'img6.png' },
+    { id: 8, title: 'Burberry Scarfs Suppliers', rating: 5, reviews: 4, priceUsd: 12.35, priceId: 'price_PLACEHOLDER_8', soldOut: false, imgUrl: 'img7.png' },
+    { id: 9, title: 'Branded windbreakers bundle', rating: 5, reviews: 3, priceUsd: 12.35, priceId: 'price_PLACEHOLDER_8', soldOut: false, imgUrl: 'img8.png' },
+    { id: 10, title: 'Branded Belts Suppliers', rating: 5, reviews: 5, priceUsd: 12.35, priceId: 'price_PLACEHOLDER_8', soldOut: false, imgUrl: 'img9.png' },
+];
+
+const DEMO_KEY = 'vinted_demo';
+
 function Store() {
     const router = useRouter();
-    const { ref } = router.query;
+    const { ref, demo } = router.query;
     const { addToCart, isInCart, getCartCount, setReferralCode } = useCart();
     const [showPopup, setShowPopup] = useState(false);
     const [addedProduct, setAddedProduct] = useState(null);
+    const [isDemo, setIsDemo] = useState(false);
     const { t, lang } = useLanguage();
+
+    useEffect(() => {
+        if (typeof window === 'undefined') return;
+        const urlDemo = demo === 'true';
+        if (urlDemo) {
+            localStorage.setItem(DEMO_KEY, 'true');
+        }
+        const storedDemo = localStorage.getItem(DEMO_KEY) === 'true';
+        setIsDemo(urlDemo || storedDemo);
+    }, [demo]);
 
     const USD_TO_CZK = 23;
     const priceLocale = lang === 'cs' ? 'cs-CZ' : 'en-US';
@@ -48,19 +75,7 @@ function Store() {
         router.push('/store/cart');
     };
 
-    const products = [
-        { id: 1, title: 'Premium Suppliers Links Bundle', rating: 5, reviews: 13, priceUsd: 55.70, priceId: 'price_1QrnB8GfZEaA9RkQ5cWfKKyf', soldOut: false, imgUrl: 'img11.png' },
-        { id: 3, title: 'Full Raplh Lauren Bundle', rating: 5, reviews: 1, priceUsd: 24.78, priceId: 'price_PLACEHOLDER_3', soldOut: false, imgUrl: 'img2.png' },
-        { id: 11, title: 'Stussy suppliers Bundle', rating: 5, reviews: 1, priceUsd: 24.78, priceId: 'price_PLACEHOLDER_3', soldOut: false, imgUrl: 'img5.png' },
-        { id: 2, title: 'Stone Island & YSL Links Bundle', rating: 5, reviews: 11, priceUsd: 37.13, priceId: 'price_1QrnB8GfZEaA9RkQGdvLFSIE', soldOut: false, imgUrl: 'img1.png' },
-        { id: 4, title: 'Bape suppliers bundle', rating: 5, reviews: 4, priceUsd: 18.57, priceId: 'price_PLACEHOLDER_4', soldOut: false, imgUrl: 'img10.png' },
-        { id: 5, title: 'Ralph Lauren Knitwear suppliers', rating: 5, reviews: 7, priceUsd: 18.57, priceId: 'price_PLACEHOLDER_5', soldOut: false, imgUrl: 'img3.png' },
-        { id: 6, title: 'Ralph Lauren Polo suppliers', rating: 5, reviews: 2, priceUsd: 24.78, priceId: 'price_PLACEHOLDER_6', soldOut: false, imgUrl: 'img4.png' },
-        { id: 7, title: 'Ralph Lauren Shirts suppliers', rating: 5, reviews: 5, priceUsd: 18.57, priceId: 'price_PLACEHOLDER_7', soldOut: false, imgUrl: 'img6.png' },
-        { id: 8, title: 'Burberry Scarfs Suppliers', rating: 5, reviews: 4, priceUsd: 12.35, priceId: 'price_PLACEHOLDER_8', soldOut: false, imgUrl: 'img7.png' },
-        { id: 9, title: 'Branded windbreakers bundle', rating: 5, reviews: 3, priceUsd: 12.35, priceId: 'price_PLACEHOLDER_8', soldOut: false, imgUrl: 'img8.png' },
-        { id: 10, title: 'Branded Belts Suppliers', rating: 5, reviews: 5, priceUsd: 12.35, priceId: 'price_PLACEHOLDER_8', soldOut: false, imgUrl: 'img9.png' },
-    ];
+    const products = STORE_PRODUCTS;
 
     const whyItems = [
         { emoji: '🎯', titleKey: 'store.why.q1.title', descKey: 'store.why.q1.desc' },
@@ -73,6 +88,7 @@ function Store() {
             <Head>
                 <title>{t('store.pageTitle')}</title>
                 <meta name="description" content={t('store.metaDesc')} />
+                <link rel="icon" href="/logo.ico" />
                 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
                 <style>{`
                     @keyframes marquee {
@@ -101,6 +117,21 @@ function Store() {
                         </div>
                     </div>
                 </div>
+
+                {/* Demo mode: big go back button */}
+                {isDemo && (
+                    <div className="w-full bg-[#9d34da] py-6 px-4">
+                        <div className="container mx-auto max-w-5xl flex justify-center">
+                            <button
+                                onClick={() => router.push('/')}
+                                className="flex items-center gap-3 bg-white text-[#9d34da] hover:bg-gray-100 font-bold md:text-lg px-8 py-4 rounded-xl transition-all transform hover:scale-105 shadow-lg"
+                            >
+                                <span className="material-icons text-2xl md:text-3xl">arrow_back</span>
+                                {t('store.backToHome')}
+                            </button>
+                        </div>
+                    </div>
+                )}
 
                 {/* Top bar: cart + language */}
                 <div className="container mx-auto px-4 sm:px-6 py-3 md:py-4 max-w-5xl">

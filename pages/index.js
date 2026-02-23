@@ -464,7 +464,7 @@ export default function Home() {
                                 <div className="relative">
                                     <div className="absolute -inset-4 bg-gradient-to-r from-accent/25 to-primary/25 blur-3xl rounded-3xl -z-10"></div>
                                     <div className="rounded-2xl border border-slate-700 shadow-2xl shadow-primary/10 bg-slate-900/50 p-2 backdrop-blur-sm overflow-hidden ring-2 ring-primary/5">
-                                        <img className="rounded-xl w-full h-auto object-cover" alt="Payment notifications showing 100% profit" src="withdraw2.png" />
+                                        <img className="rounded-xl w-full h-auto object-cover" alt="Payment notifications showing 100% profit" src="withdrawusd.png" />
                                     </div>
                                 </div>
                             </div>

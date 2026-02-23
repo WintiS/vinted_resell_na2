@@ -8,14 +8,43 @@ export default async function handler(req, res) {
         return res.status(405).json({ error: 'Method not allowed' });
     }
 
-    const { userId, priceId } = req.body;
+    const { userId, plan, currency } = req.body;
 
     // Validate input
-    if (!userId || !priceId) {
-        return res.status(400).json({ error: 'Missing required fields: userId and priceId' });
+    if (!userId || !plan) {
+        return res.status(400).json({ error: 'Missing required fields: userId and plan' });
     }
 
     try {
+        const USD_TO_CZK = 20.5;
+
+        const plansConfig = {
+            monthly: {
+                amountUsd: 18,
+                interval: 'month',
+            },
+            yearly: {
+                amountUsd: 79,
+                interval: 'year',
+            },
+        };
+
+        const selectedPlan = plansConfig[plan];
+
+        if (!selectedPlan) {
+            return res.status(400).json({ error: 'Invalid plan selected' });
+        }
+
+        const checkoutCurrencyRaw = (currency || 'usd').toString().toLowerCase();
+        const checkoutCurrency = checkoutCurrencyRaw === 'czk' ? 'czk' : 'usd';
+
+        const getUnitAmount = () => {
+            if (checkoutCurrency === 'usd') {
+                return Math.round(selectedPlan.amountUsd * 100);
+            }
+            return Math.round(selectedPlan.amountUsd * USD_TO_CZK * 100);
+        };
+
         // Get user data from Firebase
         const userDoc = await admin.firestore().collection('users').doc(userId).get();
 
@@ -43,13 +72,25 @@ export default async function handler(req, res) {
             });
         }
 
-        // Create Checkout Session
+        // Create Checkout Session with dynamic price data (no hardcoded Stripe price IDs)
         const session = await stripe.checkout.sessions.create({
             customer: customerId,
             payment_method_types: ['card'],
             line_items: [
                 {
-                    price: priceId,
+                    price_data: {
+                        currency: checkoutCurrency,
+                        product_data: {
+                            name: 'SupplierSaaS Subscription',
+                            description: plan === 'yearly'
+                                ? 'Yearly subscription to SupplierSaaS'
+                                : 'Monthly subscription to SupplierSaaS',
+                        },
+                        recurring: {
+                            interval: selectedPlan.interval,
+                        },
+                        unit_amount: getUnitAmount(),
+                    },
                     quantity: 1,
                 },
             ],
@@ -58,13 +99,16 @@ export default async function handler(req, res) {
             cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/pricing`,
             metadata: {
                 firebaseUID: userId,
-                priceId: priceId
+                plan,
+                currency: checkoutCurrency,
             },
             subscription_data: {
                 metadata: {
-                    firebaseUID: userId
-                }
-            }
+                    firebaseUID: userId,
+                    plan,
+                },
+                trial_period_days: 7,
+            },
         });
 
         res.status(200).json({

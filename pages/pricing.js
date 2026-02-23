@@ -17,7 +17,7 @@ export default function Pricing() {
     const [timeLeft, setTimeLeft] = useState('');
     const { t, lang } = useLanguage();
 
-    const USD_TO_CZK = 23;
+    const USD_TO_CZK = 20.5;
     const pricingLocale = lang === 'cs' ? 'cs-CZ' : 'en-US';
     const pricingCurrency = lang === 'cs' ? 'CZK' : 'USD';
     const formatPriceFromUsd = (amountUsd) =>
@@ -46,15 +46,13 @@ export default function Pricing() {
 
     const pricingConfig = {
         monthly: {
-            price: 29,
+            price: 18,
             originalPrice: 42,
-            priceId: 'price_1T0ekuK0Js68kvLkMYhxx8CM',
             interval: 'month',
         },
         yearly: {
-            price: 290,
+            price: 79,
             originalPrice: 414,
-            priceId: 'price_1T0elcK0Js68kvLk6VSn2qZi',
             interval: 'year',
         }
     };
@@ -62,20 +60,24 @@ export default function Pricing() {
     const currentPlan = isYearly ? pricingConfig.yearly : pricingConfig.monthly;
     const discountPercent = Math.round(((currentPlan.originalPrice - currentPlan.price) / currentPlan.originalPrice) * 100);
 
-    const handleSubscribe = async (plan) => {
+    const handleSubscribe = async (planId) => {
         if (!user) {
-            router.push('/signup?plan=' + plan.id);
+            router.push('/signup?plan=' + planId);
             return;
         }
 
         setLoading(true);
-        setSelectedPlan(plan.id);
+        setSelectedPlan(planId);
 
         try {
             const response = await fetch('/api/create-checkout-session', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ userId: user.uid, priceId: plan.priceId })
+                body: JSON.stringify({
+                    userId: user.uid,
+                    plan: planId,
+                    currency: lang === 'cs' ? 'czk' : 'usd'
+                })
             });
 
             const data = await response.json();
@@ -212,7 +214,7 @@ export default function Pricing() {
                             </div>
 
                             <button
-                                onClick={() => handleSubscribe({ id: isYearly ? 'yearly' : 'monthly', priceId: currentPlan.priceId })}
+                                onClick={() => handleSubscribe(isYearly ? 'yearly' : 'monthly')}
                                 disabled={loading}
                                 className="w-full py-5 bg-primary hover:bg-primary/90 text-white text-lg font-bold rounded-xl transition-all shadow-lg shadow-primary/20 hover:shadow-primary/40 flex items-center justify-center gap-2 mb-6 disabled:opacity-50 disabled:cursor-not-allowed"
                             >

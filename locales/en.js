@@ -97,10 +97,18 @@ const en = {
     'pricing.yearly': 'Yearly',
     'pricing.savings': '7 Months Free',
     'pricing.countdown': '{pct}% OFF. Ends 11:59pm: {time}',
-    'pricing.badge': 'Limited Discount',
+    'pricing.badge': '🎁 7-Day Free Trial',
+    'pricing.trialBadge': '🎁 7-Day Free Trial',
+    'pricing.trialStartFree': 'Start for free',
+    'pricing.trialFree': 'FREE',
+    'pricing.trialDays': '7 days',
+    'pricing.trialDesc': 'Full access for 7 days, cancel anytime.',
+    'pricing.trialAfter': 'after your free trial ends',
+    'pricing.trialThen': 'Then',
+    'pricing.trialReassurance': '✓ Cancel anytime &nbsp;·&nbsp; ✓ Full access',
     'pricing.planTitle': 'All-Access',
     'pricing.planDesc': "You're Getting Instant Access to Your Plug-and-Play Online Business.",
-    'pricing.cta': 'Start today',
+    'pricing.cta': 'Start Free 7-Day Trial',
     'pricing.trustpilot.excellent': 'Excellent',
     'pricing.trustpilot.rating': '4.9 out of 5',
     'pricing.trustpilot.name': 'Trustpilot',
@@ -340,6 +348,14 @@ const en = {
     'admin.table.link': 'Ref. Link',
     'admin.table.price': 'Price',
     'admin.loading': 'Loading...',
+
+    // Contact page
+    'contact.pageTitle': 'Contact | VintedPoint',
+    'contact.badge': 'Get in touch',
+    'contact.title': 'Say hello 👋',
+    'contact.subtitle': "We're just a message away. Reach out through any of the channels below.",
+    'contact.responseNote': 'We usually respond within 24 hours.',
+    'contact.back': 'Back',
 };
 
 export default en;

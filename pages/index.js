@@ -317,7 +317,7 @@ export default function Home() {
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
                         <div className="md:w-full md:justify-center">
                             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/30 text-primary text-xs md:text-sm font-bold mb-6 md:mb-8">
-                            <LanguageToggle />
+                                <LanguageToggle />
                             </div>
                         </div>
                         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/30 text-primary text-xs md:text-sm font-bold mb-6 md:mb-8">
@@ -593,7 +593,7 @@ export default function Home() {
                                     </p>
                                     <p className="text-slate-400 text-base sm:text-lg leading-relaxed">{t(card.descKey)}</p>
                                     <button onClick={() => router.push('/signup')} className="mt-6 inline-flex items-center gap-2 px-8 py-4 bg-gradient-primary text-white font-bold rounded-xl hover:shadow-lg hover:shadow-primary/30 transition-all">
-                                    {t('hiw.step1.cta')} <span className="material-icons">arrow_forward</span>
+                                        {t('hiw.step1.cta')} <span className="material-icons">arrow_forward</span>
                                     </button>
                                 </div>
                             ))}
@@ -633,8 +633,8 @@ export default function Home() {
                             <div className="absolute -inset-1 bg-gradient-to-r from-primary/30 to-accent/30 rounded-3xl blur-xl"></div>
                             <div className="relative bg-slate-900 border-2 border-primary/30 rounded-3xl p-8 shadow-2xl">
                                 <div className="absolute -top-3 right-8">
-                                    <span className="px-4 py-1.5 bg-green-500/20 text-green-400 text-sm font-bold rounded-full border border-green-500/30">
-                                    -{discountPercent}%
+                                    <span className="px-4 py-1.5 bg-green-500/20 text-green-400 text-sm font-bold rounded-full border border-green-500/30 animate-pulse">
+                                        {t('pricing.trialBadge')}
                                     </span>
                                 </div>
                                 <div className="flex items-center gap-3 mb-4">
@@ -644,31 +644,50 @@ export default function Home() {
                                     <h3 className="text-2xl font-extrabold text-white">{t('pricing.planTitle')}</h3>
                                 </div>
                                 <p className="text-slate-400 mb-6">{t('pricing.planDesc')}</p>
-                                <div className="flex items-baseline gap-3 mb-6">
-                                    <span className="text-slate-500 text-2xl sm:text-3xl font-bold line-through">{formatPriceFromUsd(currentPlan.originalPrice)}</span>
-                                    <span className="text-white text-3xl sm:text-5xl font-extrabold">{formatPriceFromUsd(currentPlan.price)}</span>
+                                {/* Free Trial Highlight */}
+                                <div className="mb-6 rounded-2xl bg-gradient-to-br from-green-500/15 to-emerald-500/10 border border-green-500/30 p-5">
+                                    <div className="flex items-center gap-3 mb-2">
+                                        <span className="material-icons text-green-400 text-3xl">card_giftcard</span>
+                                        <div>
+                                            <p className="text-green-400 text-xs font-bold uppercase tracking-widest">{t('pricing.trialStartFree')}</p>
+                                            <p className="text-white text-4xl font-extrabold leading-none">{t('pricing.trialFree')}</p>
+                                        </div>
+                                        <span className="ml-auto px-3 py-1.5 bg-green-500/20 text-green-400 text-sm font-bold rounded-full border border-green-500/40">
+                                            {t('pricing.trialDays')}
+                                        </span>
+                                    </div>
+                                    <p className="text-green-300/80 text-sm">{t('pricing.trialDesc')}</p>
+                                </div>
+                                {/* Price after trial */}
+                                <div className="flex items-baseline gap-3 mb-1">
+                                    <span className="text-slate-500 text-lg font-semibold">{t('pricing.trialThen')}</span>
+                                    <span className="text-slate-500 text-2xl sm:text-2xl font-bold line-through">{formatPriceFromUsd(currentPlan.originalPrice)}</span>
+                                    <span className="text-white text-3xl sm:text-4xl font-extrabold">{formatPriceFromUsd(currentPlan.price)}</span>
                                     <span className="text-slate-400 text-base sm:text-lg">/ {t(`pricing.interval.${currentPlan.interval}`)}</span>
                                 </div>
+                                <p className="text-slate-500 text-sm mb-6">{t('pricing.trialAfter')}</p>
                                 <button
                                     onClick={() => handleSubscribe(isYearly ? 'yearly' : 'monthly')}
                                     disabled={subscribeLoading}
-                                    className="w-full py-5 bg-primary hover:bg-primary/90 text-white text-lg font-bold rounded-xl transition-all shadow-lg shadow-primary/20 hover:shadow-primary/40 flex items-center justify-center gap-2 mb-6"
+                                    className="w-full py-5 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-400 hover:to-emerald-500 text-white text-lg font-bold rounded-xl transition-all shadow-lg shadow-green-500/30 hover:shadow-green-500/50 flex items-center justify-center gap-2 mb-2"
                                 >
                                     {subscribeLoading && selectedPlan === (isYearly ? 'yearly' : 'monthly') ? (
                                         <span className="flex items-center justify-center gap-2">
                                             <span className="material-icons animate-spin">refresh</span>
-                                            {t('pricing.cta')}...
+                                            Starting...
                                         </span>
                                     ) : (
                                         <>
+                                            <span className="material-icons">card_giftcard</span>
                                             {t('pricing.cta')}
                                             <span className="material-icons">arrow_forward</span>
                                         </>
                                     )}
                                 </button>
-                                
+                                <p className="text-center text-slate-500 text-xs mb-6">{t('pricing.trialReassurance')}</p>
+
                                 <div className="rounded-xl overflow-hidden bg-slate-800 p-2">
-                                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=400&fit=crop" alt="Platform preview" className="w-full h-auto rounded-lg" />
+                                    <img src="pricing.png" alt="Platform preview" className="w-full h-auto rounded-lg" />
                                 </div>
                                 <div className="mt-6 text-center">
                                     <p className="text-sm text-slate-400 flex items-center justify-center gap-2">
@@ -759,7 +778,7 @@ export default function Home() {
                                 <span className="text-lg font-bold"><span className="text-blue-500">Vinted</span><span className="text-white">point</span></span>
                             </div>
                             <div className="flex gap-8 text-sm font-semibold text-slate-500">
-                                <a className="hover:text-primary transition-colors" href="#">{t('footer.privacy')}</a>  
+                                <a className="hover:text-primary transition-colors" href="#">{t('footer.privacy')}</a>
                                 <a className="hover:text-primary transition-colors" href="#">{t('footer.terms')}</a>
                                 <a className="hover:text-primary transition-colors" href="#">{t('footer.contact')}</a>
 

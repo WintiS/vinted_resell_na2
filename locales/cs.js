@@ -97,10 +97,18 @@ const cs = {
     'pricing.yearly': 'Ročně',
     'pricing.savings': '7 měsíců zdarma',
     'pricing.countdown': '{pct}% SLEVA. Končí 23:59: {time}',
-    'pricing.badge': 'Omezená sleva',
+    'pricing.badge': '🎁 7 dní zdarma',
+    'pricing.trialBadge': '🎁 7 dní zdarma',
+    'pricing.trialStartFree': 'Začněte zdarma',
+    'pricing.trialFree': 'ZDARMA',
+    'pricing.trialDays': '7 dní',
+    'pricing.trialDesc': 'Plný přístup na 7 dní, zrušení kdykoliv.',
+    'pricing.trialAfter': 'po skončení zkušebního období',
+    'pricing.trialThen': 'Poté',
+    'pricing.trialReassurance': '✓ Zrušení kdykoliv &nbsp;·&nbsp; ✓ Plný přístup',
     'pricing.planTitle': 'Plný přístup',
     'pricing.planDesc': 'Získáte okamžitý přístup k vašemu online podnikání připravenému k použití.',
-    'pricing.cta': 'Začít dnes',
+    'pricing.cta': 'Začít 7 dní zdarma',
     'pricing.trustpilot.excellent': 'Výborné',
     'pricing.trustpilot.rating': '4,9 z 5',
     'pricing.trustpilot.name': 'Trustpilot',
@@ -338,6 +346,14 @@ const cs = {
     'admin.table.link': 'Odkaz',
     'admin.table.price': 'Cena',
     'admin.loading': 'Načítám...',
+
+    // Contact page
+    'contact.pageTitle': 'Kontakt | VintedPoint',
+    'contact.badge': 'Zůstaňme v kontaktu',
+    'contact.title': 'Pozdravte nás 👋',
+    'contact.subtitle': 'Jsme jen jednu zprávu daleko. Ozvěte se nám skrze kanály níže.',
+    'contact.responseNote': 'Obvykle odpovídáme do 24 hodin.',
+    'contact.back': 'Zpět',
 };
 
 export default cs;

@@ -165,7 +165,7 @@ const en = {
     'footer.terms': 'Terms of Service',
     'footer.contact': 'Contact',
     'footer.affiliates': 'Affiliates',
-    'footer.copyright': '© 2024 VintedPoint. All rights reserved. Built for creators.',
+    'footer.copyright': '© 2025 VintedPoint. All rights reserved. Built for creators.',
 
     // Login page
     'login.pageTitle': 'Login | VintedPoint',

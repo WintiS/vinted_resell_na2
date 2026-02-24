@@ -163,7 +163,7 @@ const cs = {
     'footer.terms': 'Podmínky služby',
     'footer.contact': 'Kontakt',
     'footer.affiliates': 'Affiliáti',
-    'footer.copyright': '© 2024 VintedPoint. Všechna práva vyhrazena.',
+    'footer.copyright': '© 2025 VintedPoint. Všechna práva vyhrazena.',
 
     // Login page
     'login.pageTitle': 'Přihlášení | VintedPoint',

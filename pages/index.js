@@ -778,9 +778,7 @@ export default function Home() {
                                 <span className="text-lg font-bold"><span className="text-blue-500">Vinted</span><span className="text-white">point</span></span>
                             </div>
                             <div className="flex gap-8 text-sm font-semibold text-slate-500">
-                                <a className="hover:text-primary transition-colors" href="#">{t('footer.privacy')}</a>
-                                <a className="hover:text-primary transition-colors" href="#">{t('footer.terms')}</a>
-                                <a className="hover:text-primary transition-colors" href="#">{t('footer.contact')}</a>
+                                <a className="hover:text-primary transition-colors" href="/contact">{t('footer.contact')}</a>
 
                             </div>
                         </div>

@@ -615,7 +615,7 @@ export default function Home() {
                                 <div className={`absolute left-1 top-1 w-6 h-6 bg-white rounded-full shadow-md transition-transform transform ${isYearly ? 'translate-x-6' : 'translate-x-0'}`}></div>
                             </button>
                             <span className={`font-medium ${isYearly ? 'text-white' : 'text-slate-400'}`}>{t('pricing.yearly')}</span>
-                            <span className="px-3 py-1 bg-green-500/20 text-green-400 text-sm font-bold rounded-md border border-green-500/30">
+                            <span className="px-3 py-1 bg-green-500/20 text-green-400 text-xs font-bold rounded-md border border-green-500/30">
                                 {t('pricing.savings')}
                             </span>
                         </ScrollReveal>
@@ -652,18 +652,16 @@ export default function Home() {
                                             <p className="text-green-400 text-xs font-bold uppercase tracking-widest">{t('pricing.trialStartFree')}</p>
                                             <p className="text-white text-4xl font-extrabold leading-none">{t('pricing.trialFree')}</p>
                                         </div>
-                                        <span className="ml-auto px-3 py-1.5 bg-green-500/20 text-green-400 text-sm font-bold rounded-full border border-green-500/40">
-                                            {t('pricing.trialDays')}
-                                        </span>
+
                                     </div>
                                     <p className="text-green-300/80 text-sm">{t('pricing.trialDesc')}</p>
                                 </div>
                                 {/* Price after trial */}
                                 <div className="flex items-baseline gap-3 mb-1">
-                                    <span className="text-slate-500 text-lg font-semibold">{t('pricing.trialThen')}</span>
-                                    <span className="text-slate-500 text-2xl sm:text-2xl font-bold line-through">{formatPriceFromUsd(currentPlan.originalPrice)}</span>
-                                    <span className="text-white text-3xl sm:text-4xl font-extrabold">{formatPriceFromUsd(currentPlan.price)}</span>
-                                    <span className="text-slate-400 text-base sm:text-lg">/ {t(`pricing.interval.${currentPlan.interval}`)}</span>
+                                    <span className="text-slate-500 text-md font-semibold">{t('pricing.trialThen')}</span>
+                                    <span className="text-slate-500 text-xl font-bold line-through">{formatPriceFromUsd(currentPlan.originalPrice)}</span>
+                                    <span className="text-white text-3xl font-extrabold">{formatPriceFromUsd(currentPlan.price)}</span>
+                                    <span className="text-slate-400">/ {t(`pricing.interval.${currentPlan.interval}`)}</span>
                                 </div>
                                 <p className="text-slate-500 text-sm mb-6">{t('pricing.trialAfter')}</p>
                                 <button

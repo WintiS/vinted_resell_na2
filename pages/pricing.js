@@ -115,7 +115,7 @@ export default function Pricing() {
                             <div className="flex items-center gap-2">
                                 <img src="/pointlogo.png" alt="VintedPoint" className="w-8 h-8 md:w-10 md:h-10 object-contain" />
                                 <h1 className="text-lg md:text-xl font-bold text-white">
-                                    Supplier<span className="text-primary">SaaS</span>
+                                    Vinted<span className="text-primary">Point</span>
                                 </h1>
                             </div>
                             <div className="flex items-center gap-2 md:gap-4">
@@ -170,7 +170,7 @@ export default function Pricing() {
                             <div className={`absolute left-1 top-1 w-6 h-6 bg-white rounded-full shadow-md transition-transform transform ${isYearly ? 'translate-x-6' : 'translate-x-0'}`}></div>
                         </button>
                         <span className={`font-medium ${isYearly ? 'text-white' : 'text-slate-400'}`}>{t('pricing.yearly')}</span>
-                        <span className="px-3 py-1 bg-green-500/20 text-green-400 text-sm font-bold rounded-md border border-green-500/30">
+                        <span className="px-3 py-1 bg-green-500/20 text-green-400 text-xs font-bold rounded-md border border-green-500/30">
                             {t('pricing.savings')}
                         </span>
                     </div>
@@ -212,21 +212,16 @@ export default function Pricing() {
                                         <p className="text-green-400 text-xs font-bold uppercase tracking-widest">{t('pricing.trialStartFree')}</p>
                                         <p className="text-white text-4xl font-extrabold leading-none">{t('pricing.trialFree')}</p>
                                     </div>
-                                    <span className="ml-auto px-3 py-1.5 bg-green-500/20 text-green-400 text-sm font-bold rounded-full border border-green-500/40">
-                                        {t('pricing.trialDays')}
-                                    </span>
+
                                 </div>
                                 <p className="text-green-300/80 text-sm">{t('pricing.trialDesc')}</p>
                             </div>
                             {/* Price after trial */}
                             <div className="flex items-baseline gap-3 mb-1">
-                                <span className="text-slate-500 text-lg font-semibold">{t('pricing.trialThen')}</span>
-                                <span className="text-slate-500 text-2xl font-bold line-through">{formatPriceFromUsd(currentPlan.originalPrice)}</span>
-                                <span className="text-white text-4xl font-extrabold">{formatPriceFromUsd(currentPlan.price)}</span>
+                                <span className="text-slate-500 text-md font-semibold">{t('pricing.trialThen')}</span>
+                                <span className="text-slate-500 text-xl font-bold line-through">{formatPriceFromUsd(currentPlan.originalPrice)}</span>
+                                <span className="text-white text-3xl font-extrabold">{formatPriceFromUsd(currentPlan.price)}</span>
                                 <span className="text-slate-400">/ {t(`pricing.interval.${currentPlan.interval}`)}</span>
-                                <span className="px-2 py-1 bg-green-500/20 text-green-400 text-sm font-bold rounded">
-                                    -{discountPercent}%
-                                </span>
                             </div>
                             <p className="text-slate-500 text-sm mb-6">{t('pricing.trialAfter')}</p>
 
@@ -252,7 +247,6 @@ export default function Pricing() {
 
                             <div className="flex items-center justify-center gap-2 mb-6 pb-6 border-b border-slate-700">
                                 <span className="text-white font-semibold">{t('pricing.trustpilot.excellent')}</span>
-                                <span className="text-slate-400">{t('pricing.trustpilot.rating')}</span>
                                 <div className="flex items-center gap-0.5">
                                     {[...Array(5)].map((_, i) => (
                                         <span key={i} className="material-icons text-green-500 text-sm">star</span>

@@ -85,7 +85,7 @@ export default function Dashboard() {
         );
     }
 
-    const isActive = userData.subscriptionStatus === 'active';
+    const isActive = userData.subscriptionStatus === 'active' || userData.subscriptionStatus === 'trialing';
     const locale = lang === 'cs' ? 'cs-CZ' : 'en-US';
     const isCzech = lang === 'cs';
 

@@ -75,16 +75,18 @@ export default async function handler(req, res) {
         // Create Checkout Session with dynamic price data (no hardcoded Stripe price IDs)
         const session = await stripe.checkout.sessions.create({
             customer: customerId,
-            payment_method_types: ['card'],
+            automatic_payment_methods: {
+                enabled: true,
+            },
             line_items: [
                 {
                     price_data: {
                         currency: checkoutCurrency,
                         product_data: {
-                            name: 'SupplierSaaS Subscription',
+                            name: 'VintedPoint Subscription',
                             description: plan === 'yearly'
-                                ? 'Yearly subscription to SupplierSaaS'
-                                : 'Monthly subscription to SupplierSaaS',
+                                ? 'Yearly subscription to VintedPoint'
+                                : 'Monthly subscription to VintedPoint',
                         },
                         recurring: {
                             interval: selectedPlan.interval,

@@ -75,9 +75,7 @@ export default async function handler(req, res) {
         // Create Checkout Session with dynamic price data (no hardcoded Stripe price IDs)
         const session = await stripe.checkout.sessions.create({
             customer: customerId,
-            automatic_payment_methods: {
-                enabled: true,
-            },
+            payment_method_types: ['card'],
             line_items: [
                 {
                     price_data: {

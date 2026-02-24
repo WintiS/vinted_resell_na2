@@ -222,7 +222,7 @@ const en = {
     'dashboard.stats.thisMonth': 'This Month',
     'dashboard.stats.lastMonth': 'Last Month',
     'dashboard.stats.balance': 'Available Balance',
-    'dashboard.stats.withdraw': 'Request Withdrawal',
+    'dashboard.stats.withdraw': 'Withdraw',
     'dashboard.recentSales.title': 'Recent Sales',
     'dashboard.recentSales.empty.title': 'No sales yet',
     'dashboard.recentSales.empty.desc': 'Start promoting your store and see sales here!',

@@ -256,11 +256,11 @@ export default function Dashboard() {
                                 <span className="material-icons text-blue-500">account_balance_wallet</span>
                             </div>
                             <p className="text-3xl font-bold text-blue-500">{formatCurrency(userData.availableBalance || 0)}</p>
-                            {(userData.availableBalance || 0) >= 50 && (
-                                <button className="mt-3 bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-green-700 w-full transition-colors">
-                                    {t('dashboard.stats.withdraw')}
-                                </button>
-                            )}
+                            <button className="mt-3 bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-green-700 w-full transition-colors">
+                                {t('dashboard.stats.withdraw')}
+                            </button>
+
+
                         </div>
                     </div>
 

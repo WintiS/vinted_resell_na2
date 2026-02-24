@@ -220,7 +220,7 @@ const cs = {
     'dashboard.stats.thisMonth': 'Tento měsíc',
     'dashboard.stats.lastMonth': 'Minulý měsíc',
     'dashboard.stats.balance': 'Dostupný zůstatek',
-    'dashboard.stats.withdraw': 'Požádat o výběr',
+    'dashboard.stats.withdraw': 'Vybrat',
     'dashboard.recentSales.title': 'Nedávné prodeje',
     'dashboard.recentSales.empty.title': 'Zatím žádné prodeje',
     'dashboard.recentSales.empty.desc': 'Začněte propagovat váš obchod a uvidíte prodeje zde!',

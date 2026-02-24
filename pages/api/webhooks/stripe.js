@@ -7,10 +7,10 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
 const db = admin.firestore();
 
-export const config = { 
-    api: { 
+export const config = {
+    api: {
         bodyParser: false,
-    } 
+    }
 };
 
 export default async function handler(req, res) {
@@ -241,13 +241,13 @@ export default async function handler(req, res) {
                     try {
                         await db.collection('purchases').add({
                             sessionId: session.id,
-                            customerEmail,
-                            referralCode,
-                            productIds: productIds || productId,
+                            customerEmail: customerEmail || null,
+                            referralCode: referralCode || null,
+                            productIds: productIds || productId || null,
                             productNames: productNames || productName || 'Unknown Product',
                             amount,
                             currency,
-                            stripePaymentId: session.payment_intent,
+                            stripePaymentId: session.payment_intent || null,
                             createdAt: new Date(),
                         });
                         console.log(`✅ Purchase recorded for session: ${session.id}`);
@@ -264,7 +264,7 @@ export default async function handler(req, res) {
                                 productNames || productName,
                                 session.id
                             );
-                            
+
                             if (!emailResult.success) {
                                 console.error(`⚠️ Failed to send confirmation email to ${customerEmail}:`, emailResult.error);
                             }

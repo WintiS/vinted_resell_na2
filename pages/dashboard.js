@@ -138,7 +138,7 @@ export default function Dashboard() {
                                     onClick={logout}
                                     className="text-red-400 hover:text-red-300 font-semibold text-xs md:text-sm transition-colors"
                                 >
-                                    <span className="material-icons sm:hidden text-base">logout</span>
+                                    <span className="material-icons text-base">logout</span>
                                 </button>
                             </div>
                         </div>

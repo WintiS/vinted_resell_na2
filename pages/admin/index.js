@@ -89,6 +89,14 @@ export default function AdminDashboard() {
 
     const locale = lang === 'cs' ? 'cs-CZ' : 'en-US';
 
+    const formatMoney = (amount) => {
+        if (lang === 'cs') {
+            return `${amount.toFixed(2)} CZK`;
+        }
+        // EN: divide by 20.5 to convert CZK → USD
+        return `$${(amount / 20.5).toFixed(2)}`;
+    };
+
     return (
         <>
             <Head>
@@ -145,14 +153,14 @@ export default function AdminDashboard() {
                                 <h3 className="text-slate-400 text-sm font-medium">{t('admin.stats.thisMonth')}</h3>
                                 <span className="material-icons text-yellow-500">calendar_today</span>
                             </div>
-                            <p className="text-3xl font-bold text-yellow-500">${stats.monthlyRevenue.toFixed(2)}</p>
+                            <p className="text-3xl font-bold text-yellow-500">{formatMoney(stats.monthlyRevenue)}</p>
                         </div>
                         <div className="bg-surface-dark rounded-xl shadow-xl p-6 border border-slate-700">
                             <div className="flex items-center justify-between mb-2">
                                 <h3 className="text-slate-400 text-sm font-medium">{t('admin.stats.totalRevenue')}</h3>
                                 <span className="material-icons text-primary">attach_money</span>
                             </div>
-                            <p className="text-3xl font-bold text-primary">${stats.totalRevenue.toFixed(2)}</p>
+                            <p className="text-3xl font-bold text-primary">{formatMoney(stats.totalRevenue)}</p>
                         </div>
                     </div>
 
@@ -234,7 +242,7 @@ export default function AdminDashboard() {
                                                     </span>
                                                 </td>
                                                 <td className="py-3 text-right">
-                                                    <span className="font-bold text-green-400">${sale.amount.toFixed(2)}</span>
+                                                    <span className="font-bold text-green-400">{formatMoney(sale.amount)}</span>
                                                 </td>
                                             </tr>
                                         ))}

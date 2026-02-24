@@ -244,7 +244,7 @@ export default function Pricing() {
 
                             <div className="rounded-xl overflow-hidden bg-slate-800 p-2">
                                 <img
-                                    src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=400&fit=crop"
+                                    src="pricing.png"
                                     alt="Platform preview"
                                     className="w-full h-auto rounded-lg"
                                 />

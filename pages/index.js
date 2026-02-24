@@ -121,10 +121,12 @@ export default function Home() {
     const router = useRouter();
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [isYearly, setIsYearly] = useState(false);
+    const [subscribeLoading, setSubscribeLoading] = useState(false);
+    const [selectedPlan, setSelectedPlan] = useState(null);
     const [timeLeft, setTimeLeft] = useState('');
     const { t, lang } = useLanguage();
 
-    const USD_TO_CZK = 23;
+    const USD_TO_CZK = 20.5;
     const pricingLocale = lang === 'cs' ? 'cs-CZ' : 'en-US';
     const pricingCurrency = lang === 'cs' ? 'CZK' : 'USD';
     const formatPriceFromUsd = (amountUsd) =>
@@ -153,12 +155,51 @@ export default function Home() {
     }, []);
 
     const pricingConfig = {
-        monthly: { price: 17, originalPrice: 42, priceId: 'price_1T0ekuK0Js68kvLkMYhxx8CM', interval: 'month' },
-        yearly: { price: 85, originalPrice: 414, priceId: 'price_1T0elcK0Js68kvLk6VSn2qZi', interval: 'year' }
+        monthly: { price: 18, originalPrice: 42, interval: 'month' },
+        yearly: { price: 79, originalPrice: 414, interval: 'year' }
     };
 
     const currentPlan = isYearly ? pricingConfig.yearly : pricingConfig.monthly;
     const discountPercent = Math.round(((currentPlan.originalPrice - currentPlan.price) / currentPlan.originalPrice) * 100);
+
+    const handleSubscribe = async (planId) => {
+        if (!user) {
+            router.push('/signup?plan=' + planId);
+            return;
+        }
+
+        setSubscribeLoading(true);
+        setSelectedPlan(planId);
+
+        try {
+            const response = await fetch('/api/create-checkout-session', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    userId: user.uid,
+                    plan: planId,
+                    currency: lang === 'cs' ? 'czk' : 'usd',
+                }),
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.error || 'Failed to create checkout session');
+            }
+
+            if (data.url) {
+                window.location.href = data.url;
+            } else {
+                throw new Error('No checkout URL received');
+            }
+        } catch (error) {
+            console.error('Subscription error:', error);
+            alert('Nepodařilo se vytvořit předplatné. Zkuste to prosím znovu.');
+            setSubscribeLoading(false);
+            setSelectedPlan(null);
+        }
+    };
 
     useEffect(() => {
         if (!loading && user) {
@@ -609,11 +650,21 @@ export default function Home() {
                                     <span className="text-slate-400 text-base sm:text-lg">/ {t(`pricing.interval.${currentPlan.interval}`)}</span>
                                 </div>
                                 <button
-                                    onClick={() => router.push(`/signup?plan=${isYearly ? 'yearly' : 'monthly'}`)}
+                                    onClick={() => handleSubscribe(isYearly ? 'yearly' : 'monthly')}
+                                    disabled={subscribeLoading}
                                     className="w-full py-5 bg-primary hover:bg-primary/90 text-white text-lg font-bold rounded-xl transition-all shadow-lg shadow-primary/20 hover:shadow-primary/40 flex items-center justify-center gap-2 mb-6"
                                 >
-                                    {t('pricing.cta')}
-                                    <span className="material-icons">arrow_forward</span>
+                                    {subscribeLoading && selectedPlan === (isYearly ? 'yearly' : 'monthly') ? (
+                                        <span className="flex items-center justify-center gap-2">
+                                            <span className="material-icons animate-spin">refresh</span>
+                                            {t('pricing.cta')}...
+                                        </span>
+                                    ) : (
+                                        <>
+                                            {t('pricing.cta')}
+                                            <span className="material-icons">arrow_forward</span>
+                                        </>
+                                    )}
                                 </button>
                                 
                                 <div className="rounded-xl overflow-hidden bg-slate-800 p-2">

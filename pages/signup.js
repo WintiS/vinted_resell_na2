@@ -77,9 +77,6 @@ export default function Signup() {
                     <div className="text-center mb-6 md:mb-8">
                         <img src="/pointlogo.png" alt="VintedPoint" className="w-14 h-14 md:w-16 md:h-16 object-contain mx-auto mb-3 md:mb-4" />
                         <h2 className="text-2xl md:text-3xl font-bold text-white mb-2">{t('signup.title')}</h2>
-                        <p className="text-sm md:text-base text-slate-400">
-                            {plan === 'yearly' ? t('signup.planYearly') : t('signup.planMonthly')}
-                        </p>
                     </div>
 
                     {error && (

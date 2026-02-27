@@ -26,7 +26,7 @@ export default function Contact() {
         {
             id: 'instagram',
             label: 'Instagram',
-            value: '@vintedpoint',
+            value: '@vintedpointcz',
             href: 'https://instagram.com/vintedpoint',
             icon: (
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
@@ -42,7 +42,7 @@ export default function Contact() {
         {
             id: 'tiktok',
             label: 'TikTok',
-            value: '@vintedpoint',
+            value: '@vintedpointcz',
             href: 'https://tiktok.com/@vintedpoint',
             icon: (
                 <svg viewBox="0 0 24 24" fill="currentColor">

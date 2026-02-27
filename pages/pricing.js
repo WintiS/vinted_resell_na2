@@ -196,8 +196,8 @@ export default function Pricing() {
                             </div>
 
                             <div className="flex items-center gap-3 mb-4">
-                                <div className="w-12 h-12 bg-primary rounded-xl flex items-center justify-center">
-                                    <span className="material-icons text-white text-2xl">school</span>
+                                <div className="w-12 h-12 bg-black rounded-xl flex items-center justify-center">
+                                    <img src="/pointlogo.png" alt="VintedPoint" className="w-8 h-8 object-cover" />
                                 </div>
                                 <h3 className="text-2xl font-extrabold text-white">{t('pricing.planTitle')}</h3>
                             </div>
@@ -216,15 +216,6 @@ export default function Pricing() {
                                 </div>
                                 <p className="text-green-300/80 text-sm">{t('pricing.trialDesc')}</p>
                             </div>
-                            {/* Price after trial */}
-                            <div className="flex items-baseline gap-3 mb-1">
-                                <span className="text-slate-500 text-md font-semibold">{t('pricing.trialThen')}</span>
-                                <span className="text-slate-500 text-xl font-bold line-through">{formatPriceFromUsd(currentPlan.originalPrice)}</span>
-                                <span className="text-white text-3xl font-extrabold">{formatPriceFromUsd(currentPlan.price)}</span>
-                                <span className="text-slate-400">/ {t(`pricing.interval.${currentPlan.interval}`)}</span>
-                            </div>
-                            <p className="text-slate-500 text-sm mb-6">{t('pricing.trialAfter')}</p>
-
                             <button
                                 onClick={() => handleSubscribe(isYearly ? 'yearly' : 'monthly')}
                                 disabled={loading}
@@ -243,7 +234,17 @@ export default function Pricing() {
                                     </>
                                 )}
                             </button>
-                            <p className="text-center text-slate-500 text-xs mb-6">{t('pricing.trialReassurance')}</p>
+
+                            {/* Price after trial (moved under button) */}
+                            <div className="flex items-baseline gap-3 mt-4 mb-1 pl-1">
+                                <span className="text-slate-500 text-sm font-semibold">{t('pricing.trialThen')}</span>
+                                <span className="text-slate-500 text-md font-bold line-through">{formatPriceFromUsd(currentPlan.originalPrice)}</span>
+                                <span className="text-white text-md font-extrabold">{formatPriceFromUsd(currentPlan.price)}</span>
+                                <span className="text-slate-400">/ {t(`pricing.interval.${currentPlan.interval}`)}</span>
+                            </div>
+                            <p className="text-slate-500 text-sm mb-2 pl-1">{t('pricing.trialAfter')}</p>
+
+                            <p className="pl-1 text-slate-500 text-xs mb-6">{t('pricing.trialReassurance')}</p>
 
                             <div className="flex items-center justify-center gap-2 mb-6 pb-6 border-b border-slate-700">
                                 <span className="text-white font-semibold">{t('pricing.trustpilot.excellent')}</span>

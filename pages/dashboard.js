@@ -1,7 +1,7 @@
 import { useAuth } from '../context/AuthContext';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { collection, query, where, getDocs } from 'firebase/firestore';
+import { collection, query, where, getDocs, doc, updateDoc } from 'firebase/firestore';
 import { db } from '../lib/firebase';
 import Head from 'next/head';
 import { useLanguage } from '../context/LanguageContext';
@@ -13,6 +13,10 @@ export default function Dashboard() {
     const [sales, setSales] = useState([]);
     const [stats, setStats] = useState({ totalSales: 0, thisMonth: 0, lastMonth: 0 });
     const [copied, setCopied] = useState(false);
+    const [showWithdrawModal, setShowWithdrawModal] = useState(false);
+    const [bankAccount, setBankAccount] = useState('');
+    const [savingBank, setSavingBank] = useState(false);
+    const [withdrawError, setWithdrawError] = useState('');
     const { t, lang } = useLanguage();
 
     useEffect(() => {
@@ -26,6 +30,12 @@ export default function Dashboard() {
             loadSales();
         }
     }, [user]);
+
+    useEffect(() => {
+        if (userData?.bankAccount) {
+            setBankAccount(userData.bankAccount);
+        }
+    }, [userData]);
 
     const loadSales = async () => {
         try {
@@ -71,10 +81,48 @@ export default function Dashboard() {
         ? `${process.env.NEXT_PUBLIC_BASE_URL}/store?ref=${userData.referralCode}`
         : '';
 
+    const getBlurredReferralDisplay = () => {
+        const baseUrl = referralLink.split('?')[0] || `${process.env.NEXT_PUBLIC_BASE_URL}/store`;
+        const randomText = Math.random().toString(36).substring(2, 8);
+        return { baseUrl, randomText };
+    };
+
     const copyLink = () => {
         navigator.clipboard.writeText(referralLink);
         setCopied(true);
         setTimeout(() => setCopied(false), 2000);
+    };
+
+    const handleWithdrawClick = () => {
+        setWithdrawError('');
+
+        if (userData?.bankAccount && (userData.availableBalance || 0) <= 0) {
+            setWithdrawError(t('dashboard.withdraw.error.zeroBalance'));
+            return;
+        }
+
+        setShowWithdrawModal(true);
+    };
+
+    const handleSaveBankAccount = async () => {
+        if (!bankAccount.trim()) {
+            setWithdrawError(t('dashboard.withdraw.error.emptyAccount'));
+            return;
+        }
+
+        try {
+            setSavingBank(true);
+            await updateDoc(doc(db, 'users', user.uid), {
+                bankAccount: bankAccount.trim()
+            });
+            setShowWithdrawModal(false);
+            setWithdrawError('');
+        } catch (error) {
+            console.error('Error saving bank account:', error);
+            setWithdrawError(t('dashboard.withdraw.error.saveFailed'));
+        } finally {
+            setSavingBank(false);
+        }
     };
 
     if (loading || !user || !userData) {
@@ -201,10 +249,17 @@ export default function Dashboard() {
                                 <button
                                     onClick={() => router.push('/pricing')}
                                     className="flex-1 bg-slate-800 border border-slate-600 rounded-lg px-3 md:px-4 py-2 md:py-3 text-slate-300 font-mono text-xs md:text-sm text-left cursor-pointer hover:bg-slate-700 transition-colors select-none"
-                                    style={{ filter: 'blur(4px)' }}
                                     title={t('dashboard.subscriptionWarning.cta')}
                                 >
-                                    {referralLink || 'https://example.com/store?ref=xxxx'}
+                                    {(() => {
+                                        const { baseUrl, randomText } = getBlurredReferralDisplay();
+                                        return (
+                                            <span className="inline-flex items-center gap-1">
+                                                <span>{baseUrl}?</span>
+                                                <span className="blur-sm">{randomText}</span>
+                                            </span>
+                                        );
+                                    })()}
                                 </button>
                             )}
                         </div>
@@ -219,10 +274,10 @@ export default function Dashboard() {
                         <div className="text-center">
                             <button
                                 onClick={() => router.push('/store')}
-                                className="w-full justify-center bg-gradient-primary text-white px-8 py-3 rounded-lg font-semibold hover:shadow-lg hover:shadow-primary/30 transition-all inline-flex items-center gap-2"
+                                className="text-sm w-full justify-center bg-gradient-primary text-white px-8 py-3 rounded-lg font-semibold hover:shadow-lg hover:shadow-primary/30 transition-all inline-flex items-center gap-2"
                             >
-                                <span className="material-icons text-sm">shopping_bag</span>
-                                {t('dashboard.viewStore')}
+                                <span className="material-icons text-xs">shopping_bag</span>
+                                {isActive ? t('dashboard.viewStore') : t('hero.ctaSecondary')}
                             </button>
                         </div>
                     </div>
@@ -256,11 +311,17 @@ export default function Dashboard() {
                                 <span className="material-icons text-blue-500">account_balance_wallet</span>
                             </div>
                             <p className="text-3xl font-bold text-blue-500">{formatCurrency(userData.availableBalance || 0)}</p>
-                            <button className="mt-3 bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-green-700 w-full transition-colors">
+                            <button
+                                onClick={handleWithdrawClick}
+                                className="mt-3 bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-green-700 w-full transition-colors"
+                            >
                                 {t('dashboard.stats.withdraw')}
                             </button>
-
-
+                            {withdrawError && (
+                                <p className="mt-2 text-sm text-red-400">
+                                    {withdrawError}
+                                </p>
+                            )}
                         </div>
                     </div>
 
@@ -362,6 +423,56 @@ export default function Dashboard() {
                                     <span className="material-icons text-sm">settings</span>
                                     {t('dashboard.subscription.manage')}
                                 </button>
+                            </div>
+                        </div>
+                    )}
+                    {showWithdrawModal && (
+                        <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
+                            <div className="bg-surface-dark border border-slate-700 rounded-xl shadow-2xl p-6 w-full max-w-md mx-4">
+                                <h3 className="text-lg font-semibold text-white mb-4">
+                                    {t('dashboard.stats.withdraw')}
+                                </h3>
+                                <p className="text-sm text-slate-300 mb-4">
+                                    {t('dashboard.withdraw.modal.desc')}
+                                </p>
+                                <label className="block text-sm text-slate-300 mb-2">
+                                    {t('dashboard.withdraw.modal.label')}
+                                </label>
+                                <input
+                                    type="text"
+                                    value={bankAccount}
+                                    onChange={(e) => setBankAccount(e.target.value)}
+                                    className="w-full bg-slate-800 border border-slate-600 rounded-lg px-3 py-2 text-slate-100 text-sm"
+                                    placeholder={t('dashboard.withdraw.modal.placeholder')}
+                                />
+                                {withdrawError && (
+                                    <p className="mt-2 text-sm text-red-400">
+                                        {withdrawError}
+                                    </p>
+                                )}
+                                <div className="mt-6 flex justify-end gap-3">
+                                    <button
+                                        type="button"
+                                        onClick={() => {
+                                            setShowWithdrawModal(false);
+                                            setWithdrawError('');
+                                        }}
+                                        className="px-4 py-2 rounded-lg text-sm font-semibold text-slate-300 hover:bg-slate-800 transition-colors"
+                                        disabled={savingBank}
+                                    >
+                                        {t('dashboard.withdraw.modal.cancel')}
+                                    </button>
+                                    <button
+                                        type="button"
+                                        onClick={handleSaveBankAccount}
+                                        className="px-4 py-2 rounded-lg text-sm font-semibold bg-gradient-primary text-white hover:shadow-lg hover:shadow-primary/30 transition-all disabled:opacity-60 disabled:cursor-not-allowed"
+                                        disabled={savingBank}
+                                    >
+                                        {savingBank
+                                            ? t('dashboard.withdraw.modal.saving')
+                                            : t('dashboard.withdraw.modal.save')}
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     )}

@@ -11,7 +11,7 @@ const cs = {
 
     // Index page meta
     'index.pageTitle': 'VintedPoint | Spusťte váš Supplier obchod',
-    'index.metaDesc': 'Ultimátní model 100% zisku. Prodávejte ověřené dodavatele pro Vinted prostřednictvím vlastního    obchodu.',
+    'index.metaDesc': 'Prodávejte přístup k ověřeným dodavatelům pro Vinted prostřednictvím vlastního obchodu. 100% zisku je vaše.',
 
     // Hero
     'hero.badge': 'Připojte se k 50+ úspěšným majitelům',

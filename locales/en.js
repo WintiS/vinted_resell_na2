@@ -11,7 +11,7 @@ const en = {
 
     // Index page meta
     'index.pageTitle': 'VintedPoint | Launch Your Supplier Store',
-    'index.metaDesc': 'The ultimate 100% profit model. Sell verified Vinted suppliers through your own store.',
+    'index.metaDesc': 'Sell verified Vinted suppliers through your own store. Keep 100% profit.',
 
     // Hero
     'hero.badge': 'Join 50+ successful store owners',

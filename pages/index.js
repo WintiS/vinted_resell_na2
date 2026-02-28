@@ -127,6 +127,12 @@ export default function Home() {
     const [timeLeft, setTimeLeft] = useState('');
     const { t, lang } = useLanguage();
 
+    const pageTitle = t('index.pageTitle');
+    const metaDescription = t('index.metaDesc');
+    const siteName = 'VintedPoint';
+    const siteUrl = 'https://vintedpoint.com';
+    const ogImageUrl = `${siteUrl}/pointlogo.png`;
+
     const USD_TO_CZK = 20.5;
     const pricingLocale = lang === 'cs' ? 'cs-CZ' : 'en-US';
     const pricingCurrency = lang === 'cs' ? 'CZK' : 'USD';
@@ -266,9 +272,35 @@ export default function Home() {
     return (
         <>
             <Head>
-                <title>{t('index.pageTitle')}</title>
-                <meta name="description" content={t('index.metaDesc')} />
+                <meta charSet="utf-8" />
+                <title>{pageTitle}</title>
+                <meta name="description" content={metaDescription} />
+                <meta name="viewport" content="width=device-width, initial-scale=1" />
+                <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
+                <meta httpEquiv="content-language" content={lang === 'cs' ? 'cs' : 'en'} />
+                <meta name="robots" content="index,follow" />
+                <meta name="theme-color" content="#020617" />
+                <meta name="author" content={siteName} />
+
+                {/* Open Graph / Facebook */}
+                <meta property="og:type" content="website" />
+                <meta property="og:title" content={pageTitle} />
+                <meta property="og:description" content={metaDescription} />
+                <meta property="og:site_name" content={siteName} />
+                <meta property="og:url" content={siteUrl} />
+                <meta property="og:image" content={ogImageUrl} />
+
+                {/* Twitter */}
+                <meta name="twitter:card" content="summary_large_image" />
+                <meta name="twitter:title" content={pageTitle} />
+                <meta name="twitter:description" content={metaDescription} />
+                <meta name="twitter:image" content={ogImageUrl} />
+
+                {/* Icons */}
                 <link rel="icon" href="/logo.ico" />
+                <link rel="apple-touch-icon" href="/pointlogo.png" />
+                <link rel="canonical" href={siteUrl} />
+
                 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
             </Head>
 

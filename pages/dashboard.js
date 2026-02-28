@@ -418,7 +418,7 @@ export default function Dashboard() {
                                             alert(t('dashboard.subscription.error'));
                                         }
                                     }}
-                                    className="bg-white text-slate-900 px-6 py-2.5 rounded-lg font-semibold hover:bg-slate-200 transition-all flex items-center gap-2 whitespace-nowrap"
+                                    className="bg-slate-900/40 text-slate-200 border border-slate-600 px-3 py-1.5 rounded-md text-sm font-medium hover:bg-slate-900/70 transition-colors flex items-center gap-2 whitespace-nowrap"
                                 >
                                     <span className="material-icons text-sm">settings</span>
                                     {t('dashboard.subscription.manage')}

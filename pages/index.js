@@ -6,6 +6,7 @@ import { useLanguage } from '../context/LanguageContext';
 import LanguageToggle from '../components/LanguageToggle';
 import ScrollReveal from '../components/ScrollReveal';
 import { STORE_PRODUCTS } from './store';
+import posthog from '../instrumentation-client';
 
 // Live Sales Section Component
 function LiveSalesSection() {
@@ -172,6 +173,13 @@ export default function Home() {
         setSelectedPlan(planId);
 
         try {
+            // Track starting free trial from the home page
+            posthog?.capture('trial_started', {
+                distinct_id: user.uid,
+                plan: planId,
+                source: 'home_pricing_section',
+            });
+
             const response = await fetch('/api/create-checkout-session', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },

@@ -5,6 +5,7 @@ import Head from 'next/head';
 import { loadStripe } from '@stripe/stripe-js';
 import { useLanguage } from '../context/LanguageContext';
 import LanguageToggle from '../components/LanguageToggle';
+import posthog from '../instrumentation-client';
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
 
@@ -70,6 +71,13 @@ export default function Pricing() {
         setSelectedPlan(planId);
 
         try {
+            // Track starting free trial from dedicated pricing page
+            posthog?.capture('trial_started', {
+                distinct_id: user.uid,
+                plan: planId,
+                source: 'pricing_page',
+            });
+
             const response = await fetch('/api/create-checkout-session', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },

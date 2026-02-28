@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import Head from 'next/head';
 import { useLanguage } from '../context/LanguageContext';
 import LanguageToggle from '../components/LanguageToggle';
+import posthog from '../instrumentation-client';
 
 export default function Signup() {
     const [email, setEmail] = useState('');
@@ -28,7 +29,20 @@ export default function Signup() {
         setLoading(true);
 
         try {
-            await signUpWithEmail(email, password, displayName);
+            const result = await signUpWithEmail(email, password, displayName);
+
+            // Track successful registration
+            if (result?.user) {
+                posthog?.identify(result.user.uid, {
+                    email: result.user.email,
+                    name: displayName,
+                });
+                posthog?.capture('user_registered', {
+                    distinct_id: result.user.uid,
+                    method: 'email',
+                });
+            }
+
             router.push('/dashboard?newUser=true');
         } catch (err) {
             setError(err.message);
@@ -42,7 +56,20 @@ export default function Signup() {
         setLoading(true);
 
         try {
-            await signInWithGoogle();
+            const result = await signInWithGoogle();
+
+            // Track successful registration via Google
+            if (result?.user) {
+                posthog?.identify(result.user.uid, {
+                    email: result.user.email,
+                    name: result.user.displayName,
+                });
+                posthog?.capture('user_registered', {
+                    distinct_id: result.user.uid,
+                    method: 'google',
+                });
+            }
+
             router.push('/dashboard?newUser=true');
         } catch (err) {
             setError(err.message);

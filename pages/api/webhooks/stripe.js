@@ -2,10 +2,18 @@ import { buffer } from 'micro';
 import Stripe from 'stripe';
 import admin from '../../../lib/firebase-admin';
 import { sendPurchaseConfirmationEmail } from '../../../lib/email';
+import { PostHog } from 'posthog-node';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
 const db = admin.firestore();
+
+const posthogClient =
+    process.env.POSTHOG_API_KEY || process.env.NEXT_PUBLIC_POSTHOG_KEY
+        ? new PostHog(process.env.POSTHOG_API_KEY || process.env.NEXT_PUBLIC_POSTHOG_KEY, {
+              host: process.env.POSTHOG_HOST || process.env.NEXT_PUBLIC_POSTHOG_HOST || 'https://app.posthog.com',
+          })
+        : null;
 
 export const config = {
     api: {
@@ -53,7 +61,7 @@ export default async function handler(req, res) {
     try {
         switch (event.type) {
             case 'customer.subscription.created':
-            case 'customer.subscription.updated':
+            case 'customer.subscription.updated': {
                 const subscription = event.data.object;
                 const customerId = subscription.customer;
 
@@ -96,8 +104,37 @@ export default async function handler(req, res) {
 
                     await userDoc.ref.update(updateData);
                     console.log('Subscription updated for user:', userDoc.id);
+
+                    // PostHog tracking for trial lifecycle
+                    if (posthogClient) {
+                        const distinctId = userDoc.id;
+                        const planInterval = subscription.items.data[0].price.recurring.interval;
+
+                        if (event.type === 'customer.subscription.created' && subscription.status === 'trialing') {
+                            posthogClient.capture({
+                                distinctId,
+                                event: 'trial_started',
+                                properties: {
+                                    plan: planInterval,
+                                    source: 'stripe_subscription',
+                                },
+                            });
+                        }
+
+                        if (event.type === 'customer.subscription.updated' && subscription.status === 'active') {
+                            posthogClient.capture({
+                                distinctId,
+                                event: 'trial_converted',
+                                properties: {
+                                    plan: planInterval,
+                                    source: 'stripe_subscription',
+                                },
+                            });
+                        }
+                    }
                 }
                 break;
+            }
 
             case 'customer.subscription.deleted':
                 const deletedSub = event.data.object;

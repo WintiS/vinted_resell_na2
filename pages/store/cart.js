@@ -44,10 +44,26 @@ function Cart() {
         setLoading(true);
         try {
             const currency = lang === 'cs' ? 'czk' : 'usd';
+
+            // Always include the free guide as a bonus line item in checkout
+            const freeGuideItem = {
+                id: 'free-guide',
+                title: t('cart.freeGuide.title'),
+                priceUsd: 0,
+                quantity: 1,
+                isFreeBonus: true,
+            };
+
+            const itemsWithFreeGuide = [...cart, freeGuideItem];
+
             const response = await fetch('/api/store-checkout', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ items: cart, referralCode: referralCode || '', currency })
+                body: JSON.stringify({
+                    items: itemsWithFreeGuide,
+                    referralCode: referralCode || '',
+                    currency,
+                })
             });
 
             const data = await response.json();

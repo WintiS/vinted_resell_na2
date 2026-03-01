@@ -250,7 +250,7 @@ const cs = {
     'success.viewPricing': 'Zobrazit ceník',
 
     // Public store
-    'store.pageTitle': 'Prémiová databáze dodavatelů Vinted | VintedPoint',
+    'store.pageTitle': 'Ověření Vinted  dodavatelé| VintedPoint',
     'store.metaDesc': 'Získejte přístup k OSOBNĚ ověřeným dodavatelům oblečení. Ultimátní zdroj pro prodejce na Vinted.',
     'store.banner.b1': '✨ OSOBNĚ OVĚŘENÍ DODAVATELÉ',
     'store.banner.b2': '🚀 DOŽIVOTNÍ PŘÍSTUP',

@@ -252,7 +252,7 @@ const en = {
     'success.viewPricing': 'View Pricing',
 
     // Public store
-    'store.pageTitle': 'Premium Vinted Suppliers Database | VintedPoint',
+    'store.pageTitle': 'Verified Vinted Suppliers | VintedPoint',
     'store.metaDesc': 'Get access to PERSONALLY verified clothing suppliers. The ultimate resource for Vinted sellers.',
     'store.banner.b1': '✨ PERSONALLY VERIFIED SUPPLIERS',
     'store.banner.b2': '🚀 LIFETIME ACCESS',

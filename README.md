@@ -136,6 +136,20 @@ NEXT_PUBLIC_BASE_URL=http://localhost:3000
 NEXT_PUBLIC_ADMIN_EMAILS=your-email@example.com
 ```
 
+### Twilio (SMS admin notifications)
+This project can send an SMS to the admin phone number when a user requests a withdrawal.
+
+Add these to `.env.local` (and to Vercel Project Settings → Environment Variables for production):
+
+```env
+TWILIO_ACCOUNT_SID=ACxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+TWILIO_AUTH_TOKEN=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+TWILIO_FROM=+1xxxxxxxxxx
+
+# Admin phone to receive the SMS (E.164 recommended). If omitted, defaults to +420737536910.
+ADMIN_PHONE=+420737536910
+```
+
 ### 3. Set Up Firebase
 1. Go to [Firebase Console](https://console.firebase.google.com/)
 2. Enable **Email/Password** and **Google** authentication

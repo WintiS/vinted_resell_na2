@@ -11,12 +11,17 @@ export default function Dashboard() {
     const { user, userData, logout, loading } = useAuth();
     const router = useRouter();
     const [sales, setSales] = useState([]);
+    const [withdrawals, setWithdrawals] = useState([]);
     const [stats, setStats] = useState({ totalSales: 0, thisMonth: 0, lastMonth: 0 });
     const [copied, setCopied] = useState(false);
     const [showWithdrawModal, setShowWithdrawModal] = useState(false);
     const [bankAccount, setBankAccount] = useState('');
     const [savingBank, setSavingBank] = useState(false);
     const [withdrawError, setWithdrawError] = useState('');
+    const [withdrawSuccess, setWithdrawSuccess] = useState('');
+    const [withdrawing, setWithdrawing] = useState(false);
+    const [testingSms, setTestingSms] = useState(false);
+    const [smsTestMessage, setSmsTestMessage] = useState('');
     const { t, lang } = useLanguage();
 
     useEffect(() => {
@@ -57,6 +62,25 @@ export default function Dashboard() {
             salesData = salesData.slice(0, 50);
             setSales(salesData);
 
+            const withdrawalsRef = collection(db, 'withdrawals');
+            const qw = query(withdrawalsRef, where('userId', '==', user.uid));
+            const withdrawalsSnapshot = await getDocs(qw);
+            let withdrawalsData = withdrawalsSnapshot.docs.map(doc => ({
+                id: doc.id,
+                ...doc.data(),
+                requestedAt: doc.data().requestedAt?.toDate(),
+                processedAt: doc.data().processedAt?.toDate()
+            }));
+
+            withdrawalsData.sort((a, b) => {
+                if (!a.requestedAt) return 1;
+                if (!b.requestedAt) return -1;
+                return b.requestedAt - a.requestedAt;
+            });
+
+            withdrawalsData = withdrawalsData.slice(0, 20);
+            setWithdrawals(withdrawalsData);
+
             const now = new Date();
             const thisMonth = new Date(now.getFullYear(), now.getMonth(), 1);
             const lastMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1);
@@ -95,13 +119,46 @@ export default function Dashboard() {
 
     const handleWithdrawClick = () => {
         setWithdrawError('');
+        setWithdrawSuccess('');
 
-        if (userData?.bankAccount && (userData.availableBalance || 0) <= 0) {
+        if ((userData?.availableBalance || 0) <= 0) {
             setWithdrawError(t('dashboard.withdraw.error.zeroBalance'));
             return;
         }
 
-        setShowWithdrawModal(true);
+        // If bank account isn't saved yet, ask user to add it
+        if (!userData?.bankAccount) {
+            setShowWithdrawModal(true);
+            return;
+        }
+
+        // Otherwise, request withdrawal and notify admin via SMS
+        (async () => {
+            try {
+                setWithdrawing(true);
+                const token = await user.getIdToken();
+                const response = await fetch('/api/request-withdrawal', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${token}`,
+                    },
+                    body: JSON.stringify({}),
+                });
+
+                const data = await response.json();
+                if (!response.ok || !data?.success) {
+                    throw new Error(data?.error || 'Failed to request withdrawal');
+                }
+
+                setWithdrawSuccess(t('dashboard.withdraw.requested'));
+            } catch (error) {
+                console.error('Withdrawal request failed:', error);
+                setWithdrawError(error?.message || t('dashboard.withdraw.error.requestFailed'));
+            } finally {
+                setWithdrawing(false);
+            }
+        })();
     };
 
     const handleSaveBankAccount = async () => {
@@ -151,6 +208,46 @@ export default function Dashboard() {
         return status;
     };
 
+    const translateWithdrawalStatus = (status) => {
+        if (status === 'pending') return t('dashboard.withdraw.status.pending');
+        if (status === 'approved') return t('dashboard.withdraw.status.approved');
+        if (status === 'declined') return t('dashboard.withdraw.status.declined');
+        return status;
+    };
+
+    const adminEmails = String(process.env.NEXT_PUBLIC_ADMIN_EMAILS || '')
+        .split(',')
+        .map((s) => s.trim())
+        .filter(Boolean);
+    const isAdmin = Boolean(user?.email && adminEmails.includes(user.email));
+
+    const handleTestSms = async () => {
+        try {
+            setSmsTestMessage('');
+            setTestingSms(true);
+
+            const token = await user.getIdToken();
+            const response = await fetch('/api/test-sms', {
+                method: 'POST',
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            const data = await response.json();
+
+            if (!response.ok || !data?.success) {
+                throw new Error(data?.error || t('dashboard.smsTest.error'));
+            }
+
+            setSmsTestMessage(t('dashboard.smsTest.success'));
+        } catch (error) {
+            console.error('Test SMS failed:', error);
+            setSmsTestMessage(error?.message || t('dashboard.smsTest.error'));
+        } finally {
+            setTestingSms(false);
+        }
+    };
+
     return (
         <>
             <Head>
@@ -173,14 +270,27 @@ export default function Dashboard() {
                             <div className="flex items-center gap-2 md:gap-4">
                                 <LanguageToggle />
                                 <span className="hidden sm:block text-xs md:text-sm text-slate-400 truncate max-w-[120px] md:max-w-none">{userData.email}</span>
-                                {process.env.NEXT_PUBLIC_ADMIN_EMAILS?.split(',').includes(user.email) && (
-                                    <button
-                                        onClick={() => router.push('/admin')}
-                                        className="text-primary hover:text-primary/80 font-semibold text-xs md:text-sm transition-colors flex items-center gap-1"
-                                    >
-                                        <span className="material-icons text-sm md:text-base">admin_panel_settings</span>
-                                        <span className="hidden sm:inline">{t('nav.admin')}</span>
-                                    </button>
+                                {isAdmin && (
+                                    <>
+                                        <button
+                                            onClick={handleTestSms}
+                                            disabled={testingSms}
+                                            className="bg-slate-900/40 text-slate-200 border border-slate-600 px-3 py-1.5 rounded-md text-xs md:text-sm font-semibold hover:bg-slate-900/70 transition-colors flex items-center gap-1 disabled:opacity-60 disabled:cursor-not-allowed"
+                                            title={t('dashboard.smsTest.title')}
+                                        >
+                                            <span className="material-icons text-sm md:text-base">sms</span>
+                                            <span className="hidden md:inline">
+                                                {testingSms ? t('dashboard.smsTest.sending') : t('dashboard.smsTest.button')}
+                                            </span>
+                                        </button>
+                                        <button
+                                            onClick={() => router.push('/admin')}
+                                            className="text-primary hover:text-primary/80 font-semibold text-xs md:text-sm transition-colors flex items-center gap-1"
+                                        >
+                                            <span className="material-icons text-sm md:text-base">admin_panel_settings</span>
+                                            <span className="hidden sm:inline">{t('nav.admin')}</span>
+                                        </button>
+                                    </>
                                 )}
                                 <button
                                     onClick={logout}
@@ -194,6 +304,11 @@ export default function Dashboard() {
                 </nav>
 
                 <div className="container mx-auto px-4 sm:px-6 py-6 md:py-8">
+                    {isAdmin && smsTestMessage && (
+                        <div className="mb-4 rounded-xl border border-slate-700 bg-slate-900/30 px-4 py-3 text-sm text-slate-200">
+                            {smsTestMessage}
+                        </div>
+                    )}
                     {/* Subscription Warning */}
                     {!isActive && (
                         <div className="bg-yellow-500/10 border border-yellow-500/50 rounded-xl p-4 md:p-6 mb-4 md:mb-6 flex flex-col sm:flex-row items-start gap-3 md:gap-4">
@@ -269,6 +384,71 @@ export default function Dashboard() {
                         </p>
                     </div>
 
+                    {/* Withdrawal Requests */}
+                    <div className="bg-surface-dark rounded-xl shadow-xl p-4 md:p-6 mb-4 md:mb-6 border border-slate-700">
+                        <h2 className="text-base md:text-lg font-semibold text-white mb-3 md:mb-4 flex items-center gap-2">
+                            <span className="material-icons text-primary text-xl md:text-2xl">account_balance_wallet</span>
+                            {t('dashboard.withdraw.requestsTitle')}
+                        </h2>
+                        {withdrawals.length === 0 ? (
+                            <p className="text-sm text-slate-400">
+                                {t('dashboard.withdraw.requestsEmpty')}
+                            </p>
+                        ) : (
+                            <div className="overflow-x-auto">
+                                <table className="w-full">
+                                    <thead>
+                                        <tr className="border-b border-slate-700">
+                                            <th className="text-left py-3 px-2 text-slate-400 font-semibold text-sm">
+                                                {t('dashboard.withdraw.table.date')}
+                                            </th>
+                                            <th className="text-right py-3 px-2 text-slate-400 font-semibold text-sm">
+                                                {t('dashboard.withdraw.table.amount')}
+                                            </th>
+                                            <th className="text-left py-3 px-2 text-slate-400 font-semibold text-sm">
+                                                {t('dashboard.withdraw.table.bank')}
+                                            </th>
+                                            <th className="text-center py-3 px-2 text-slate-400 font-semibold text-sm">
+                                                {t('dashboard.withdraw.table.status')}
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {withdrawals.map((w) => (
+                                            <tr
+                                                key={w.id}
+                                                className="border-b border-slate-700/50 hover:bg-slate-800/30 transition-colors"
+                                            >
+                                                <td className="py-3 px-2 text-slate-300 text-sm">
+                                                    {w.requestedAt?.toLocaleString(locale) || '-'}
+                                                </td>
+                                                <td className="py-3 px-2 text-right text-slate-300 text-sm">
+                                                    {formatCurrency(w.amount || 0)}
+                                                </td>
+                                                <td className="py-3 px-2 text-slate-300 text-xs font-mono">
+                                                    {w.bankAccount || '-'}
+                                                </td>
+                                                <td className="py-3 px-2 text-center">
+                                                    <span
+                                                        className={`px-3 py-1 rounded-full text-xs font-semibold ${
+                                                            w.status === 'approved'
+                                                                ? 'bg-green-500/20 text-green-400 border border-green-500/30'
+                                                                : w.status === 'declined'
+                                                                ? 'bg-red-500/20 text-red-400 border border-red-500/30'
+                                                                : 'bg-yellow-500/20 text-yellow-400 border border-yellow-500/30'
+                                                        }`}
+                                                    >
+                                                        {translateWithdrawalStatus(w.status)}
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                        )}
+                    </div>
+
                     {/* View Store */}
                     <div className="bg-surface-dark rounded-xl shadow-xl p-6 mb-6 border border-slate-700">
                         <div className="text-center">
@@ -313,13 +493,19 @@ export default function Dashboard() {
                             <p className="text-3xl font-bold text-blue-500">{formatCurrency(userData.availableBalance || 0)}</p>
                             <button
                                 onClick={handleWithdrawClick}
-                                className="mt-3 bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-green-700 w-full transition-colors"
+                                disabled={withdrawing}
+                                className="mt-3 bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-green-700 w-full transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
                             >
-                                {t('dashboard.stats.withdraw')}
+                                {withdrawing ? t('dashboard.withdraw.requesting') : t('dashboard.stats.withdraw')}
                             </button>
                             {withdrawError && (
                                 <p className="mt-2 text-sm text-red-400">
                                     {withdrawError}
+                                </p>
+                            )}
+                            {withdrawSuccess && (
+                                <p className="mt-2 text-sm text-green-400">
+                                    {withdrawSuccess}
                                 </p>
                             )}
                         </div>

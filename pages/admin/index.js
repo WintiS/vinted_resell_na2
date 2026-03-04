@@ -12,6 +12,9 @@ export default function AdminDashboard() {
     const router = useRouter();
     const [users, setUsers] = useState([]);
     const [sales, setSales] = useState([]);
+    const [withdrawals, setWithdrawals] = useState([]);
+    const [updatingWithdrawalId, setUpdatingWithdrawalId] = useState(null);
+    const [withdrawalError, setWithdrawalError] = useState('');
     const [stats, setStats] = useState({
         totalUsers: 0,
         activeSubscriptions: 0,
@@ -62,6 +65,23 @@ export default function AdminDashboard() {
             salesData = salesData.slice(0, 100);
             setSales(salesData);
 
+            const withdrawalsSnapshot = await getDocs(collection(db, 'withdrawals'));
+            let withdrawalsData = withdrawalsSnapshot.docs.map(doc => ({
+                id: doc.id,
+                ...doc.data(),
+                requestedAt: doc.data().requestedAt?.toDate(),
+                processedAt: doc.data().processedAt?.toDate()
+            }));
+
+            withdrawalsData.sort((a, b) => {
+                if (!a.requestedAt) return 1;
+                if (!b.requestedAt) return -1;
+                return b.requestedAt - a.requestedAt;
+            });
+
+            withdrawalsData = withdrawalsData.slice(0, 50);
+            setWithdrawals(withdrawalsData);
+
             const now = new Date();
             const thisMonth = new Date(now.getFullYear(), now.getMonth(), 1);
             const monthSales = salesData.filter(s => s.createdAt >= thisMonth);
@@ -76,6 +96,41 @@ export default function AdminDashboard() {
         } catch (error) {
             console.error('Error loading admin data:', error);
             setStats({ totalUsers: 0, activeSubscriptions: 0, totalRevenue: 0, totalSales: 0, monthlyRevenue: 0 });
+        }
+    };
+
+    const handleUpdateWithdrawal = async (withdrawalId, action) => {
+        try {
+            setWithdrawalError('');
+            setUpdatingWithdrawalId(withdrawalId);
+
+            const token = await user.getIdToken();
+            const response = await fetch('/api/admin/update-withdrawal', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify({ withdrawalId, action }),
+            });
+            const data = await response.json();
+
+            if (!response.ok || !data?.success) {
+                throw new Error(data?.error || 'Failed to update withdrawal');
+            }
+
+            setWithdrawals(prev =>
+                prev.map(w =>
+                    w.id === withdrawalId
+                        ? { ...w, status: data.status, processedAt: new Date(), processedBy: user.email }
+                        : w
+                )
+            );
+        } catch (error) {
+            console.error('Admin withdrawal update failed:', error);
+            setWithdrawalError(error?.message || 'Failed to update withdrawal');
+        } finally {
+            setUpdatingWithdrawalId(null);
         }
     };
 
@@ -165,7 +220,7 @@ export default function AdminDashboard() {
                     </div>
 
                     {/* Users and Sales Tables */}
-                    <div className="grid md:grid-cols-2 gap-6">
+                    <div className="grid md:grid-cols-2 gap-6 mb-6">
                         {/* Users Table */}
                         <div className="bg-surface-dark rounded-xl shadow-xl border border-slate-700">
                             <div className="p-6 border-b border-slate-700">
@@ -249,6 +304,108 @@ export default function AdminDashboard() {
                                     </tbody>
                                 </table>
                             </div>
+                        </div>
+                    </div>
+
+                    {/* Withdrawals Table */}
+                    <div className="bg-surface-dark rounded-xl shadow-xl border border-slate-700">
+                        <div className="p-6 border-b border-slate-700 flex items-center justify-between">
+                            <h2 className="text-lg font-semibold text-white flex items-center gap-2">
+                                <span className="material-icons text-primary">account_balance_wallet</span>
+                                Withdrawals
+                            </h2>
+                            {withdrawalError && (
+                                <p className="text-sm text-red-400">{withdrawalError}</p>
+                            )}
+                        </div>
+                        <div className="p-4 overflow-x-auto">
+                            {withdrawals.length === 0 ? (
+                                <p className="text-sm text-slate-400">No withdrawal requests yet.</p>
+                            ) : (
+                                <table className="w-full">
+                                    <thead>
+                                        <tr className="border-b border-slate-700 text-left text-sm">
+                                            <th className="py-2 text-slate-400 font-semibold">User</th>
+                                            <th className="py-2 text-slate-400 font-semibold">Amount</th>
+                                            <th className="py-2 text-slate-400 font-semibold">Bank account</th>
+                                            <th className="py-2 text-slate-400 font-semibold">Requested</th>
+                                            <th className="py-2 text-slate-400 font-semibold">Status</th>
+                                            <th className="py-2 text-slate-400 font-semibold text-right">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {withdrawals.map((w) => (
+                                            <tr
+                                                key={w.id}
+                                                className="border-b border-slate-700/50 hover:bg-slate-800/30 transition-colors"
+                                            >
+                                                <td className="py-3">
+                                                    <div>
+                                                        <p className="font-semibold text-sm text-white">
+                                                            {w.displayName || '(no name)'}
+                                                        </p>
+                                                        <p className="text-xs text-slate-400">{w.email}</p>
+                                                    </div>
+                                                </td>
+                                                <td className="py-3 text-sm text-slate-300">
+                                                    {formatMoney(w.amount || 0)}
+                                                </td>
+                                                <td className="py-3 text-xs text-slate-300 font-mono">
+                                                    {w.bankAccount || '-'}
+                                                </td>
+                                                <td className="py-3 text-sm text-slate-300">
+                                                    {w.requestedAt?.toLocaleString(locale) || '-'}
+                                                </td>
+                                                <td className="py-3 text-sm">
+                                                    <span
+                                                        className={`px-3 py-1 rounded-full text-xs font-semibold ${
+                                                            w.status === 'approved'
+                                                                ? 'bg-green-500/20 text-green-400 border border-green-500/30'
+                                                                : w.status === 'declined'
+                                                                ? 'bg-red-500/20 text-red-400 border border-red-500/30'
+                                                                : 'bg-yellow-500/20 text-yellow-400 border border-yellow-500/30'
+                                                        }`}
+                                                    >
+                                                        {w.status}
+                                                    </span>
+                                                </td>
+                                                <td className="py-3 text-right">
+                                                    {w.status === 'pending' ? (
+                                                        <div className="inline-flex gap-2">
+                                                            <button
+                                                                onClick={() =>
+                                                                    handleUpdateWithdrawal(w.id, 'approve')
+                                                                }
+                                                                disabled={updatingWithdrawalId === w.id}
+                                                                className="px-3 py-1.5 rounded-lg text-xs font-semibold bg-green-600 text-white hover:bg-green-700 disabled:opacity-60 disabled:cursor-not-allowed"
+                                                            >
+                                                                {updatingWithdrawalId === w.id
+                                                                    ? 'Saving...'
+                                                                    : 'Approve'}
+                                                            </button>
+                                                            <button
+                                                                onClick={() =>
+                                                                    handleUpdateWithdrawal(w.id, 'decline')
+                                                                }
+                                                                disabled={updatingWithdrawalId === w.id}
+                                                                className="px-3 py-1.5 rounded-lg text-xs font-semibold bg-red-600 text-white hover:bg-red-700 disabled:opacity-60 disabled:cursor-not-allowed"
+                                                            >
+                                                                Decline
+                                                            </button>
+                                                        </div>
+                                                    ) : (
+                                                        <span className="text-xs text-slate-500">
+                                                            {w.processedAt
+                                                                ? w.processedAt.toLocaleString(locale)
+                                                                : ''}
+                                                        </span>
+                                                    )}
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            )}
                         </div>
                     </div>
                 </div>

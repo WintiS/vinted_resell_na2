@@ -6,17 +6,17 @@ import { useLanguage } from '../context/LanguageContext';
 import LanguageToggle from '../components/LanguageToggle';
 
 export const STORE_PRODUCTS = [
-    { id: 1, title: 'Premium Suppliers Links Bundle', rating: 5, reviews: 13, priceUsd: 34.70, priceId: 'price_1QrnB8GfZEaA9RkQ5cWfKKyf', soldOut: false, imgUrl: 'img11.png' },
-    { id: 3, title: 'Full Raplh Lauren Bundle', rating: 5, reviews: 1, priceUsd: 16.78, priceId: 'price_PLACEHOLDER_3', soldOut: false, imgUrl: 'img2.png' },
-    { id: 11, title: 'Stussy suppliers Bundle', rating: 5, reviews: 1, priceUsd: 16.78, priceId: 'price_PLACEHOLDER_3', soldOut: false, imgUrl: 'img5.png' },
-    { id: 2, title: 'Stone Island & YSL Links Bundle', rating: 5, reviews: 11, priceUsd: 16.13, priceId: 'price_1QrnB8GfZEaA9RkQGdvLFSIE', soldOut: false, imgUrl: 'img1.png' },
-    { id: 4, title: 'Bape suppliers bundle', rating: 5, reviews: 4, priceUsd: 15.57, priceId: 'price_PLACEHOLDER_4', soldOut: false, imgUrl: 'img10.png' },
-    { id: 5, title: 'Ralph Lauren Knitwear suppliers', rating: 5, reviews: 7, priceUsd: 15.57, priceId: 'price_PLACEHOLDER_5', soldOut: false, imgUrl: 'img3.png' },
-    { id: 6, title: 'Ralph Lauren Polo suppliers', rating: 5, reviews: 2, priceUsd: 14.78, priceId: 'price_PLACEHOLDER_6', soldOut: false, imgUrl: 'img4.png' },
-    { id: 7, title: 'Ralph Lauren Shirts suppliers', rating: 5, reviews: 5, priceUsd: 14.57, priceId: 'price_PLACEHOLDER_7', soldOut: false, imgUrl: 'img6.png' },
-    { id: 8, title: 'Burberry Scarfs Suppliers', rating: 5, reviews: 4, priceUsd: 8.35, priceId: 'price_PLACEHOLDER_8', soldOut: false, imgUrl: 'img7.png' },
-    { id: 9, title: 'Branded windbreakers bundle', rating: 5, reviews: 3, priceUsd: 12.35, priceId: 'price_PLACEHOLDER_8', soldOut: false, imgUrl: 'img8.png' },
-    { id: 10, title: 'Branded Belts Suppliers', rating: 5, reviews: 5, priceUsd: 10.35, priceId: 'price_PLACEHOLDER_8', soldOut: false, imgUrl: 'img9.png' },
+    { id: 1, title: 'Premium Suppliers Links Bundle', rating: 5, reviews: 13, priceUsd: 34.70, priceId: 'price_1QrnB8GfZEaA9RkQ5cWfKKyf', soldOut: false, imgUrl: 'img11.png', documentLink: 'https://docs.google.com/document/d/1yqmw91-W8HlwTUt7TCzbtN1JJvdt17ykcrSw4pghS98/edit?usp=sharing' },
+    { id: 3, title: 'Full Raplh Lauren Bundle', rating: 5, reviews: 1, priceUsd: 16.78, priceId: 'price_PLACEHOLDER_3', soldOut: false, imgUrl: 'img2.png', documentLink: 'https://docs.google.com/document/d/1yqmw91-W8HlwTUt7TCzbtN1JJvdt17ykcrSw4pghS98/edit?usp=sharing' },
+    { id: 11, title: 'Stussy suppliers Bundle', rating: 5, reviews: 1, priceUsd: 16.78, priceId: 'price_PLACEHOLDER_3', soldOut: false, imgUrl: 'img5.png', documentLink: 'https://docs.google.com/document/d/19Zi-LRPUtcAuAHCsbMdQ3l9r6uDS2tpUWjI_J9vI5rA/edit?usp=sharing' },
+    { id: 2, title: 'Stone Island & YSL Links Bundle', rating: 5, reviews: 11, priceUsd: 16.13, priceId: 'price_1QrnB8GfZEaA9RkQGdvLFSIE', soldOut: false, imgUrl: 'img1.png', documentLink: 'https://www.google.com' },
+    { id: 4, title: 'Bape suppliers bundle', rating: 5, reviews: 4, priceUsd: 15.57, priceId: 'price_PLACEHOLDER_4', soldOut: false, imgUrl: 'img10.png', documentLink: 'https://www.google.com' },
+    { id: 5, title: 'Ralph Lauren Knitwear suppliers', rating: 5, reviews: 7, priceUsd: 15.57, priceId: 'price_PLACEHOLDER_5', soldOut: false, imgUrl: 'img3.png', documentLink: 'https://www.google.com' },
+    { id: 6, title: 'Ralph Lauren Polo suppliers', rating: 5, reviews: 2, priceUsd: 14.78, priceId: 'price_PLACEHOLDER_6', soldOut: false, imgUrl: 'img4.png', documentLink: 'https://www.google.com' },
+    { id: 7, title: 'Ralph Lauren Shirts suppliers', rating: 5, reviews: 5, priceUsd: 14.57, priceId: 'price_PLACEHOLDER_7', soldOut: false, imgUrl: 'img6.png', documentLink: 'https://www.google.com' },
+    { id: 8, title: 'Burberry Scarfs Suppliers', rating: 5, reviews: 4, priceUsd: 8.35, priceId: 'price_PLACEHOLDER_8', soldOut: false, imgUrl: 'img7.png', documentLink: 'https://www.google.com' },
+    { id: 9, title: 'Branded windbreakers bundle', rating: 5, reviews: 3, priceUsd: 12.35, priceId: 'price_PLACEHOLDER_8', soldOut: false, imgUrl: 'img8.png', documentLink: 'https://docs.google.com/document/d/1us-wlzHfVfzqWwDzWL6duHqVFXDAcLmR9ClA34084xc/edit?usp=sharing' },
+    { id: 10, title: 'Branded Belts Suppliers', rating: 5, reviews: 5, priceUsd: 10.35, priceId: 'price_PLACEHOLDER_8', soldOut: false, imgUrl: 'img9.png', documentLink: 'https://www.google.com' },
 ];
 
 const DEMO_KEY = 'vinted_demo';

@@ -1,6 +1,8 @@
 import Stripe from 'stripe';
+import admin from '../../lib/firebase-admin';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+const db = admin.firestore();
 
 export default async function handler(req, res) {
     if (req.method !== 'POST') {
@@ -71,6 +73,31 @@ export default async function handler(req, res) {
             },
             allow_promotion_codes: true
         });
+
+        // Persist checkout item details (incl. documentLink) for webhook email
+        try {
+            const payloadItems = items.map((item) => ({
+                id: item?.id ?? null,
+                title: item?.title ?? '',
+                quantity: item?.quantity ?? 1,
+                isFreeBonus: Boolean(item?.isFreeBonus),
+                documentLink:
+                    !item?.isFreeBonus && typeof item?.documentLink === 'string'
+                        ? item.documentLink
+                        : '',
+            }));
+
+            await db.collection('checkoutPayloads').doc(session.id).set({
+                sessionId: session.id,
+                items: payloadItems,
+                currency: checkoutCurrency,
+                referralCode: referralCode || '',
+                createdAt: new Date(),
+            });
+        } catch (error) {
+            console.error('⚠️ Failed to save checkout payload for email links:', error);
+            // Don't fail checkout if Firestore write fails
+        }
 
         res.status(200).json({ url: session.url });
     } catch (error) {

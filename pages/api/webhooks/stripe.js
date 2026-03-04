@@ -164,6 +164,7 @@ export default async function handler(req, res) {
                     const customerEmail = session.customer_details?.email;
                     const amount = session.amount_total / 100; // Convert from cents/haléřů
                     const currency = session.currency;
+                    const customerCountry = session.customer_details?.address?.country?.toUpperCase?.();
 
                     console.log('Processing checkout.session.completed:', {
                         sessionId: session.id,
@@ -172,8 +173,25 @@ export default async function handler(req, res) {
                         productNames,
                         customerEmail,
                         amount,
-                        currency
+                        currency,
+                        customerCountry,
                     });
+
+                    // If it's a store/cart purchase, load the persisted checkout payload so we can include per-item links in the email
+                    let checkoutPayloadItems = null;
+                    if (productIds) {
+                        try {
+                            const payloadDoc = await db.collection('checkoutPayloads').doc(session.id).get();
+                            if (payloadDoc.exists) {
+                                const payload = payloadDoc.data();
+                                checkoutPayloadItems = Array.isArray(payload?.items) ? payload.items : null;
+                            } else {
+                                console.log(`⚠️ No checkout payload found for session ${session.id}`);
+                            }
+                        } catch (error) {
+                            console.error('⚠️ Failed to load checkout payload for email links:', error);
+                        }
+                    }
 
                     // Handle referral commission if referral code exists
                     if (referralCode) {
@@ -296,10 +314,27 @@ export default async function handler(req, res) {
                     // Send purchase confirmation email
                     if (customerEmail && (productNames || productName)) {
                         try {
+                            const isCartPurchase = Boolean(productIds);
+                            const isCzLike =
+                                customerCountry === 'CZ' ||
+                                customerCountry === 'SK' ||
+                                (!customerCountry && currency === 'czk');
+
+                            const tutorialUrl = isCzLike
+                                ? 'https://youtu.be/e1GKAc1RSDw?si=ta6zISC9bXKS3FXG'
+                                : 'https://www.youtube.com/watch?v=ExiiHK3PrCE&authuser=3';
+
                             const emailResult = await sendPurchaseConfirmationEmail(
                                 customerEmail,
                                 productNames || productName,
-                                session.id
+                                session.id,
+                                isCartPurchase
+                                    ? {
+                                          lang: isCzLike ? 'cs' : 'en',
+                                          tutorialUrl,
+                                          items: checkoutPayloadItems || [],
+                                      }
+                                    : undefined
                             );
 
                             if (!emailResult.success) {

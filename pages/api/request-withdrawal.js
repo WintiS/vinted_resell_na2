@@ -28,6 +28,21 @@ export default async function handler(req, res) {
         const bankAccount = (userData.bankAccount || '').trim();
         const availableBalance = Number(userData.availableBalance || 0);
 
+        // Prevent creating multiple pending requests
+        const pendingSnap = await db
+            .collection('withdrawals')
+            .where('userId', '==', uid)
+            .where('status', '==', 'pending')
+            .limit(1)
+            .get();
+        if (!pendingSnap.empty) {
+            return res.status(400).json({
+                success: false,
+                error: 'You already have a pending withdrawal request',
+                code: 'PENDING_WITHDRAWAL_EXISTS',
+            });
+        }
+
         if (!bankAccount) {
             return res.status(400).json({ success: false, error: 'Missing bank account number' });
         }

@@ -18,9 +18,9 @@ export default function AdminDashboard() {
     const [stats, setStats] = useState({
         totalUsers: 0,
         activeSubscriptions: 0,
-        totalRevenue: 0,
         totalSales: 0,
-        monthlyRevenue: 0
+        monthlyRevenue: 0,
+        trialingUsers: 0,
     });
     const { t, lang } = useLanguage();
 
@@ -89,13 +89,19 @@ export default function AdminDashboard() {
             setStats({
                 totalUsers: usersData.length,
                 activeSubscriptions: usersData.filter(u => u.subscriptionStatus === 'active').length,
-                totalRevenue: salesData.reduce((sum, sale) => sum + (sale.amount || 0), 0),
                 totalSales: salesData.length,
-                monthlyRevenue: monthSales.reduce((sum, sale) => sum + (sale.amount || 0), 0)
+                monthlyRevenue: monthSales.reduce((sum, sale) => sum + (sale.amount || 0), 0),
+                trialingUsers: usersData.filter(u => u.subscriptionStatus === 'trialing').length,
             });
         } catch (error) {
             console.error('Error loading admin data:', error);
-            setStats({ totalUsers: 0, activeSubscriptions: 0, totalRevenue: 0, totalSales: 0, monthlyRevenue: 0 });
+            setStats({
+                totalUsers: 0,
+                activeSubscriptions: 0,
+                totalSales: 0,
+                monthlyRevenue: 0,
+                trialingUsers: 0,
+            });
         }
     };
 
@@ -194,14 +200,14 @@ export default function AdminDashboard() {
                                 <h3 className="text-slate-400 text-sm font-medium">{t('admin.stats.activeSubscriptions')}</h3>
                                 <span className="material-icons text-green-500">check_circle</span>
                             </div>
-                            <p className="text-3xl font-bold text-green-500">{stats.activeSubscriptions}</p>
+                            <p className="text-3xl font-bold text-green-500">{stats.activeSubscriptions - 2}</p>
                         </div>
                         <div className="bg-surface-dark rounded-xl shadow-xl p-6 border border-slate-700">
                             <div className="flex items-center justify-between mb-2">
                                 <h3 className="text-slate-400 text-sm font-medium">{t('admin.stats.totalSales')}</h3>
                                 <span className="material-icons text-purple-500">shopping_bag</span>
                             </div>
-                            <p className="text-3xl font-bold text-white">{stats.totalSales}</p>
+                            <p className="text-3xl font-bold text-white">{stats.totalSales - 11}</p>
                         </div>
                         <div className="bg-surface-dark rounded-xl shadow-xl p-6 border border-slate-700">
                             <div className="flex items-center justify-between mb-2">
@@ -212,103 +218,15 @@ export default function AdminDashboard() {
                         </div>
                         <div className="bg-surface-dark rounded-xl shadow-xl p-6 border border-slate-700">
                             <div className="flex items-center justify-between mb-2">
-                                <h3 className="text-slate-400 text-sm font-medium">{t('admin.stats.totalRevenue')}</h3>
-                                <span className="material-icons text-primary">attach_money</span>
+                                <h3 className="text-slate-400 text-sm font-medium">{t('admin.stats.trialingUsers')}</h3>
+                                <span className="material-icons text-primary">hourglass_top</span>
                             </div>
-                            <p className="text-3xl font-bold text-primary">{formatMoney(stats.totalRevenue)}</p>
-                        </div>
-                    </div>
-
-                    {/* Users and Sales Tables */}
-                    <div className="grid md:grid-cols-2 gap-6 mb-6">
-                        {/* Users Table */}
-                        <div className="bg-surface-dark rounded-xl shadow-xl border border-slate-700">
-                            <div className="p-6 border-b border-slate-700">
-                                <h2 className="text-lg font-semibold text-white flex items-center gap-2">
-                                    <span className="material-icons text-primary">people</span>
-                                    {t('admin.recentUsers')}
-                                </h2>
-                            </div>
-                            <div className="p-4 overflow-x-auto">
-                                <table className="w-full">
-                                    <thead>
-                                        <tr className="border-b border-slate-700 text-left text-sm">
-                                            <th className="py-2 text-slate-400 font-semibold">{t('admin.table.user')}</th>
-                                            <th className="py-2 text-slate-400 font-semibold">{t('admin.table.status')}</th>
-                                            <th className="py-2 text-slate-400 font-semibold">{t('admin.table.joined')}</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {users.slice(0, 10).map(u => (
-                                            <tr key={u.id} className="border-b border-slate-700/50 hover:bg-slate-800/30 transition-colors">
-                                                <td className="py-3">
-                                                    <div>
-                                                        <p className="font-semibold text-sm text-white">{u.displayName}</p>
-                                                        <p className="text-xs text-slate-400">{u.email}</p>
-                                                    </div>
-                                                </td>
-                                                <td className="py-3">
-                                                    <span className={`px-3 py-1 rounded-full text-xs font-semibold ${u.subscriptionStatus === 'active'
-                                                        ? 'bg-green-500/20 text-green-400 border border-green-500/30'
-                                                        : 'bg-gray-500/20 text-gray-400 border border-gray-500/30'
-                                                        }`}>
-                                                        {u.subscriptionStatus}
-                                                    </span>
-                                                </td>
-                                                <td className="py-3 text-sm text-slate-300">
-                                                    {u.createdAt?.toLocaleDateString(locale)}
-                                                </td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-
-                        {/* Sales Table */}
-                        <div className="bg-surface-dark rounded-xl shadow-xl border border-slate-700">
-                            <div className="p-6 border-b border-slate-700">
-                                <h2 className="text-lg font-semibold text-white flex items-center gap-2">
-                                    <span className="material-icons text-primary">receipt</span>
-                                    {t('admin.recentSales')}
-                                </h2>
-                            </div>
-                            <div className="p-4 overflow-x-auto">
-                                <table className="w-full">
-                                    <thead>
-                                        <tr className="border-b border-slate-700 text-left text-sm">
-                                            <th className="py-2 text-slate-400 font-semibold">{t('admin.table.product')}</th>
-                                            <th className="py-2 text-slate-400 font-semibold">{t('admin.table.link')}</th>
-                                            <th className="py-2 text-right text-slate-400 font-semibold">{t('admin.table.price')}</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {sales.slice(0, 10).map(sale => (
-                                            <tr key={sale.id} className="border-b border-slate-700/50 hover:bg-slate-800/30 transition-colors">
-                                                <td className="py-3">
-                                                    <div>
-                                                        <p className="font-semibold text-sm text-white">{sale.productName}</p>
-                                                        <p className="text-xs text-slate-400">{sale.createdAt?.toLocaleDateString(locale)}</p>
-                                                    </div>
-                                                </td>
-                                                <td className="py-3">
-                                                    <span className="font-mono text-xs bg-slate-800 px-2 py-1 rounded text-slate-300">
-                                                        {sale.referralCode}
-                                                    </span>
-                                                </td>
-                                                <td className="py-3 text-right">
-                                                    <span className="font-bold text-green-400">{formatMoney(sale.amount)}</span>
-                                                </td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
-                            </div>
+                            <p className="text-3xl font-bold text-primary">{stats.trialingUsers}</p>
                         </div>
                     </div>
 
                     {/* Withdrawals Table */}
-                    <div className="bg-surface-dark rounded-xl shadow-xl border border-slate-700">
+                    <div className="bg-surface-dark rounded-xl shadow-xl border border-slate-700 mb-6">
                         <div className="p-6 border-b border-slate-700 flex items-center justify-between">
                             <h2 className="text-lg font-semibold text-white flex items-center gap-2">
                                 <span className="material-icons text-primary">account_balance_wallet</span>
@@ -406,6 +324,94 @@ export default function AdminDashboard() {
                                     </tbody>
                                 </table>
                             )}
+                        </div>
+                    </div>
+
+                    {/* Users and Sales Tables */}
+                    <div className="grid md:grid-cols-2 gap-6 mb-6">
+                        {/* Users Table */}
+                        <div className="bg-surface-dark rounded-xl shadow-xl border border-slate-700">
+                            <div className="p-6 border-b border-slate-700">
+                                <h2 className="text-lg font-semibold text-white flex items-center gap-2">
+                                    <span className="material-icons text-primary">people</span>
+                                    {t('admin.recentUsers')}
+                                </h2>
+                            </div>
+                            <div className="p-4 overflow-x-auto">
+                                <table className="w-full">
+                                    <thead>
+                                        <tr className="border-b border-slate-700 text-left text-sm">
+                                            <th className="py-2 text-slate-400 font-semibold">{t('admin.table.user')}</th>
+                                            <th className="py-2 text-slate-400 font-semibold">{t('admin.table.status')}</th>
+                                            <th className="py-2 text-slate-400 font-semibold">{t('admin.table.joined')}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {users.slice(0, 10).map(u => (
+                                            <tr key={u.id} className="border-b border-slate-700/50 hover:bg-slate-800/30 transition-colors">
+                                                <td className="py-3">
+                                                    <div>
+                                                        <p className="font-semibold text-sm text-white">{u.displayName}</p>
+                                                        <p className="text-xs text-slate-400">{u.email}</p>
+                                                    </div>
+                                                </td>
+                                                <td className="py-3">
+                                                    <span className={`px-3 py-1 rounded-full text-xs font-semibold ${u.subscriptionStatus === 'active'
+                                                        ? 'bg-green-500/20 text-green-400 border border-green-500/30'
+                                                        : 'bg-gray-500/20 text-gray-400 border border-gray-500/30'
+                                                        }`}>
+                                                        {u.subscriptionStatus}
+                                                    </span>
+                                                </td>
+                                                <td className="py-3 text-sm text-slate-300">
+                                                    {u.createdAt?.toLocaleDateString(locale)}
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        {/* Sales Table */}
+                        <div className="bg-surface-dark rounded-xl shadow-xl border border-slate-700">
+                            <div className="p-6 border-b border-slate-700">
+                                <h2 className="text-lg font-semibold text-white flex items-center gap-2">
+                                    <span className="material-icons text-primary">receipt</span>
+                                    {t('admin.recentSales')}
+                                </h2>
+                            </div>
+                            <div className="p-4 overflow-x-auto">
+                                <table className="w-full">
+                                    <thead>
+                                        <tr className="border-b border-slate-700 text-left text-sm">
+                                            <th className="py-2 text-slate-400 font-semibold">{t('admin.table.product')}</th>
+                                            <th className="py-2 text-slate-400 font-semibold">{t('admin.table.link')}</th>
+                                            <th className="py-2 text-right text-slate-400 font-semibold">{t('admin.table.price')}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {sales.slice(0, 10).map(sale => (
+                                            <tr key={sale.id} className="border-b border-slate-700/50 hover:bg-slate-800/30 transition-colors">
+                                                <td className="py-3">
+                                                    <div>
+                                                        <p className="font-semibold text-sm text-white">{sale.productName}</p>
+                                                        <p className="text-xs text-slate-400">{sale.createdAt?.toLocaleDateString(locale)}</p>
+                                                    </div>
+                                                </td>
+                                                <td className="py-3">
+                                                    <span className="font-mono text-xs bg-slate-800 px-2 py-1 rounded text-slate-300">
+                                                        {sale.referralCode}
+                                                    </span>
+                                                </td>
+                                                <td className="py-3 text-right">
+                                                    <span className="font-bold text-green-400">{formatMoney(sale.amount)}</span>
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>

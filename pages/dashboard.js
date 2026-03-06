@@ -148,6 +148,9 @@ export default function Dashboard() {
 
                 const data = await response.json();
                 if (!response.ok || !data?.success) {
+                    if (data?.code === 'PENDING_WITHDRAWAL_EXISTS') {
+                        throw new Error(t('dashboard.withdraw.error.pendingExists'));
+                    }
                     throw new Error(data?.error || 'Failed to request withdrawal');
                 }
 
@@ -214,6 +217,8 @@ export default function Dashboard() {
         if (status === 'declined') return t('dashboard.withdraw.status.declined');
         return status;
     };
+
+    const hasPendingWithdrawal = withdrawals.some((w) => w?.status === 'pending');
 
     const adminEmails = String(process.env.NEXT_PUBLIC_ADMIN_EMAILS || '')
         .split(',')
@@ -493,11 +498,16 @@ export default function Dashboard() {
                             <p className="text-3xl font-bold text-blue-500">{formatCurrency(userData.availableBalance || 0)}</p>
                             <button
                                 onClick={handleWithdrawClick}
-                                disabled={withdrawing}
+                                disabled={withdrawing || hasPendingWithdrawal}
                                 className="mt-3 bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-green-700 w-full transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
                             >
                                 {withdrawing ? t('dashboard.withdraw.requesting') : t('dashboard.stats.withdraw')}
                             </button>
+                            {hasPendingWithdrawal && (
+                                <p className="mt-2 text-sm text-slate-400">
+                                    {t('dashboard.withdraw.error.pendingExists')}
+                                </p>
+                            )}
                             {withdrawError && (
                                 <p className="mt-2 text-sm text-red-400">
                                     {withdrawError}

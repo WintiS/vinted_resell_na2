@@ -34,12 +34,12 @@ const cs = {
     'hiw.step1.badge': 'Okamžitý start',
     'hiw.step1.title': 'Krok první:',
     'hiw.step1.highlight': 'Registrace a vyzkoušení zdarma',
-    'hiw.step1.desc': 'Vytvořte si účet pomocí Google nebo E-mailu. Obchod máte připravený hned. Stačí si jen zapnout zkušební obdodbí zdarma a můžete začít vydělávat.',
+    'hiw.step1.desc': 'Vytvořte si účet pomocí Google nebo E-mailu. Obchod s dodavateli máte už předpřipravený. Stačí si jen zapnout zkušební období zdarma a můžete začít vydělávat pokaždé, když si přes váš unikátní odkaz zákazník objedná přístup k dodavatelům.',
     'hiw.step1.cta': 'Začít dnes',
     'hiw.step2.badge': 'Plná kontrola',
     'hiw.step2.title': 'Krok druhý:',
     'hiw.step2.highlight': 'Propagujte svůj obchod',
-    'hiw.step2.desc': 'Propagujte svůj obchod pomocí unikátního odkazu. Na TikToku, Instagramu, Discrodu, úplně jakkoliv. 100% zisku je vaše',
+    'hiw.step2.desc': 'Propagujte svůj obchod pomocí unikátního odkazu. Na TikToku, Instagramu, Discrodu, úplně jakkoliv. 100% zisku je vaše. Doporučte váš obchod přátelům, nebo si založte ig a tt účty a jen repostujte videa, kteří už virální reselleří dělají.',
     'hiw.step2.cta': 'Začít dnes',
     'hiw.step3.badge': 'Pravidelný příjem',
     'hiw.step3.title': 'Krok třetí:',
@@ -149,6 +149,59 @@ const cs = {
     'cta.subtitle': 'Přidejte se k 50+ majitelům, kteří pochopili, že peníze nejsou v resellingu oblečení ale právě dodavatelů.',
     'cta.primary': 'Spustit obchod',
     'cta.secondary': 'Zobrazit demo obchod',
+
+    // FAQ
+    'faq.hiwIntroTitle': 'Jak přesně funguje VintedPoint?',
+    'faq.hiwIntroSubtitle': 'Stručné odpovědi na technické otázky – kdo co posílá, odkud jsou peníze a jakou roli v tom hraješ ty.',
+
+    // Mini FAQ pod "Jak to funguje"
+    'faq.hiw.scam.q': 'Je to scam?',
+    'faq.hiw.scam.a': 'Ne. Je to klasický affiliate / partnerský model – VintedPoint ti postaví prodejní stránku napojenou na ověřený e‑shop a ty dostáváš provizi z nákupů, které přijdou přes tvůj kód nebo odkaz.',
+
+    'faq.hiw.noPersonalSales.q': 'Nic neprodávám osobně?',
+    'faq.hiw.noPersonalSales.a': 'Přesně tak. Ty nic neskladuješ, nezabalíš ani neposíláš. Tvojí prací je doporučit obchod svému publiku, zbytek – přijetí objednávky, platba, balení, doprava – jde přes partnerský e‑shop.',
+
+    'faq.hiw.earnings.q': 'Z čeho vydělávám?',
+    'faq.hiw.earnings.a': 'Vyděláváš z provize z každého nákupu, který někdo udělá přes tvůj unikátní kód nebo odkaz. Čím víc lidí přes tebe nakupuje, tím vyšší jsou tvoje měsíční výplaty.',
+
+    'faq.hiw.payouts.q': 'Jak dostanu peníze?',
+    'faq.hiw.payouts.a': 'V přehledném dashboardu vidíš všechny objednávky i nasbírané provize. Peníze ti vyplácíme pravidelně na účet (nebo jinou domluvenou metodu), jakmile dosáhneš minimální částky k výplatě.',
+
+    'faq.hiw.shipping.q': 'Kdo posílá oblečení?',
+    'faq.hiw.shipping.a': 'Oblečení balí a odesílá přímo partnerský e‑shop. Zákazník nakupuje u nich, ne u tebe, a stejně tak případné vrácení nebo reklamace řeší přímo obchod.',
+
+    'faq.hiw.stock.q': 'Kupuji si oblečení dopředu?',
+    'faq.hiw.stock.a': 'Ne. Nemusíš mít doma žádný sklad ani investovat do zásob. Zákazník si objednává přímo v e‑shopu a ty dostaneš provizi jen za to, že jsi ho tam přivedl/a.',
+
+    // Hlavní FAQ sekce
+    'faq.mainTitle': 'Nejčastější otázky',
+    'faq.mainSubtitle': 'Upřímně odpovídám na otázky, které kolem VintedPointu dostávám nejčastěji.',
+
+    'faq.main.promoteForeignShop.q': 'Propaguju cizí obchod?',
+    'faq.main.promoteForeignShop.a': 'Ano – propaguješ ověřený partnerský obchod, který má zboží skladem a stará se o logistiku. Ty máš vlastní stránku, kde jsou produkty už připravené pro tvoje publikum, takže se můžeš soustředit jen na obsah a komunikaci se sledujícími.',
+
+    'faq.main.cancelAnytime.q': 'Jde to kdykoliv zrušit?',
+    'faq.main.cancelAnytime.a': 'Ano. Předplatné můžeš kdykoliv zrušit v nastavení účtu. Po zrušení ti už nebudeme strhávat další platby, přístup ti doběhne do konce zaplaceného období.',
+
+    'faq.main.price.q': 'Kolik se platí?',
+    'faq.main.price.beforeLink': 'Aktuální cenu a délku zkušebního období vždy najdeš v sekci',
+    'faq.main.price.linkLabel': 'Ceník',
+    'faq.main.price.afterLink': '. Většina tvůrců si služby zaplatí už z prvních pár objednávek.',
+
+    'faq.main.oneSaleCovers.q': '1 prodej pokryje subscription?',
+    'faq.main.oneSaleCovers.a': 'U většiny outfitů stačí 1–2 prodeje měsíčně, aby se ti předplatné zaplatilo. Zbytek už je čistě tvoje provize navíc – proto dávám velký důraz na to, aby marže dávaly smysl.',
+
+    'faq.main.content.q': 'Jak točit videa?',
+    'faq.main.content.a': 'Uvnitř dostaneš konkrétní návody, scénáře a tipy, jak točit videa a stories, které přirozeně prodávají bez agresivního „sales“ pocitu. Můžeš se inspirovat hotovými příklady, jen je upravíš na svůj styl.',
+
+    'faq.main.afterCode.q': 'Co dělat potom, co mám kód?',
+    'faq.main.afterCode.a': 'Kód nebo odkaz vložíš do popisků videí, do bio, na stories, do newsletteru – prostě všude, kde s publikem komunikuješ. Jakmile někdo přes něj nakoupí, systém ti automaticky připíše provizi.',
+
+    'faq.main.howLong.q': 'Jak dlouho, než si někdo začne kupovat?',
+    'faq.main.howLong.a': 'Je to individuální – záleží na velikosti a aktivitě tvého publika. Když podle návodů začneš aktivně publikovat obsah, první prodeje typicky přichází v řádu dnů až pár týdnů, ne měsíců.',
+
+    'faq.main.shipping.q': 'Kdo posílá oblečení?',
+    'faq.main.shipping.a': 'Oblečení balí a odesílá přímo partnerský e‑shop. Zákazník nakupuje u nich, ne u tebe, a stejně tak případné vrácení nebo reklamace řeší přímo obchod.',
 
     // Live Sales ticker
     'liveSales.live': 'Živá data se obnovují za {countdown}s',

@@ -34,7 +34,7 @@ const en = {
     'hiw.step1.badge': 'Instant start',
     'hiw.step1.title': 'Step One:',
     'hiw.step1.highlight': 'Registration & free trial',
-    'hiw.step1.desc': 'Create an account using Google or Email. Your shop is ready right away. Just activate the free trial period and you can start earning.',
+    'hiw.step1.desc': 'Create an account using Google or Email. Your shop with suppliers is ready right away. Just activate the free trial period and you can start earning every time someone buys a supplier list from your unique link.',
     'hiw.step1.cta': 'Start today',
     'hiw.step2.badge': 'Full control',
     'hiw.step2.title': 'Step Two:',
@@ -49,7 +49,7 @@ const en = {
     'hiw.step4.badge': 'Instant withdrawal',
     'hiw.step4.title': 'Step Four:',
     'hiw.step4.highlight': 'Transfer money to your account',
-    'hiw.step4.desc': 'You can withdraw profits from any amount. Just enter your account number and the money will be with you by the next day.',
+    'hiw.step4.desc': 'You can withdraw profits from any amount. Just enter your account IBAN and the money will be with you by the next day.',
     'hiw.step4.cta': 'Start today',
     'hiw.step4.profitNote': 'Make 100% profit on every sale',
 
@@ -149,6 +149,59 @@ const en = {
     'cta.subtitle': 'Join 500+ entrepreneurs who turned their passion into a 100% profit machine. No credit card required to start.',
     'cta.primary': 'Launch Your Store',
     'cta.secondary': 'View Sample Store',
+
+    // FAQ
+    'faq.hiwIntroTitle': 'How VintedPoint actually works',
+    'faq.hiwIntroSubtitle': 'Quick answers to the practical questions – who ships, where the money comes from, and what your role is.',
+
+    // Mini FAQ under "How it works"
+    'faq.hiw.scam.q': 'Is this a scam?',
+    'faq.hiw.scam.a': "No. It's a standard affiliate / partner model – VintedPoint gives you your own sales page connected to a verified online store. You share your link or code, and the partner store handles orders, payments, and shipping.",
+
+    'faq.hiw.noPersonalSales.q': "Am I selling anything personally?",
+    'faq.hiw.noPersonalSales.a': "No. You don't store, pack, or ship anything yourself. Your job is to recommend the shop to your audience; the partner store handles taking the order, collecting the payment, packing, and delivery.",
+
+    'faq.hiw.earnings.q': 'How do I actually earn money?',
+    'faq.hiw.earnings.a': 'You earn a commission from every purchase that comes through your unique link or code. The more people buy through you, the higher your monthly payouts.',
+
+    'faq.hiw.payouts.q': 'How do I get paid?',
+    'faq.hiw.payouts.a': 'Inside your dashboard you see every order and every commission. We pay out your balance regularly to your bank account (or another agreed method) once you reach the minimum payout amount.',
+
+    'faq.hiw.shipping.q': 'Who ships the clothes?',
+    'faq.hiw.shipping.a': 'All clothes are packed and shipped directly by the partner store. Customers are buying from them, not from you, and they also handle any returns or complaints.',
+
+    'faq.hiw.stock.q': 'Do I have to buy stock upfront?',
+    'faq.hiw.stock.a': "No. You don't need a warehouse or upfront stock. Customers place orders directly in the online store and you only get a commission for bringing them in.",
+
+    // Main FAQ section
+    'faq.mainTitle': 'Frequently Asked Questions',
+    'faq.mainSubtitle': 'Honest answers to the questions people ask me about VintedPoint the most.',
+
+    'faq.main.promoteForeignShop.q': 'Am I just promoting someone else’s store?',
+    'faq.main.promoteForeignShop.a': "Yes – you’re promoting a verified partner store that holds the inventory and runs logistics. You get your own branded page with products already curated for your audience so you can focus purely on content and communication.",
+
+    'faq.main.cancelAnytime.q': 'Can I cancel anytime?',
+    'faq.main.cancelAnytime.a': 'Yes. You can cancel your subscription in your account settings at any time. After cancellation we will no longer charge you and your access will simply run until the end of the paid period.',
+
+    'faq.main.price.q': 'How much does it cost?',
+    'faq.main.price.beforeLink': 'You can always see the current price and trial length in the',
+    'faq.main.price.linkLabel': 'Pricing',
+    'faq.main.price.afterLink': 'section. Most creators cover the subscription from just the first couple of orders.',
+
+    'faq.main.oneSaleCovers.q': 'Does a single sale cover the subscription?',
+    'faq.main.oneSaleCovers.a': 'For most outfits 1–2 sales per month are enough to cover the subscription. Everything after that is pure commission for you – that’s why I focus a lot on making sure the margins make sense.',
+
+    'faq.main.content.q': 'How should I film videos?',
+    'faq.main.content.a': 'Inside you will find concrete scripts, prompts, and examples for videos and stories that sell naturally without feeling “salesy”. You can copy proven formats and simply adapt them to your own style.',
+
+    'faq.main.afterCode.q': 'What do I do once I get my code?',
+    'faq.main.afterCode.a': 'You plug your code or link into video descriptions, bio, stories, newsletters – anywhere you communicate with your audience. As soon as someone buys through it, the system automatically credits your commission.',
+
+    'faq.main.howLong.q': 'How long until people start buying?',
+    'faq.main.howLong.a': 'It depends – mostly on the size and engagement of your audience. If you actively post content following the templates inside, first sales usually come within days or a couple of weeks, not months.',
+
+    'faq.main.shipping.q': 'Who sends out the clothes?',
+    'faq.main.shipping.a': 'The partner store packs and ships every parcel. Customers buy from them, not you, and they also deal with delivery issues, returns, or refunds.',
 
     // Live Sales ticker
     'liveSales.live': 'Live Data Refreshing in {countdown}',

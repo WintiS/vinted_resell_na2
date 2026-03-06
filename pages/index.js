@@ -117,6 +117,32 @@ function LiveSalesSection() {
     );
 }
 
+function FAQItem({ question, children }) {
+    const [open, setOpen] = useState(false);
+
+    return (
+        <div className="rounded-2xl bg-slate-900/70 border border-slate-700 px-5 py-4 h-full">
+            <button
+                type="button"
+                onClick={() => setOpen(!open)}
+                className="w-full flex items-center justify-between gap-3 text-left"
+            >
+                <span className="text-base md:text-lg font-bold text-white">{question}</span>
+                <span className={`material-icons text-slate-400 transition-transform duration-200 ${open ? 'rotate-180' : ''}`}>
+                    {open ? 'expand_less' : 'expand_more'}
+                </span>
+            </button>
+            <div
+                className={`mt-2 text-slate-300 text-sm overflow-hidden transition-all duration-200 ${
+                    open ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+                }`}
+            >
+                {children}
+            </div>
+        </div>
+    );
+}
+
 export default function Home() {
     const { user, loading } = useAuth();
     const router = useRouter();
@@ -568,6 +594,74 @@ export default function Home() {
                                 </button>
                             </div>
                         </ScrollReveal>
+
+                        {/* How it works – rychlé odpovědi */}
+                        <ScrollReveal className="mt-20 text-center">
+                            <h3 className="text-2xl lg:text-3xl font-extrabold text-white mb-3">
+                                {t('faq.hiwIntroTitle')}
+                            </h3>
+                            <p className="text-slate-400 max-w-2xl mx-auto">
+                                {t('faq.hiwIntroSubtitle')}
+                            </p>
+                        </ScrollReveal>
+
+                        <div className="mt-10 grid md:grid-cols-2 gap-6">
+                            <ScrollReveal direction="up">
+                                <FAQItem question={t('faq.hiw.scam.q')}>
+                                    {t('faq.hiw.scam.a')}
+                                </FAQItem>
+                            </ScrollReveal>
+
+                            <ScrollReveal direction="up">
+                                <FAQItem question={t('faq.hiw.noPersonalSales.q')}>
+                                    {t('faq.hiw.noPersonalSales.a')}
+                                </FAQItem>
+                            </ScrollReveal>
+
+                            <ScrollReveal direction="up">
+                                <FAQItem question={t('faq.hiw.earnings.q')}>
+                                    {t('faq.hiw.earnings.a')}
+                                </FAQItem>
+                            </ScrollReveal>
+
+                            <ScrollReveal direction="up">
+                                <FAQItem question={t('faq.hiw.payouts.q')}>
+                                    {t('faq.hiw.payouts.a')}
+                                </FAQItem>
+                            </ScrollReveal>
+
+                            <ScrollReveal direction="up">
+                                <FAQItem question={t('faq.hiw.shipping.q')}>
+                                    {t('faq.hiw.shipping.a')}
+                                </FAQItem>
+                            </ScrollReveal>
+
+                            <ScrollReveal direction="up">
+                                <FAQItem question={t('faq.hiw.stock.q')}>
+                                    {t('faq.hiw.stock.a')}
+                                </FAQItem>
+                            </ScrollReveal>
+                        </div>
+                    </div>
+                </section>
+
+                {/* CTA – under HIW FAQ */}
+                <section className="py-24">
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <ScrollReveal className="bg-gradient-primary rounded-[2rem] p-8 lg:p-20 relative overflow-hidden text-center text-white">
+                            <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -mr-32 -mt-32"></div>
+                            <div className="absolute bottom-0 left-0 w-64 h-64 bg-black/10 rounded-full -ml-32 -mb-32"></div>
+                            <h2 className="text-4xl lg:text-6xl font-extrabold mb-8 relative z-10">{t('cta.title')}</h2>
+                            <p className="text-xl text-blue-100 mb-10 max-w-2xl mx-auto relative z-10">{t('cta.subtitle')}</p>
+                            <div className="flex flex-col sm:flex-row justify-center items-center gap-4 relative z-10">
+                                <button onClick={() => router.push('/signup')} className="bg-white text-primary px-12 py-5 rounded-xl font-extrabold text-lg shadow-2xl hover:bg-blue-50 transition-all">
+                                    {t('cta.primary')}
+                                </button>
+                                <button onClick={() => router.push('/store')} className="bg-transparent border-2 border-white/30 text-white px-10 py-5 rounded-xl font-extrabold md:text-lg text-sm hover:bg-white/10 transition-all">
+                                    {t('cta.secondary')}
+                                </button>
+                            </div>
+                        </ScrollReveal>
                     </div>
                 </section>
 
@@ -781,6 +875,81 @@ export default function Home() {
                                 </div>
                             ))}
                         </ScrollReveal>
+                    </div>
+                </section>
+
+                {/* FAQ */}
+                <section className="py-24 bg-slate-900/40 border-y border-slate-800" id="faq">
+                    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <ScrollReveal className="text-center mb-12">
+                            <h2 className="text-3xl lg:text-4xl font-extrabold text-white mb-4">
+                                {t('faq.mainTitle')}
+                            </h2>
+                            <p className="text-slate-400 max-w-2xl mx-auto text-lg">
+                                {t('faq.mainSubtitle')}
+                            </p>
+                        </ScrollReveal>
+
+                        <div className="space-y-4">
+                            <ScrollReveal direction="up">
+                                <FAQItem question={t('faq.main.promoteForeignShop.q')}>
+                                    {t('faq.main.promoteForeignShop.a')}
+                                </FAQItem>
+                            </ScrollReveal>
+
+                            <ScrollReveal direction="up">
+                                <FAQItem question={t('faq.main.cancelAnytime.q')}>
+                                    {t('faq.main.cancelAnytime.a')}
+                                </FAQItem>
+                            </ScrollReveal>
+
+                            <ScrollReveal direction="up">
+                                <FAQItem question={t('faq.main.price.q')}>
+                                    {t('faq.main.price.beforeLink')}{' '}
+                                    <button
+                                        type="button"
+                                        onClick={() => {
+                                            const el = document.getElementById('pricing');
+                                            if (el) el.scrollIntoView({ behavior: 'smooth' });
+                                        }}
+                                        className="text-primary underline-offset-2 underline decoration-primary/60 hover:decoration-primary"
+                                    >
+                                        {t('faq.main.price.linkLabel')}
+                                    </button>
+                                    {t('faq.main.price.afterLink')}
+                                </FAQItem>
+                            </ScrollReveal>
+
+                            <ScrollReveal direction="up">
+                                <FAQItem question={t('faq.main.oneSaleCovers.q')}>
+                                    {t('faq.main.oneSaleCovers.a')}
+                                </FAQItem>
+                            </ScrollReveal>
+
+                            <ScrollReveal direction="up">
+                                <FAQItem question={t('faq.main.content.q')}>
+                                    {t('faq.main.content.a')}
+                                </FAQItem>
+                            </ScrollReveal>
+
+                            <ScrollReveal direction="up">
+                                <FAQItem question={t('faq.main.afterCode.q')}>
+                                    {t('faq.main.afterCode.a')}
+                                </FAQItem>
+                            </ScrollReveal>
+
+                            <ScrollReveal direction="up">
+                                <FAQItem question={t('faq.main.howLong.q')}>
+                                    {t('faq.main.howLong.a')}
+                                </FAQItem>
+                            </ScrollReveal>
+
+                            <ScrollReveal direction="up">
+                                <FAQItem question={t('faq.main.shipping.q')}>
+                                    {t('faq.main.shipping.a')}
+                                </FAQItem>
+                            </ScrollReveal>
+                        </div>
                     </div>
                 </section>
 

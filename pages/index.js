@@ -986,7 +986,7 @@ export default function Home() {
                             </div>
                             <div className="flex gap-8 text-sm font-semibold text-slate-500">
                                 <a className="hover:text-primary transition-colors" href="/contact">{t('footer.contact')}</a>
-
+                                <a className="hover:text-primary transition-colors" href="/terms-and-conditions">Terms &amp; Conditions</a>
                             </div>
                         </div>
                         <div className="mt-8 pt-8 border-t border-slate-800/50 text-center text-slate-600 text-sm">

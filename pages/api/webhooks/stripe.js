@@ -193,6 +193,55 @@ export default async function handler(req, res) {
                         }
                     }
 
+                    // Sessions created outside the app (Stripe Payment Links, Buy Buttons, Dashboard)
+                    // carry no metadata, so fall back to the Stripe line items for product names and
+                    // access links. Subscriptions keep their existing behaviour.
+                    let lineItemProducts = null;
+                    if (!productNames && !productName && session.mode === 'payment') {
+                        try {
+                            const lineItems = await stripe.checkout.sessions.listLineItems(session.id, {
+                                limit: 100,
+                                expand: ['data.price.product'],
+                            });
+
+                            lineItemProducts = (lineItems?.data || [])
+                                .map((lineItem) => {
+                                    const product = lineItem.price?.product;
+                                    const isExpanded = product && typeof product === 'object';
+                                    return {
+                                        id: (isExpanded ? product.id : product) || null,
+                                        title: (isExpanded ? product.name : '') || lineItem.description || '',
+                                        quantity: lineItem.quantity || 1,
+                                        isFreeBonus: false,
+                                        documentLink: (isExpanded ? product.metadata?.documentLink : '') || '',
+                                    };
+                                })
+                                .filter((item) => item.title);
+
+                            if (lineItemProducts.length) {
+                                const missingLinks = lineItemProducts.filter((item) => !item.documentLink);
+                                if (missingLinks.length) {
+                                    console.log(
+                                        `⚠️ No documentLink metadata on Stripe product(s): ${missingLinks
+                                            .map((item) => item.id || item.title)
+                                            .join(', ')}`
+                                    );
+                                }
+                            } else {
+                                console.log(`⚠️ No line items resolved for session ${session.id}`);
+                            }
+                        } catch (error) {
+                            console.error('⚠️ Failed to load line items for session:', error);
+                        }
+                    }
+
+                    const resolvedProductNames =
+                        productNames ||
+                        productName ||
+                        (lineItemProducts?.length ? lineItemProducts.map((item) => item.title).join(' | ') : null);
+
+                    const emailItems = checkoutPayloadItems || lineItemProducts || [];
+
                     // Handle referral commission if referral code exists
                     if (referralCode) {
                         try {
@@ -299,7 +348,7 @@ export default async function handler(req, res) {
                             customerEmail: customerEmail || null,
                             referralCode: referralCode || null,
                             productIds: productIds || productId || null,
-                            productNames: productNames || productName || 'Unknown Product',
+                            productNames: resolvedProductNames || 'Unknown Product',
                             amount,
                             currency,
                             stripePaymentId: session.payment_intent || null,
@@ -312,9 +361,9 @@ export default async function handler(req, res) {
                     }
 
                     // Send purchase confirmation email
-                    if (customerEmail && (productNames || productName)) {
+                    if (customerEmail && resolvedProductNames) {
                         try {
-                            const isCartPurchase = Boolean(productIds);
+                            const hasItemDetails = Boolean(productIds) || emailItems.length > 0;
                             const isCzLike =
                                 customerCountry === 'CZ' ||
                                 customerCountry === 'SK' ||
@@ -326,13 +375,13 @@ export default async function handler(req, res) {
 
                             const emailResult = await sendPurchaseConfirmationEmail(
                                 customerEmail,
-                                productNames || productName,
+                                resolvedProductNames,
                                 session.id,
-                                isCartPurchase
+                                hasItemDetails
                                     ? {
                                           lang: isCzLike ? 'cs' : 'en',
                                           tutorialUrl,
-                                          items: checkoutPayloadItems || [],
+                                          items: emailItems,
                                       }
                                     : undefined
                             );
@@ -348,7 +397,7 @@ export default async function handler(req, res) {
                         if (!customerEmail) {
                             console.log(`⚠️ Skipping email: No customer email for session ${session.id}`);
                         }
-                        if (!productNames && !productName) {
+                        if (!resolvedProductNames) {
                             console.log(`⚠️ Skipping email: No product names for session ${session.id}`);
                         }
                     }
